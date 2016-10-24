@@ -24,6 +24,11 @@ class Button extends FlxSprite
 	{
 		super(X, Y);
 		
+		loadGraphic(Graphic, true, FrameWidth, FrameHeight);
+		animation.add("Normal", [0], 1, false);
+		animation.add("Hover", [1], 1, false);
+		animation.add("Pressed", [2], 1, false);
+		
 		MDown = OnMouseDown;
 		MUp   = OnMouseUp;
 		MOver = OnMouseOver;
@@ -35,16 +40,19 @@ class Button extends FlxSprite
 	
 	public static function MouseDown(button:Button):Void
 	{
+		button.animation.play("Pressed");
 		button.MDown();
 	}
 	
 	public static function MouseUp(button:Button):Void
 	{
+		button.animation.play("Hover");
 		button.MUp();
 	}
 	
 	public static function MouseOver(button:Button):Void
 	{
+		button.animation.play("Hover");
 		button.MOver();
 		
 		if (FlxG.mouse.pressed)
@@ -55,6 +63,7 @@ class Button extends FlxSprite
 	
 	public static function MouseOut(button:Button):Void
 	{
+		button.animation.play("Normal");
 		button.MOut();
 	}
 }
