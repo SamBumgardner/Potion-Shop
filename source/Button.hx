@@ -19,8 +19,8 @@ class Button extends FlxSprite
 	
 	public function new(?X:Float = 0, ?Y:Float = 0, Graphic:FlxGraphicAsset, 
 	                    FrameWidth:Int, FrameHeight:Int, OnMouseDown:Void->Void, 
-						OnMouseUp:Void->Void, OnMouseOver:Void->Void, 
-						OnMouseOut:Void->Void)
+	                    OnMouseUp:Void->Void, OnMouseOver:Void->Void, 
+	                    OnMouseOut:Void->Void)
 	{
 		super(X, Y);
 		
