@@ -1,5 +1,6 @@
 package states;
 
+import buttons.functions.Simple;
 import flash.system.System;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -15,9 +16,7 @@ class IntroMenuState extends FlxState
 {
 	override public function create():Void
 	{
-		add(new Button(720, 375, AssetPaths.PlaceholderButton__png, 500, 100, function(){FlxG.switchState(new ShopState()); }));
-		add(new Button(720, 500, AssetPaths.PlaceholderButton__png, 500, 100));
-		add(new Button(720, 625, AssetPaths.PlaceholderButton__png, 500, 100, function(){System.exit(0);}));
+		add(new Button(720, 375, Simple));
 		super.create();
 	}
 	

@@ -13,7 +13,6 @@ class ShopState extends FlxState
 {
 	override public function create():Void
 	{
-		add(new Button(720, 350, AssetPaths.PlaceholderButton__png, 500, 100, function(){FlxG.switchState(new IntroMenuState()); }));
 		super.create();
 	}
 	
