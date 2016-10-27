@@ -57,7 +57,17 @@ class Button extends FlxSprite
 		MOver = buttonClass.mouseOver;
 		MOut  = buttonClass.mouseOut;
 		
-		FlxMouseEventManager.add(this, Button.MouseDown, Button.MouseUp, 
+		Button.register(this);
+	}
+	
+	/**
+	 * Callback function used to re-register all buttons inside a particular FlxGroup.
+	 * Useful when returning to a main state after activating a substate.
+	 * @param	button	The instance of button that should be re-registered.
+	 */
+	public static function register(button:Button):Void
+	{
+		FlxMouseEventManager.add(button, Button.MouseDown, Button.MouseUp, 
 		                         Button.MouseOver, Button.MouseOut);
 	}
 	
