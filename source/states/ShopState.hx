@@ -1,6 +1,7 @@
 package states;
 
 import buttons.Button;
+import buttons.functions.QuitGame;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -13,6 +14,11 @@ class ShopState extends FlxState
 {
 	override public function create():Void
 	{
+		FlxG.plugins.removeType(FlxMouseEventManager); 
+		FlxMouseEventManager.init(); // Hard resets the FlxMouseEventManager
+		
+		add(new Button(720, 800, QuitGame));
+		
 		super.create();
 	}
 	
