@@ -25,6 +25,14 @@ class IntroMenuState extends FlxState
 		FlxMouseEventManager.removeAll();
 		return super.switchTo(nextState);
 	}
+	override public function closeSubState():Void
+	{
+		super.closeSubState();
+		FlxG.plugins.removeType(FlxMouseEventManager); // Necessary due to a bug in HaxeFlixel
+		FlxMouseEventManager.init();
+		
+		forEachOfType(Button, Button.register);
+	}
 
 	override public function update(elapsed:Float):Void
 	{
