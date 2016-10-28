@@ -18,15 +18,17 @@ class OptionsMenu extends FlxSubState
 	
 	override public function create() 
 	{
-		FlxG.plugins.removeType(FlxMouseEventManager); // Necessary due to a bug in HaxeFlixel
-		FlxMouseEventManager.init();
+		super.create();
+		
+		resetMouseEventManager();
 		
 		add(new Button(800, 400, QuitGame));
 		add(new Button(800, 525, ExitSubstate));
-		
-		super.create();
 	}
 	
-	
-	
+	private function resetMouseEventManager():Void
+	{
+		FlxG.plugins.removeType(FlxMouseEventManager); // Necessary due to a bug in HaxeFlixel
+		FlxMouseEventManager.init();
+	}
 }
