@@ -10,21 +10,20 @@ import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.math.FlxMath;
 
-class ShopState extends FlxState
+class ShopState extends AdvancedState
 {
 	override public function create():Void
 	{
-		FlxG.plugins.removeType(FlxMouseEventManager); 
-		FlxMouseEventManager.init(); // Hard resets the FlxMouseEventManager
+		super.create();
+		resetMouseEventManager();
+		
+		setUpBackground(AssetPaths.ShopBg__png);
 		
 		add(new Button(720, 800, QuitGame));
-		
-		super.create();
 	}
 	
 	override public function switchTo(nextState:FlxState):Bool
 	{
-		FlxMouseEventManager.removeAll();
 		return super.switchTo(nextState);
 	}
 

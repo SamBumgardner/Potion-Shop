@@ -9,53 +9,50 @@ import flash.system.System;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
-import flixel.input.mouse.FlxMouseEventManager;
+import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.math.FlxMath;
 import states.ShopState;
 import buttons.Button;
 
-class IntroMenuState extends FlxState
+class IntroMenuState extends AdvancedState
 {
+	
+	private var MenuOptions:FlxTypedGroup<Button>;
 	
 	override public function create():Void
 	{	
-		FlxG.plugins.removeType(FlxMouseEventManager); // Necessary due to a bug in HaxeFlixel
-		FlxMouseEventManager.init();
-		
-		add(new Button(720, 375, NewGame)); 
-		add(new Button(720, 500, LoadGame));
-		add(new Button(720, 625, OpenOptions));
-		add(new Button(720, 750, QuitGame));
-		
 		super.create();
+		resetMouseEventManager();
+		
+		setUpBackground(AssetPaths.IntroMenuBg__png);
+		
+		MenuOptions = new FlxTypedGroup<Button>();
+		MenuOptions.add(new Button(720, 375, NewGame)); 
+		MenuOptions.add(new Button(720, 500, LoadGame));
+		MenuOptions.add(new Button(720, 625, OpenOptions));
+		MenuOptions.add(new Button(720, 750, QuitGame));
+		
+		add(MenuOptions);
 	}
 	
 	override public function switchTo(nextState:FlxState):Bool
 	{
-		FlxG.plugins.removeType(FlxMouseEventManager); // Necessary due to a bug in HaxeFlixel
-		FlxMouseEventManager.init();
-		
 		return super.switchTo(nextState);
 	}
 	
 	public function activateSubstate(substateClass):Void
 	{
 		forEachOfType(Button, Button.MouseOut); // So no button is stuck in "hover" animation
-		FlxG.plugins.removeType(FlxMouseEventManager); // Necessary due to a bug in HaxeFlixel
-		FlxMouseEventManager.init();
-		
 		openSubState(Type.createInstance(substateClass, []));
 	}
 	
 	override public function closeSubState():Void
 	{
-		super.closeSubState();
-		FlxG.plugins.removeType(FlxMouseEventManager); // Necessary due to a bug in HaxeFlixel
-		FlxMouseEventManager.init();
-		
+		resetMouseEventManager();
 		forEachOfType(Button, Button.register);
+		super.closeSubState();
 	}
 
 	override public function update(elapsed:Float):Void
