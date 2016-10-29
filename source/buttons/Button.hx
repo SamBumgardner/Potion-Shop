@@ -4,9 +4,12 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.input.mouse.FlxMouseEventManager;
 import flixel.system.FlxAssets.FlxGraphicAsset;
+import flixel.tweens.FlxTween;
 
 /**
  * Sets default animation and functions behavior
+ * Experimented with a different documentation style in this file,
+ * since it's probably one of the most heavily used classes in this game.
  * 
  * @author Samuel Bumgardner
  */
@@ -48,14 +51,45 @@ class Button extends FlxSprite
 	 */
 	public var anchorY:Float;
 	
+	public var currentTween:FlxTween;
+	
+	/**
+	 * Boolean flag that tracks whether this button is "active" or not.
+	 * Up to the button implementer how to use this, exactly.
+	 */
+	public var isActive:Bool = false;
+	
+	/**
+	 * Read-only: Function called when button is activated.
+	 * Should only be used internally. 
+	 */
+	private var MActivate:Button->Void;
+	
+	/**
+	 * Read-only: Function called when button is deactivated.
+	 * Should only be used internally. 
+	 */
+	private var MDeactivate:Button->Void;
+	
 	/**
 	 * @param	X             The initial X position of the button.
 	 * @param	Y             The initial Y position of the button.
 	 * @param	buttonClass   The class that contains the static variables and functions 
 	 *                        the button should use - e.g. Button(500, 450, Simple)
+	 * @param	beginActive   Applies adjusted positioning and any other necessary changes
+	 *       	              to the button so that it appears active upon instantiation.
 	 */
-	public function new(?X:Float = 0, ?Y:Float = 0, buttonClass)
+	public function new(?X:Float = 0, ?Y:Float = 0, buttonClass, ?beginActive:Bool)
 	{
+		anchorX = X;
+		anchorY = Y;
+		
+		if (beginActive)
+		{
+			X -= buttonClass.activeXOffset;
+			Y -= buttonClass.activeYOffset;
+		}
+		
 		super(X, Y);
 		
 		loadGraphic(buttonClass.image, true, buttonClass.frameWidth, buttonClass.frameHeight);
@@ -63,13 +97,18 @@ class Button extends FlxSprite
 		animation.add("Hover", [1], 1, false);
 		animation.add("Pressed", [2], 1, false);
 		
-		anchorX = X;
-		anchorY = Y;
-		
 		MUp   = buttonClass.mouseUp;
 		MDown = buttonClass.mouseDown;
 		MOver = buttonClass.mouseOver;
 		MOut  = buttonClass.mouseOut;
+		
+		MActivate   = buttonClass.activate;
+		MDeactivate = buttonClass.deactivate;
+		
+		if (beginActive)
+		{
+			Button.activate(this);
+		}
 		
 		Button.register(this);
 	}
@@ -128,5 +167,33 @@ class Button extends FlxSprite
 	{
 		button.animation.play("Normal");
 		button.MOut(button);
+	}
+	
+	/**
+	 * Function that "activates" the button. 
+	 * The logic of what this does is pretty much all on the button function class.
+	 * @param	button	The instance of button that was activated.
+	 */
+	public static function activate(button:Button):Void
+	{
+		if (!button.isActive)
+		{
+			button.isActive = true;
+			button.MActivate(button);
+		}
+	}
+	
+	/**
+	 * Function that "deactivates" the button. 
+	 * The logic of what this does is pretty much all on the button function class.
+	 * @param	button	The instance of button that was deactivated.
+	 */
+	public static function deactivate(button:Button):Void
+	{
+		if (button.isActive)
+		{
+			button.isActive = false;
+			button.MDeactivate(button);
+		}
 	}
 }
