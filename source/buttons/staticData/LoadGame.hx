@@ -1,4 +1,4 @@
-package buttons.functions;
+package buttons.staticData;
 
 import flixel.FlxG;
 import flixel.system.FlxAssets.FlxGraphicAsset;

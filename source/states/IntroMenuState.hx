@@ -1,10 +1,10 @@
 package states;
 
-import buttons.functions.LoadGame;
-import buttons.functions.NewGame;
-import buttons.functions.OpenOptions;
-import buttons.functions.QuitGame;
-import buttons.functions.Simple;
+import buttons.staticData.LoadGame;
+import buttons.staticData.NewGame;
+import buttons.staticData.OpenOptions;
+import buttons.staticData.QuitGame;
+import buttons.staticData.Simple;
 import flash.system.System;
 import flixel.FlxG;
 import flixel.FlxSprite;

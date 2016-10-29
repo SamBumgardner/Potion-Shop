@@ -1,8 +1,8 @@
 package states;
 
 import buttons.Button;
-import buttons.functions.ExitSubstate;
-import buttons.functions.QuitGame;
+import buttons.staticData.ExitSubstate;
+import buttons.staticData.QuitGame;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxSubState;
