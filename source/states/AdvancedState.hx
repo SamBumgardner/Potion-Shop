@@ -1,5 +1,6 @@
 package states;
 
+import buttons.Button;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -24,5 +25,18 @@ class AdvancedState extends FlxState
 	{
 		FlxG.plugins.removeType(FlxMouseEventManager); // Necessary due to a bug in HaxeFlixel
 		FlxMouseEventManager.init();
+	}
+	
+	public function activateSubstate(substateClass):Void
+	{
+		forEachOfType(Button, Button.MouseOut, true); // So no button is stuck in "hover" animation
+		openSubState(Type.createInstance(substateClass, []));
+	}
+	
+	override public function closeSubState():Void
+	{
+		resetMouseEventManager();
+		forEachOfType(Button, Button.register, true);
+		super.closeSubState();
 	}
 }

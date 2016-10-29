@@ -36,27 +36,4 @@ class IntroMenuState extends AdvancedState
 		
 		add(MenuOptions);
 	}
-	
-	override public function switchTo(nextState:FlxState):Bool
-	{
-		return super.switchTo(nextState);
-	}
-	
-	public function activateSubstate(substateClass):Void
-	{
-		forEachOfType(Button, Button.MouseOut); // So no button is stuck in "hover" animation
-		openSubState(Type.createInstance(substateClass, []));
-	}
-	
-	override public function closeSubState():Void
-	{
-		resetMouseEventManager();
-		forEachOfType(Button, Button.register);
-		super.closeSubState();
-	}
-
-	override public function update(elapsed:Float):Void
-	{
-		super.update(elapsed);
-	}
 }

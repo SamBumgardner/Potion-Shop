@@ -65,14 +65,4 @@ class ShopState extends AdvancedState
 	{
 		switchActiveTab(button);
 	}
-	
-	override public function switchTo(nextState:FlxState):Bool
-	{
-		return super.switchTo(nextState);
-	}
-
-	override public function update(elapsed:Float):Void
-	{
-		super.update(elapsed);
-	}
 }
