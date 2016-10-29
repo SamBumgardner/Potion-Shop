@@ -16,25 +16,25 @@ class Button extends FlxSprite
 	 * Read-only: Function that will be called when the left mouse button is released while
 	 * over this button. Should only be used internally. 
 	 */
-	private var MUp:Void->Void;
+	private var MUp:Button->Void;
 	
 	/**
 	 * Read-only: Function that will be called when the left mouse button is pressed while
 	 * over this button. Should only be used internally. 
 	 */
-	private var MDown:Void->Void;
+	private var MDown:Button->Void;
 	
 	/**
 	 * Read-only: Function that will be called when the mouse enters this button's area.
 	 * Should only be used internally. 
 	 */
-	private var MOver:Void->Void;
+	private var MOver:Button->Void;
 	
 	/**
 	 * Read-only: Function that will be called when the mouse leaves this button's area.
 	 * Should only be used internally. 
 	 */
-	private var MOut:Void->Void;
+	private var MOut:Button->Void;
 	
 	
 	/**
@@ -78,7 +78,7 @@ class Button extends FlxSprite
 	public static function MouseUp(button:Button):Void
 	{
 		button.animation.play("Hover");
-		button.MUp();
+		button.MUp(button);
 	}
 	
 	/**
@@ -88,7 +88,7 @@ class Button extends FlxSprite
 	public static function MouseDown(button:Button):Void
 	{
 		button.animation.play("Pressed");
-		button.MDown();
+		button.MDown(button);
 	}
 	
 	/**
@@ -98,7 +98,7 @@ class Button extends FlxSprite
 	public static function MouseOver(button:Button):Void
 	{
 		button.animation.play("Hover");
-		button.MOver();
+		button.MOver(button);
 		
 		if (FlxG.mouse.pressed)
 		{ 
@@ -113,6 +113,6 @@ class Button extends FlxSprite
 	public static function MouseOut(button:Button):Void
 	{
 		button.animation.play("Normal");
-		button.MOut();
+		button.MOut(button);
 	}
 }
