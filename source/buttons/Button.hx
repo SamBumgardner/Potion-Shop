@@ -40,13 +40,13 @@ class Button extends FlxSprite
 	 * The original X position of this button.
 	 * Used by tweening/animating buttons so they have an unchanging point of reference.
 	 */
-	public var originalX:Float;
+	public var anchorX:Float;
 	
 	/**
 	 * The original Y position of this button.
 	 * Used by  tweening/animating buttons so they have an unchanging point of reference.
 	 */
-	public var originalY:Float;
+	public var anchorY:Float;
 	
 	/**
 	 * @param	X             The initial X position of the button.
@@ -63,8 +63,8 @@ class Button extends FlxSprite
 		animation.add("Hover", [1], 1, false);
 		animation.add("Pressed", [2], 1, false);
 		
-		originalX = X;
-		originalY = Y;
+		anchorX = X;
+		anchorY = Y;
 		
 		MUp   = buttonClass.mouseUp;
 		MDown = buttonClass.mouseDown;
