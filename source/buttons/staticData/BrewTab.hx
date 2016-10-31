@@ -23,7 +23,10 @@ class BrewTab
 	
 	public static function mouseUp(button:Button):Void
 	{
-		(cast FlxG.state).activateBrewMode(button);
+		if (!button.isActive)
+		{
+			(cast FlxG.state).activateBrewMode(button);
+		}
 	}
 	
 	public static function mouseDown(button:Button):Void{}

@@ -23,7 +23,10 @@ class CustomerTab
 	
 	public static function mouseUp(button:Button):Void	
 	{
-		(cast FlxG.state).activateCustMode(button);
+		if (!button.isActive)
+		{
+			(cast FlxG.state).activateCustMode(button);
+		}	
 	}
 	
 	public static function mouseDown(button:Button):Void{}

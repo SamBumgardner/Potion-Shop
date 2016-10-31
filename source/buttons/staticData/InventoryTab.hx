@@ -23,7 +23,10 @@ class InventoryTab
 
 	public static function mouseUp(button:Button):Void
 	{
-		(cast FlxG.state).activateInvMode(button);
+		if (!button.isActive)
+		{
+			(cast FlxG.state).activateInvMode(button);
+		}
 	}
 	
 	public static function mouseDown(button:Button):Void{}
