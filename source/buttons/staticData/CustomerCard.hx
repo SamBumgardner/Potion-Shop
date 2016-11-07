@@ -10,27 +10,20 @@ import states.CustomerDetails;
  * 
  * @author Samuel Bumgardner
  */
-class CustomerCard
+class CustomerCard extends Button
 {
-	public static var image:FlxGraphicAsset = AssetPaths.CustomerCard__png;
-	public static var frameWidth:Int = 800;
-	public static var frameHeight:Int = 400;
-	
-	public static var activeXOffset:Int = 0;
-	public static var activeYOffset:Int = 0;
-
-	public static function mouseUp(button:Button):Void
+	public function new(?X:Float = 0, ?Y:Float = 0)
 	{
-		(cast FlxG.state).activateSubstate(CustomerDetails);
+		image = AssetPaths.CustomerCard__png;
+		bWidth = 800;
+		bHeight = 400;
+		
+		super(X, Y);
 	}
 	
-	public static function mouseDown(button:Button):Void{}
-	
-	public static function mouseOver(button:Button):Void{}
-	
-	public static function mouseOut(button:Button):Void{}
-	
-	public static function activate(button:Button):Void{}
-	
-	public static function deactivate(button:Button):Void{}
+	override public function mouseUp(button:Button):Void
+	{
+		super.mouseUp(button);
+		(cast FlxG.state).activateSubstate(CustomerDetails);
+	}
 }

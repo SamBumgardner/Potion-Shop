@@ -10,27 +10,20 @@ import states.OptionsMenu;
  * 
  * @author Samuel Bumgardner
  */
-class OpenOptions
+class OpenOptions extends Button
 {
-	public static var image:FlxGraphicAsset = AssetPaths.OptionsButton__png;
-	public static var frameWidth:Int = 500;
-	public static var frameHeight:Int = 100;
-	
-	public static var activeXOffset:Int = 0;
-	public static var activeYOffset:Int = 0;
-
-	public static function mouseUp(button:Button):Void
+	public function new(?X:Float = 0, ?Y:Float = 0)
 	{
-		(cast FlxG.state).activateSubstate(OptionsMenu);
+		image = AssetPaths.OptionsButton__png;
+		bWidth = 500;
+		bHeight = 100;
+		
+		super(X, Y);
 	}
 	
-	public static function mouseDown(button:Button):Void{}
-	
-	public static function mouseOver(button:Button):Void{}
-	
-	public static function mouseOut(button:Button):Void{}
-	
-	public static function activate(button:Button):Void{}
-	
-	public static function deactivate(button:Button):Void{}
+	override public function mouseUp(button:Button):Void
+	{
+		super.mouseUp(button);
+		(cast FlxG.state).activateSubstate(OptionsMenu);
+	}
 }

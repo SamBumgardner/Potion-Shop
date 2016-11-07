@@ -9,24 +9,14 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
  * @author Samuel Bumgardner
  */
 
-class IngredientHex
-{
-	public static var image:FlxGraphicAsset = AssetPaths.HexButton__png;
-	public static var frameWidth:Int = 145;
-	public static var frameHeight:Int = 125;
-	
-	public static var activeXOffset:Int = 0;
-	public static var activeYOffset:Int = 0;
-
-	public static function mouseUp(button:Button):Void{}
-	
-	public static function mouseDown(button:Button):Void{}
-	
-	public static function mouseOver(button:Button):Void{}
-	
-	public static function mouseOut(button:Button):Void{}
-	
-	public static function activate(button:Button):Void{}
-	
-	public static function deactivate(button:Button):Void{}
+class IngredientHex extends Button
+{	
+	public function new(?X:Float = 0, ?Y:Float = 0)
+	{
+		image = AssetPaths.HexButton__png;
+		bWidth = 145;
+		bHeight = 125;
+		
+		super(X, Y);
+	}
 }
