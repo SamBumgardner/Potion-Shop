@@ -1,12 +1,14 @@
 package states;
 
-import buttons.Button;
-import buttons.staticData.BrewTab;
-import buttons.staticData.CustomerCard;
-import buttons.staticData.CustomerTab;
-import buttons.staticData.IngredientHex;
-import buttons.staticData.InventoryTab;
-import buttons.staticData.QuitGame;
+import buttonTemplates.ActiveButton;
+import buttonTemplates.Button;
+import buttonTemplates.ActiveButton;
+import buttons.BrewTab;
+import buttons.CustomerCard;
+import buttons.CustomerTab;
+import buttons.IngredientHex;
+import buttons.InventoryTab;
+import buttons.QuitGame;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -19,7 +21,7 @@ import utilities.ShopButtonGroup;
 
 class ShopState extends AdvancedState
 {
-	private var sideTabs:FlxTypedGroup<Button>;
+	private var sideTabs:FlxTypedGroup<ActiveButton>;
 	private var currentButtonSet:FlxTypedGroup<Button>;
 	private var custCards:FlxTypedGroup<Button>;
 	private var brewButtons:FlxTypedGroup<Button>;
@@ -47,20 +49,24 @@ class ShopState extends AdvancedState
 			Inventory => inventoryButtons
 		];
 		
-		add(new Button(720, 800, QuitGame));
+		add(new QuitGame(720, 800));
 	}
 	
 	private function initSideTabs():Void
 	{
-		sideTabs = new FlxTypedGroup<Button>();
+		sideTabs = new FlxTypedGroup<ActiveButton>();
 		
-		var sideTabX = FlxG.width - BrewTab.frameWidth / 1.9;
-		var middleSideTabY = (FlxG.height - BrewTab.frameHeight) / 2;
-		var YInterval = BrewTab.frameHeight * 1.1;
+		//Look at using some preprocessor stuff to do this instead (if possible:
+		var tabWidth = 150;
+		var tabHeight = 250;
 		
-		sideTabs.add(new Button(sideTabX, middleSideTabY - YInterval, CustomerTab, true));
-		sideTabs.add(new Button(sideTabX, middleSideTabY, BrewTab));
-		sideTabs.add(new Button(sideTabX, middleSideTabY + YInterval, InventoryTab));
+		var sideTabX = FlxG.width - tabWidth / 1.9;
+		var middleSideTabY = (FlxG.height - tabHeight) / 2;
+		var YInterval = tabHeight * 1.1;
+		
+		sideTabs.add(new CustomerTab(sideTabX, middleSideTabY - YInterval, true));
+		sideTabs.add(new BrewTab(sideTabX, middleSideTabY));
+		sideTabs.add(new InventoryTab(sideTabX, middleSideTabY + YInterval));
 		
 		add(sideTabs);
 	}
@@ -69,20 +75,25 @@ class ShopState extends AdvancedState
 	{
 		custCards = new FlxTypedGroup<Button>();
 		
+		//Look at using some preprocessor stuff to do this instead (if possible:
+		var customerCardWidth = 800;
+		var customerCardHeight = 400;
+		
 		var numOfVisibleCards = 4;
 		
 		var XIntervalMod = 1.01;
 		var YIntervalMod = 1.01;
-		var topLeftX = FlxG.width - CustomerCard.frameWidth * (2.2 * XIntervalMod);
-		var topLeftY = FlxG.height - CustomerCard.frameHeight * (2.2 * YIntervalMod);
-		var XInterval = CustomerCard.frameWidth * XIntervalMod;
-		var YInterval = CustomerCard.frameHeight * YIntervalMod;
+		var topLeftX = FlxG.width - customerCardWidth * (2.2 * XIntervalMod);
+		var topLeftY = FlxG.height - customerCardHeight * (2.2 * YIntervalMod);
+		var XInterval = customerCardWidth * XIntervalMod;
+		var YInterval = customerCardHeight * YIntervalMod;
 		
 		for (row in 0...(cast numOfVisibleCards / 2))
 		{
 			for (col in 0...2)
 			{
-				custCards.add(new Button(topLeftX + col * XInterval, topLeftY + row * YInterval, CustomerCard));
+				
+				custCards.add(new CustomerCard(topLeftX + col * XInterval, topLeftY + row * YInterval));
 			}
 		}
 		
@@ -92,6 +103,10 @@ class ShopState extends AdvancedState
 	private function initBrewButtons():Void
 	{
 		brewButtons = new FlxTypedGroup<Button>();
+		
+		//Look at using some preprocessor stuff to do this instead (if possible:
+		var ingredientHexWidth = 145;
+		var ingredientHexHeight = 125;
 		
 		var numRows = 8;
 		var evenCols = 3;
@@ -103,10 +118,10 @@ class ShopState extends AdvancedState
 		var topLeftX = 100;
 		var topLeftY = 100;
 		
-		var evenXOffset = IngredientHex.frameWidth * .8;
+		var evenXOffset = ingredientHexWidth * .8;
 		
-		var XInterval = IngredientHex.frameWidth * XIntervalMod;
-		var YInterval = IngredientHex.frameHeight * YIntervalMod;
+		var XInterval = ingredientHexWidth * XIntervalMod;
+		var YInterval = ingredientHexHeight * YIntervalMod;
 		
 		for (row in 0...numRows)
 		{
@@ -114,14 +129,14 @@ class ShopState extends AdvancedState
 			{
 				for (col in 0...evenCols)
 				{
-					brewButtons.add(new Button(topLeftX + evenXOffset + col * XInterval, topLeftY + row * YInterval, IngredientHex));
+					brewButtons.add(new IngredientHex(topLeftX + evenXOffset + col * XInterval, topLeftY + row * YInterval));
 				}
 			}
 			else
 			{
 				for (col in 0...oddCols)
 				{
-					brewButtons.add(new Button(topLeftX + col * XInterval, topLeftY + row * YInterval, IngredientHex));
+					brewButtons.add(new IngredientHex(topLeftX + col * XInterval, topLeftY + row * YInterval));
 				}
 			}
 		}
@@ -137,15 +152,15 @@ class ShopState extends AdvancedState
 		add(inventoryButtons);
 	}
 	
-	private function switchActiveTab(button:Button):Void
+	private function switchActiveTab(tab:ActiveButton):Void
 	{
-		sideTabs.forEach(Button.deactivate);
-		Button.activate(button);
+		sideTabs.forEach(ActiveButton.deactivate);
+		ActiveButton.activate(tab);
 	}
 	
-	public function switchShopMode(button:Button, group:ShopButtonGroup):Void
+	public function switchShopMode(tab:ActiveButton, group:ShopButtonGroup):Void
 	{
-		switchActiveTab(button);
+		switchActiveTab(tab);
 		currentButtonSet.forEach(Button.hide);
 		buttonGroups[group].forEach(Button.reveal);
 		currentButtonSet = buttonGroups[group];

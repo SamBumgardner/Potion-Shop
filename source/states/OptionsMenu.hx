@@ -1,8 +1,8 @@
 package states;
 
-import buttons.Button;
-import buttons.staticData.ExitSubstate;
-import buttons.staticData.QuitGame;
+import buttonTemplates.Button;
+import buttons.ExitSubstate;
+import buttons.QuitGame;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxSubState;
@@ -22,8 +22,8 @@ class OptionsMenu extends FlxSubState
 		
 		resetMouseEventManager();
 		
-		add(new Button(800, 400, QuitGame));
-		add(new Button(800, 525, ExitSubstate));
+		add(new QuitGame(800, 400));
+		add(new ExitSubstate(800, 525));
 	}
 	
 	private function resetMouseEventManager():Void

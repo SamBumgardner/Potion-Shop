@@ -1,6 +1,6 @@
 package states;
 
-import buttons.Button;
+import buttonTemplates.Button;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -29,7 +29,7 @@ class AdvancedState extends FlxState
 	
 	public function activateSubstate(substateClass):Void
 	{
-		forEachOfType(Button, Button.MouseOut, true); // So no button is stuck in "hover" animation
+		forEachOfType(Button, function(button){button.mouseOut(button);}, true); // So no button is stuck in "hover" animation
 		openSubState(Type.createInstance(substateClass, []));
 	}
 	
