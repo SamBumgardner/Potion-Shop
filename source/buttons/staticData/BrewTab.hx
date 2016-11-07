@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+import utilities.ShopButtonGroup;
 
 /**
  * Data needed to instantiate an "open brew state" Button.
@@ -25,7 +26,7 @@ class BrewTab
 	{
 		if (!button.isActive)
 		{
-			(cast FlxG.state).activateBrewMode(button);
+			(cast FlxG.state).switchShopMode(button, Brew);
 		}
 	}
 	

@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+import utilities.ShopButtonGroup;
 
 /**
  * Data needed to instantiate an "open customer state" Button.
@@ -25,7 +26,7 @@ class CustomerTab
 	{
 		if (!button.isActive)
 		{
-			(cast FlxG.state).activateCustMode(button);
+			(cast FlxG.state).switchShopMode(button, Customer);
 		}	
 	}
 	

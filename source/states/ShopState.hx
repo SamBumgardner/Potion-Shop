@@ -15,6 +15,7 @@ import flixel.input.mouse.FlxMouseEventManager;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.math.FlxMath;
+import utilities.ShopButtonGroup;
 
 class ShopState extends AdvancedState
 {
@@ -23,6 +24,8 @@ class ShopState extends AdvancedState
 	private var custCards:FlxTypedGroup<Button>;
 	private var brewButtons:FlxTypedGroup<Button>;
 	private var inventoryButtons:FlxTypedGroup<Button>;
+	
+	private var buttonGroups:Map<ShopButtonGroup, FlxTypedGroup<Button>>;
 	
 	override public function create():Void
 	{
@@ -37,6 +40,12 @@ class ShopState extends AdvancedState
 		initInventoryButtons();
 		
 		currentButtonSet = custCards;
+		
+		buttonGroups = [
+			Customer => custCards,
+			Brew => brewButtons,
+			Inventory => inventoryButtons
+		];
 		
 		add(new Button(720, 800, QuitGame));
 	}
@@ -134,27 +143,11 @@ class ShopState extends AdvancedState
 		Button.activate(button);
 	}
 	
-	public function activateCustMode(button:Button):Void
+	public function switchShopMode(button:Button, group:ShopButtonGroup):Void
 	{
 		switchActiveTab(button);
 		currentButtonSet.forEach(Button.hide);
-		custCards.forEach(Button.reveal);
-		currentButtonSet = custCards;
-	}
-	
-	public function activateBrewMode(button:Button):Void
-	{
-		switchActiveTab(button);
-		currentButtonSet.forEach(Button.hide);
-		brewButtons.forEach(Button.reveal);
-		currentButtonSet = brewButtons;
-	}
-	
-	public function activateInvMode(button:Button):Void
-	{
-		switchActiveTab(button);
-		currentButtonSet.forEach(Button.hide);
-		inventoryButtons.forEach(Button.reveal);
-		currentButtonSet = inventoryButtons;
+		buttonGroups[group].forEach(Button.reveal);
+		currentButtonSet = buttonGroups[group];
 	}
 }

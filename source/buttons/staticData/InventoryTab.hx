@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+import utilities.ShopButtonGroup;
 
 /**
  * Data needed to instantiate an "open inventory state" Button.
@@ -25,7 +26,7 @@ class InventoryTab
 	{
 		if (!button.isActive)
 		{
-			(cast FlxG.state).activateInvMode(button);
+			(cast FlxG.state).switchShopMode(button, Inventory);
 		}
 	}
 	
