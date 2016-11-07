@@ -4,6 +4,7 @@ import buttons.Button;
 import buttons.staticData.BrewTab;
 import buttons.staticData.CustomerCard;
 import buttons.staticData.CustomerTab;
+import buttons.staticData.IngredientHex;
 import buttons.staticData.InventoryTab;
 import buttons.staticData.QuitGame;
 import flixel.FlxG;
@@ -19,6 +20,7 @@ class ShopState extends AdvancedState
 {
 	private var sideTabs:FlxTypedGroup<Button>;
 	private var custCards:FlxTypedGroup<Button>;
+	private var brewButtons:FlxTypedGroup<Button>;
 	
 	override public function create():Void
 	{
@@ -29,6 +31,7 @@ class ShopState extends AdvancedState
 		
 		initSideTabs();
 		initCustCards();
+		initBrewButtons();
 		
 		add(new Button(720, 800, QuitGame));
 	}
@@ -72,7 +75,55 @@ class ShopState extends AdvancedState
 		add(custCards);
 	}
 	
-	private function switchActiveTab(button:Button)
+	private function initBrewButtons():Void
+	{
+		brewButtons = new FlxTypedGroup<Button>();
+		
+		var numRows = 8;
+		var evenCols = 3;
+		var oddCols = 4;
+		
+		var XIntervalMod = 1.6;
+		var YIntervalMod = .55;
+		
+		var topLeftX = 100;
+		var topLeftY = 100;
+		
+		var evenXOffset = IngredientHex.frameWidth * .8;
+		
+		var XInterval = IngredientHex.frameWidth * XIntervalMod;
+		var YInterval = IngredientHex.frameHeight * YIntervalMod;
+		
+		for (row in 0...numRows)
+		{
+			if (row % 2 == 0)
+			{
+				for (col in 0...evenCols)
+				{
+					brewButtons.add(new Button(topLeftX + evenXOffset + col * XInterval, topLeftY + row * YInterval, IngredientHex));
+				}
+			}
+			else
+			{
+				for (col in 0...oddCols)
+				{
+					brewButtons.add(new Button(topLeftX + col * XInterval, topLeftY + row * YInterval, IngredientHex));
+				}
+			}
+		}
+		
+		brewButtons.forEach(Button.hide);
+		add(brewButtons);
+	}
+	
+	private function initInventoryButtons():Void
+	{
+		inventoryButtons = new FlxTypedGroup<Button>();
+		
+		add(inventoryButtons);
+	}
+	
+	private function switchActiveTab(button:Button):Void
 	{
 		sideTabs.forEach(Button.deactivate);
 		Button.activate(button);
