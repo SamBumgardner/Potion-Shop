@@ -1,4 +1,4 @@
-package buttons;
+package buttonTemplates;
 
 import flixel.FlxG;
 import flixel.FlxSprite;

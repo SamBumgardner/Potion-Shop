@@ -1,10 +1,10 @@
 package states;
 
-import buttons.staticData.LoadGame;
-import buttons.staticData.NewGame;
-import buttons.staticData.OpenOptions;
-import buttons.staticData.QuitGame;
-import buttons.staticData.Simple;
+import buttons.LoadGame;
+import buttons.NewGame;
+import buttons.OpenOptions;
+import buttons.QuitGame;
+import buttons.Simple;
 import flash.system.System;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -14,7 +14,7 @@ import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.math.FlxMath;
 import states.ShopState;
-import buttons.Button;
+import buttonTemplates.Button;
 
 class IntroMenuState extends AdvancedState
 {

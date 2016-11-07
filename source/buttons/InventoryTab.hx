@@ -1,6 +1,6 @@
-package buttons.staticData;
+package buttons;
 
-import buttons.Tab;
+import buttonTemplates.Tab;
 import utilities.ShopButtonGroup;
 
 /**

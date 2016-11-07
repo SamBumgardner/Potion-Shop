@@ -1,6 +1,6 @@
-package buttons;
+package buttonTemplates;
 
-import buttons.ActiveButton;
+import buttonTemplates.ActiveButton;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 

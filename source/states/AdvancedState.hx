@@ -1,6 +1,6 @@
 package states;
 
-import buttons.Button;
+import buttonTemplates.Button;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;

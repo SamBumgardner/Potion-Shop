@@ -1,6 +1,6 @@
-package buttons;
+package buttonTemplates;
 
-import buttons.MovingButton;
+import buttonTemplates.MovingButton;
 import flixel.FlxG;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.tweens.FlxEase;

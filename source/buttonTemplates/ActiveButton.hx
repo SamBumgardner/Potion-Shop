@@ -1,6 +1,6 @@
-package buttons;
+package buttonTemplates;
 
-import buttons.Button;
+import buttonTemplates.Button;
 
 /**
  * Extends Buttons for any that need different active/inactive behavior

@@ -1,14 +1,14 @@
 package states;
 
-import buttons.ActiveButton;
-import buttons.Button;
-import buttons.ActiveButton;
-import buttons.staticData.BrewTab;
-import buttons.staticData.CustomerCard;
-import buttons.staticData.CustomerTab;
-import buttons.staticData.IngredientHex;
-import buttons.staticData.InventoryTab;
-import buttons.staticData.QuitGame;
+import buttonTemplates.ActiveButton;
+import buttonTemplates.Button;
+import buttonTemplates.ActiveButton;
+import buttons.BrewTab;
+import buttons.CustomerCard;
+import buttons.CustomerTab;
+import buttons.IngredientHex;
+import buttons.InventoryTab;
+import buttons.QuitGame;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;

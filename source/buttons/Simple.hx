@@ -1,6 +1,6 @@
-package buttons.staticData;
+package buttons;
 
-import buttons.Button;
+import buttonTemplates.Button;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 
 /**
