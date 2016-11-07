@@ -125,6 +125,32 @@ class Button extends FlxSprite
 	}
 	
 	/**
+	 * Function used to temporarily un-register and hide a button. Used in tandem
+	 * with Button.reveal() to temporarily remove & add buttons to the play area.
+	 * 
+	 * @param	button	The instance of button that should be re-registered.
+	 */
+	public static function hide(button:Button):Void
+	{
+		FlxMouseEventManager.remove(button);
+		button.set_visible(false);
+		button.set_active(false);
+	}
+	
+	/**
+	 * Function used to register and reveal a button. Used in tandem
+	 * with Button.hide() to temporarily remove & add buttons to the play area.
+	 * 
+	 * @param	button	The instance of button that should be re-registered.
+	 */
+	public static function reveal(button:Button):Void
+	{
+		Button.register(button);
+		button.set_visible(true);
+		button.set_active(true);
+	}
+	
+	/**
 	 * Callback function registered to the FlxMouseEventManager.
 	 * @param	button	The instance of button that was acted upon by the mouse.
 	 */
