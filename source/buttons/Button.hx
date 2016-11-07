@@ -14,6 +14,11 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
  */
 class Button extends FlxSprite
 {
+	
+	private var image:FlxGraphicAsset;
+	private var bWidth:Int;
+	private var bHeight:Int;
+	
 	/**
 	 * @param	X             The initial X position of the button.
 	 * @param	Y             The initial Y position of the button.
@@ -22,7 +27,7 @@ class Button extends FlxSprite
 	{
 		super(X, Y);
 		
-		loadGraphic(buttonClass.image, true, buttonClass.frameWidth, buttonClass.frameHeight);
+		loadGraphic(image, true, bWidth, bHeight);
 		animation.add("Normal", [0], 1, false);
 		animation.add("Hover", [1], 1, false);
 		animation.add("Pressed", [2], 1, false);
@@ -37,8 +42,8 @@ class Button extends FlxSprite
 	 */
 	public static function register(button:Button):Void
 	{
-		FlxMouseEventManager.add(button, button.MouseDown, button.MouseUp, 
-		                         button.MouseOver, button.MouseOut);
+		FlxMouseEventManager.add(button, button.mouseDown, button.mouseUp, 
+		                         button.mouseOver, button.mouseOut);
 	}
 	
 	/**
@@ -71,7 +76,7 @@ class Button extends FlxSprite
 	 * Callback function registered to the FlxMouseEventManager.
 	 * @param	button	The instance of button that was acted upon by the mouse.
 	 */
-	public function MouseUp(button:Button):Void
+	public function mouseUp(button:Button):Void
 	{
 		button.animation.play("Hover");
 	}
@@ -80,7 +85,7 @@ class Button extends FlxSprite
 	 * Callback function registered to the FlxMouseEventManager.
 	 * @param	button	The instance of button that was acted upon by the mouse.
 	 */
-	public function MouseDown(button:Button):Void
+	public function mouseDown(button:Button):Void
 	{
 		button.animation.play("Pressed");
 	}
@@ -89,13 +94,13 @@ class Button extends FlxSprite
 	 * Callback function registered to the FlxMouseEventManager.
 	 * @param	button	The instance of button that was acted upon by the mouse.
 	 */
-	public function MouseOver(button:Button):Void
+	public function mouseOver(button:Button):Void
 	{
 		button.animation.play("Hover");
 		
 		if (FlxG.mouse.pressed)
 		{ 
-			button.MouseDown(button);
+			button.mouseDown(button);
 		}
 	}
 	
@@ -103,9 +108,8 @@ class Button extends FlxSprite
 	 * Callback function registered to the FlxMouseEventManager.
 	 * @param	button	The instance of button that was acted upon by the mouse.
 	 */
-	public function MouseOut(button:Button):Void
+	public function mouseOut(button:Button):Void
 	{
 		button.animation.play("Normal");
-		button.MOut(button);
 	}
 }

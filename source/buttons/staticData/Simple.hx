@@ -1,45 +1,45 @@
 package buttons.staticData;
 
+import buttons.Button;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 
 /**
- * An example button-defining class. This class's fields should only be accessed
- * from within the Button class. 
+ * An example Button-extending class.
  * 
  * @author Samuel Bumgardner
  */
-class Simple
+class Simple extends Button
 {
-	public static var image:FlxGraphicAsset = AssetPaths.PlaceholderButton__png;
-	public static var frameWidth:Int = 500;
-	public static var frameHeight:Int = 100;
-
-	public static var activeXOffset:Int = 0;
-	public static var activeYOffset:Int = 0;
-
-	public static function mouseUp(button:Button):Void
+	public function new(?X:Float = 0, ?Y:Float = 0)
 	{
+		image = AssetPaths.PlaceholderButton__png;
+		bWidth = 500;
+		bHeight = 100;
+		
+		super(X, Y);
+	}
+
+	override public function mouseUp(button:Button):Void
+	{
+		super.mouseUp(button);
 		trace("Mouse was released over a simple button.");
 	}
 	
-	public static function mouseDown(button:Button):Void
+	override public function mouseDown(button:Button):Void
 	{
+		super.mouseDown(button);
 		trace("Mouse was pressed over a simple button.");
 	}
 	
-	public static function mouseOver(button:Button):Void
+	override public function mouseOver(button:Button):Void
 	{
+		super.mouseOver(button);
 		trace("Mouse was moved over a simple button.");
 	}
 	
-	public static function mouseOut(button:Button):Void
+	override public function mouseOut(button:Button):Void
 	{
+		super.mouseOut(button);
 		trace("Mouse was moved out of a simple button.");
 	}
-	
-		
-	public static function activate(button:Button):Void{}
-	
-	public static function deactivate(button:Button):Void{}
-	
 }
