@@ -3,7 +3,6 @@ package buttons.staticData;
 import flixel.FlxG;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import states.CustomerDetails;
-import states.OptionsMenu;
 
 /**
  * Data needed to instantiate a "open options" Button.
