@@ -19,8 +19,10 @@ import flixel.math.FlxMath;
 class ShopState extends AdvancedState
 {
 	private var sideTabs:FlxTypedGroup<Button>;
+	private var currentButtonSet:FlxTypedGroup<Button>;
 	private var custCards:FlxTypedGroup<Button>;
 	private var brewButtons:FlxTypedGroup<Button>;
+	private var inventoryButtons:FlxTypedGroup<Button>;
 	
 	override public function create():Void
 	{
@@ -32,6 +34,9 @@ class ShopState extends AdvancedState
 		initSideTabs();
 		initCustCards();
 		initBrewButtons();
+		initInventoryButtons();
+		
+		currentButtonSet = custCards;
 		
 		add(new Button(720, 800, QuitGame));
 	}
@@ -132,15 +137,24 @@ class ShopState extends AdvancedState
 	public function activateCustMode(button:Button):Void
 	{
 		switchActiveTab(button);
+		currentButtonSet.forEach(Button.hide);
+		custCards.forEach(Button.reveal);
+		currentButtonSet = custCards;
 	}
 	
 	public function activateBrewMode(button:Button):Void
 	{
 		switchActiveTab(button);
+		currentButtonSet.forEach(Button.hide);
+		brewButtons.forEach(Button.reveal);
+		currentButtonSet = brewButtons;
 	}
 	
 	public function activateInvMode(button:Button):Void
 	{
 		switchActiveTab(button);
+		currentButtonSet.forEach(Button.hide);
+		inventoryButtons.forEach(Button.reveal);
+		currentButtonSet = inventoryButtons;
 	}
 }
