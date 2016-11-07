@@ -22,8 +22,8 @@ class CustomerDetails extends FlxSubState
 		
 		resetMouseEventManager();
 		
-		add(new Button(800, 400, QuitGame));
-		add(new Button(800, 525, ExitSubstate));
+		add(new QuitGame(800, 400));
+		add(new ExitSubstate(800, 525));
 	}
 	
 	private function resetMouseEventManager():Void
