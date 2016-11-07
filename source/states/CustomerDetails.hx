@@ -10,10 +10,10 @@ import flixel.input.mouse.FlxMouseEventManager;
 import flixel.util.FlxColor;
 
 /**
- * Substate that holds various objects that allow the user to change game settings.
+ * Substate that displays more detailed info about a customer.
  * @author Samuel Bumgardner
  */
-class OptionsMenu extends FlxSubState
+class CustomerDetails extends FlxSubState
 {
 	
 	override public function create() 

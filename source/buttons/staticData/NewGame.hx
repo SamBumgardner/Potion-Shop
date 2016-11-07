@@ -1,4 +1,4 @@
-package buttons.functions;
+package buttons.staticData;
 
 import flixel.FlxG;
 import flixel.system.FlxAssets.FlxGraphicAsset;
@@ -15,16 +15,22 @@ class NewGame
 	public static var image:FlxGraphicAsset = AssetPaths.NewGameButton__png;
 	public static var frameWidth:Int = 500;
 	public static var frameHeight:Int = 100;
+	
+	public static var activeXOffset:Int = 0;
+	public static var activeYOffset:Int = 0;
 
-	public static function mouseUp():Void
+	public static function mouseUp(button:Button):Void
 	{
 		GameManager.startNewGame();
 	}
 	
-	public static function mouseDown():Void{}
+	public static function mouseDown(button:Button):Void{}
 	
-	public static function mouseOver():Void{}
+	public static function mouseOver(button:Button):Void{}
 	
-	public static function mouseOut():Void{}
+	public static function mouseOut(button:Button):Void{}
 	
+	public static function activate(button:Button):Void{}
+	
+	public static function deactivate(button:Button):Void{}
 }

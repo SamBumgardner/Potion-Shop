@@ -1,10 +1,10 @@
 package states;
 
-import buttons.functions.LoadGame;
-import buttons.functions.NewGame;
-import buttons.functions.OpenOptions;
-import buttons.functions.QuitGame;
-import buttons.functions.Simple;
+import buttons.staticData.LoadGame;
+import buttons.staticData.NewGame;
+import buttons.staticData.OpenOptions;
+import buttons.staticData.QuitGame;
+import buttons.staticData.Simple;
 import flash.system.System;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -35,28 +35,5 @@ class IntroMenuState extends AdvancedState
 		MenuOptions.add(new Button(720, 750, QuitGame));
 		
 		add(MenuOptions);
-	}
-	
-	override public function switchTo(nextState:FlxState):Bool
-	{
-		return super.switchTo(nextState);
-	}
-	
-	public function activateSubstate(substateClass):Void
-	{
-		forEachOfType(Button, Button.MouseOut); // So no button is stuck in "hover" animation
-		openSubState(Type.createInstance(substateClass, []));
-	}
-	
-	override public function closeSubState():Void
-	{
-		resetMouseEventManager();
-		forEachOfType(Button, Button.register);
-		super.closeSubState();
-	}
-
-	override public function update(elapsed:Float):Void
-	{
-		super.update(elapsed);
 	}
 }
