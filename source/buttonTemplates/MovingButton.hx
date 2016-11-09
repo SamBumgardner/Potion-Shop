@@ -14,22 +14,15 @@ import flixel.tweens.FlxTween;
  */
 class MovingButton extends ActiveButton
 {
-	/**
-	 * The original X position of this button.
-	 * Used by tweening/animating buttons so they have an unchanging point of reference.
-	 */
 	private var anchorX:Float;
-	
-	/**
-	 * The original Y position of this button.
-	 * Used by  tweening/animating buttons so they have an unchanging point of reference.
-	 */
 	private var anchorY:Float;
+	private var activeAnchorChangeX:Int;
+	private var activeAnchorChangeY:Int;
 	
-	private var activeXOffset:Int;
-	private var activeYOffset:Int;
-	private var hoverXOffset:Int;
-	private var hoverYOffset:Int;
+	private var OffsetX:Int;
+	private var OffsetY:Int;
+	private var activeOffsetChangeX:Int;
+	private var activeOffsetChangeY:Int;
 	
 	private var currentTween:FlxTween;
 	
@@ -44,59 +37,46 @@ class MovingButton extends ActiveButton
 		anchorX = X;
 		anchorY = Y;
 		
+		super(anchorX, anchorY, beginActive);
+		
 		if (beginActive)
 		{
-			X -= activeXOffset;
-			Y -= activeYOffset;
+			x = anchorX;
+			y = anchorY;
 		}
-		
-		super(X, Y, beginActive);
 	}
 	
-	override public function mouseOver(button:Button):Void
+	override public function mActivate():Void
 	{
-		super.mouseOver(button);
-		
-		var mButton:MovingButton = cast button;
-		
-		if (mButton.currentTween != null)
+		anchorX += activeAnchorChangeX;
+		anchorY += activeAnchorChangeY;
+		OffsetX += activeOffsetChangeX;
+		OffsetY += activeOffsetChangeY;
+	}
+	
+	override public function mDeactivate():Void
+	{
+		anchorX -= activeAnchorChangeX;
+		anchorY -= activeAnchorChangeY;
+		OffsetX -= activeOffsetChangeX;
+		OffsetY -= activeOffsetChangeY;
+	}
+	
+	public function moveToOffset():Void
+	{
+		if (currentTween != null)
 		{
-			mButton.currentTween.cancel();
+			currentTween.cancel();
 		}
-		mButton.currentTween = FlxTween.tween(button, {x: mButton.anchorX - hoverXOffset}, .3, {ease: FlxEase.circOut});
+		currentTween = FlxTween.tween(this, {x: this.anchorX + OffsetX , y: this.anchorY + OffsetY}, .3, {ease: FlxEase.circOut});
 	}
 	
-	override public function mouseOut(button:Button):Void
+	public function moveToAnchor():Void
 	{
-		super.mouseOut(button);
-		
-		var mButton:MovingButton = cast button;
-		
-		if (mButton.currentTween != null)
+		if (currentTween != null)
 		{
-			mButton.currentTween.cancel();
+			currentTween.cancel();
 		}
-		mButton.currentTween = FlxTween.tween(button, {x: mButton.anchorX}, .3, {ease: FlxEase.circOut});
-	}
-	
-	override public function mActivate(button:ActiveButton):Void
-	{
-		var mButton:MovingButton = cast button;
-		
-		mButton.anchorX -= activeXOffset;
-		hoverXOffset -= activeXOffset;
-	}
-	
-	override public function mDeactivate(button:ActiveButton):Void
-	{
-		var mButton:MovingButton = cast button;
-		
-		mButton.anchorX += activeXOffset;
-		hoverXOffset += activeXOffset;
-		if (mButton.currentTween != null)
-		{
-			mButton.currentTween.cancel();
-		}
-		mButton.currentTween = FlxTween.tween(mButton, {x: mButton.anchorX}, .3, {ease: FlxEase.circOut});
+		currentTween = FlxTween.tween(this, {x: this.anchorX, y: this.anchorY}, .3, {ease: FlxEase.circOut});
 	}
 }

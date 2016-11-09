@@ -18,15 +18,35 @@ class Tab extends MovingButton
 
 	public function new(?X:Float = 0, ?Y:Float = 0, ?beginActive:Bool)
 	{
-		activeXOffset = 28;
-		activeYOffset = 0;
-		hoverXOffset = 30;
-		hoverYOffset = 0;
+		activeAnchorChangeX = -28;
+		activeAnchorChangeY = 0;
+		activeOffsetChangeX = 28;
+		activeOffsetChangeY = 0;
+		OffsetX = -30;
+		OffsetY = 0;
 		
 		bWidth = 150;
 		bHeight = 250;
 		
 		super(X, Y, beginActive);
+	}
+	
+	override public function mouseOver(button:Button):Void
+	{
+		super.mouseOver(button);
+		moveToOffset();
+	}
+	
+	override public function mouseOut(button:Button):Void
+	{
+		super.mouseOut(button);
+		moveToAnchor();
+	}
+	
+	override public function mDeactivate():Void
+	{
+		super.mDeactivate();
+		moveToAnchor();
 	}
 	
 	override public function mouseUp(button:Button):Void
