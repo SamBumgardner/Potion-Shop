@@ -37,13 +37,13 @@ class ActiveButton extends Button
 	 * Internal function that executes when the button is activated.
 	 * @param	button	The instance of button that was acted upon by the mouse.
 	 */
-	private function mActivate(aButton:ActiveButton):Void{}
+	private function mActivate():Void{}
 	
 	/**
 	 * Internal function that executes when the button is deactivated.
 	 * @param	button	The instance of button that was acted upon by the mouse.
 	 */
-	private function mDeactivate(aButton:ActiveButton):Void{}
+	private function mDeactivate():Void{}
 	
 	/**
 	 * Function that "activates" the button. 
@@ -55,7 +55,7 @@ class ActiveButton extends Button
 		if (!button.isActive)
 		{
 			button.isActive = true;
-			button.mActivate(button);
+			button.mActivate();
 		}
 	}
 	
@@ -69,7 +69,7 @@ class ActiveButton extends Button
 		if (button.isActive)
 		{
 			button.isActive = false;
-			button.mDeactivate(button);
+			button.mDeactivate();
 		}
 	}
 }

@@ -78,7 +78,7 @@ class Button extends FlxSprite
 	 */
 	public function mouseUp(button:Button):Void
 	{
-		button.animation.play("Hover");
+		animation.play("Hover");
 	}
 	
 	/**
@@ -87,7 +87,7 @@ class Button extends FlxSprite
 	 */
 	public function mouseDown(button:Button):Void
 	{
-		button.animation.play("Pressed");
+		animation.play("Pressed");
 	}
 	
 	/**
@@ -96,11 +96,11 @@ class Button extends FlxSprite
 	 */
 	public function mouseOver(button:Button):Void
 	{
-		button.animation.play("Hover");
+		animation.play("Hover");
 		
 		if (FlxG.mouse.pressed)
 		{ 
-			button.mouseDown(button);
+			mouseDown(button);
 		}
 	}
 	
@@ -110,6 +110,6 @@ class Button extends FlxSprite
 	 */
 	public function mouseOut(button:Button):Void
 	{
-		button.animation.play("Normal");
+		animation.play("Normal");
 	}
 }
