@@ -5,17 +5,23 @@ import flixel.FlxG;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+import utilities.ButtonEvent;
+import utilities.EventExtender;
 import utilities.ShopButtonGroup;
+import utilities.Subject;
+
+using utilities.EventExtender;
 
 /**
  * Data needed to instantiate an "open brew state" Button.
  * 
  * @author Samuel Bumgardner
  */
-class Tab extends MovingButton
+@:tink class Tab extends MovingButton
 {
 	private var buttonGroup:ShopButtonGroup;
-
+	@:forward var sub:Subject = new Subject(); //using tink_lang Syntactic Delegation.
+	
 	public function new(?X:Float = 0, ?Y:Float = 0, ?beginActive:Bool)
 	{
 		activeAnchorChangeX = -28;
@@ -53,11 +59,10 @@ class Tab extends MovingButton
 	{
 		super.mouseUp(button);
 		
-		var tButton:Tab = cast button;
-		
-		if (!tButton.isActive)
+		if (!isActive)
 		{
-			(cast FlxG.state).switchShopMode(button, tButton.buttonGroup);
+			var e:ButtonEvent = 0;
+			notify(e.setID(this.sub.getID()).setData(EventData.UP));
 		}
 	}
 }

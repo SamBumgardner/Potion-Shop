@@ -3,6 +3,7 @@ package states;
 import buttonTemplates.ActiveButton;
 import buttonTemplates.Button;
 import buttonTemplates.ActiveButton;
+import buttonTemplates.Tab;
 import buttons.BrewTab;
 import buttons.CustomerCard;
 import buttons.CustomerTab;
@@ -17,11 +18,17 @@ import flixel.input.mouse.FlxMouseEventManager;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.math.FlxMath;
+import utilities.ButtonEvent;
+import utilities.EventExtender;
+import utilities.Observer;
 import utilities.ShopButtonGroup;
 
-class ShopState extends AdvancedState
+using utilities.EventExtender;
+
+class ShopState extends AdvancedState implements Observer
 {
 	private var sideTabs:FlxTypedGroup<ActiveButton>;
+	private var sideTabArray:Array<Tab>;
 	private var currentButtonSet:FlxTypedGroup<Button>;
 	private var custCards:FlxTypedGroup<Button>;
 	private var brewButtons:FlxTypedGroup<Button>;
@@ -54,6 +61,7 @@ class ShopState extends AdvancedState
 	
 	private function initSideTabs():Void
 	{
+		sideTabArray = new Array<Tab>();
 		sideTabs = new FlxTypedGroup<ActiveButton>();
 		
 		//Look at using some preprocessor stuff to do this instead (if possible:
@@ -64,9 +72,16 @@ class ShopState extends AdvancedState
 		var middleSideTabY = (FlxG.height - tabHeight) / 2;
 		var YInterval = tabHeight * 1.1;
 		
-		sideTabs.add(new CustomerTab(sideTabX, middleSideTabY - YInterval, true));
-		sideTabs.add(new BrewTab(sideTabX, middleSideTabY));
-		sideTabs.add(new InventoryTab(sideTabX, middleSideTabY + YInterval));
+		sideTabArray.push(new CustomerTab(sideTabX, middleSideTabY - YInterval, true));
+		sideTabArray.push(new BrewTab(sideTabX, middleSideTabY));
+		sideTabArray.push(new InventoryTab(sideTabX, middleSideTabY + YInterval));
+		
+		for (i in 0...sideTabArray.length)
+		{
+			sideTabArray[i].setID(i);
+			sideTabArray[i].addObserver(this);
+			sideTabs.add(sideTabArray[i]);
+		}
 		
 		add(sideTabs);
 	}
@@ -154,6 +169,7 @@ class ShopState extends AdvancedState
 	
 	private function switchActiveTab(tab:ActiveButton):Void
 	{
+		
 		sideTabs.forEach(ActiveButton.deactivate);
 		ActiveButton.activate(tab);
 	}
@@ -164,5 +180,13 @@ class ShopState extends AdvancedState
 		currentButtonSet.forEach(Button.hide);
 		buttonGroups[group].forEach(Button.reveal);
 		currentButtonSet = buttonGroups[group];
+	}
+	
+	public function onNotify(event:ButtonEvent):Void
+	{
+		if (event.getData() == EventData.UP)
+		{
+			switchShopMode(sideTabArray[event.getID()], cast event.getID());
+		}
 	}
 }
