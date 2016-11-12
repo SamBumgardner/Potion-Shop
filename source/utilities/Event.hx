@@ -9,7 +9,7 @@ typedef Event = Int;
 // Assumes that data in range from 0 - 255;
 
 class EventExtender 
-{
+{	
 	static public function setID(event:Event, id:Int):Event
 	{
 		return (event & 0xFFFFFF00) | id;
@@ -29,4 +29,12 @@ class EventExtender
 	{
 		return event >> 8;
 	}
+}
+
+@:enum
+abstract EventData(Int) {
+	var OUT = 0;
+	var OVER = 1;
+	var DOWN = 2;
+	var UP = 3;
 }
