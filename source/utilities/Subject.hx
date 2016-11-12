@@ -1,6 +1,6 @@
 package utilities;
 
-import utilities.Event;
+import utilities.ButtonEvent;
 
 /**
  * Basic class for subjects in the Observer design pattern.
@@ -25,7 +25,7 @@ class Subject
 		observers.remove(obs);
 	}
 	
-	public function notify(event:Event):Void
+	public function notify(event:ButtonEvent):Void
 	{
 		for (obs in observers)
 		{
