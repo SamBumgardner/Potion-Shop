@@ -6,9 +6,10 @@ package utilities;
  * @author Samuel Bumgardner
  */
 
-enum ShopButtonGroup 
+ @:enum
+abstract ShopButtonGroup(Int) 
 {
-	Customer;
-	Brew;
-	Inventory;
+	var Customer = 0;
+	var Brew = 1;
+	var Inventory = 2;
 }
