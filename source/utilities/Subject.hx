@@ -9,10 +9,22 @@ import utilities.ButtonEvent;
 class Subject
 {
 	private var observers:Array<Observer>;
+	private var subjectID:Int;
 	
-	public function new() 
+	public function new(?setID:Int = 0) 
 	{
-		observers = new Array<Observer>;
+		subjectID = setID;
+		observers = new Array<Observer>();
+	}
+	
+	public function getID():Int
+	{
+		return subjectID;
+	}
+	
+	public function setID(newID:Int):Void
+	{
+		subjectID = newID;
 	}
 	
 	public function addObserver(obs:Observer):Void
