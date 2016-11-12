@@ -3,15 +3,9 @@ package utilities;
 import utilities.Event;
 
 /**
- * ...
+ * Basic interface for observers in the Observer design patern.
  * @author Samuel Bumgardner
  */
-class Observer
-{	
-	public function new(){}
-	
-	public function onNotify(event:Event)
-	{
-		// Do something with data.
-	}	
+interface Observer {
+	public function onNotify(event:Event):Void;
 }
