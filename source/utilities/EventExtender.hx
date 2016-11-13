@@ -21,7 +21,7 @@ class EventExtender
 		return event & 0x000000FF;
 	}
 	
-	static public function setData(event:Int, data:Int):ButtonEvent
+	static public function setData(event:ButtonEvent, data:Int):ButtonEvent
 	{
 		return (event & 0x000000FF) | (data << 8);
 	}
