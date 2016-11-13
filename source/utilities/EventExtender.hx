@@ -23,11 +23,21 @@ class EventExtender
 	
 	static public function setData(event:ButtonEvent, data:Int):ButtonEvent
 	{
-		return (event & 0x000000FF) | (data << 8);
+		return (event & 0xFF0000FF) | (data << 8);
 	}
 	
 	static public function getData(event:ButtonEvent):Int
 	{
-		return event >> 8;
+		return (event & 0x00FFFF00) >> 8;
+	}
+	
+	static public function setType(event:ButtonEvent, data:Int):ButtonEvent
+	{
+		return (event & 0x00FFFFFF) | (data << 24);
+	}
+	
+	static public function getType(event:ButtonEvent):Int
+	{
+		return (event & 0xFF000000) >> 24;
 	}
 }
