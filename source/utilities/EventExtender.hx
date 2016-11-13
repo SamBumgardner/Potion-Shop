@@ -2,12 +2,19 @@ package utilities;
 import utilities.ButtonEvent.EventData;
 
 /**
- * ...
+ * Functions to be used on ButtonEvent-type variables
  * @author Samuel Bumgardner
  */
  
-// Assumes that IDs in range from 0 - 255;
-// Assumes that data in range from 0 - 255;
+// Current ButtonEvent Format in hexadecimal:
+// 0xAABBBBCC
+// The "A" field denotes button type
+// The "B" field denotes event data (what kind of event, etc.)
+// The "C" field denotes button ID
+ 
+// Assumes that type in range from 0 - 255;
+// Assumes that data in range from 0 - 65,535;
+// Assumes that ID in range 0 - 255;
  
 class EventExtender 
 {	
