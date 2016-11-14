@@ -3,6 +3,11 @@ package buttons;
 import buttonTemplates.Button;
 import flixel.FlxG;
 import flixel.system.FlxAssets.FlxGraphicAsset;
+import utilities.ButtonEvent;
+import utilities.EventExtender;
+import utilities.Subject;
+
+using utilities.EventExtender;
 
 /**
  * Data needed to instantiate an "ingredient hexagon" Button.
@@ -10,8 +15,10 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
  * @author Samuel Bumgardner
  */
 
-class IngredientHex extends Button
+@:tink class IngredientHex extends Button
 {	
+	@:forward var sub:Subject = new Subject(); //using tink_lang Syntactic Delegation.
+	
 	public function new(?X:Float = 0, ?Y:Float = 0)
 	{
 		image = AssetPaths.HexButton__png;
@@ -19,5 +26,23 @@ class IngredientHex extends Button
 		bHeight = 125;
 		
 		super(X, Y);
+	}
+	
+	override public function mouseOver(button:Button):Void
+	{
+		super.mouseOver(button);
+		notify(EventData.OVER);
+	}
+	
+	override public function mouseOut(button:Button):Void
+	{
+		super.mouseOut(button);
+		notify(EventData.OUT);
+	}
+	
+	override public function mouseUp(button:Button):Void
+	{
+		super.mouseUp(button);
+		notify(EventData.UP);
 	}
 }
