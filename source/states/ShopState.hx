@@ -10,6 +10,7 @@ import buttons.CustomerTab;
 import buttons.IngredientHex;
 import buttons.InventoryTab;
 import buttons.QuitGame;
+import containers.IngredientTable;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -46,7 +47,7 @@ class ShopState extends AdvancedState implements Observer
 		
 		initSideTabs();
 		initCustCards();
-		initBrewButtons();
+		initBrewContent();
 		initInventoryButtons();
 		
 		currentButtonSet = custCards;
@@ -116,49 +117,12 @@ class ShopState extends AdvancedState implements Observer
 		add(custCards);
 	}
 	
-	private function initBrewButtons():Void
+	private function initBrewContent():Void
 	{
-		brewButtons = new FlxTypedGroup<Button>();
-		
-		//Look at using some preprocessor stuff to do this instead (if possible:
-		var ingredientHexWidth = 145;
-		var ingredientHexHeight = 125;
-		
-		var numRows = 8;
-		var evenCols = 3;
-		var oddCols = 4;
-		
-		var XIntervalMod = 1.6;
-		var YIntervalMod = .55;
-		
-		var topLeftX = 100;
-		var topLeftY = 100;
-		
-		var evenXOffset = ingredientHexWidth * .8;
-		
-		var XInterval = ingredientHexWidth * XIntervalMod;
-		var YInterval = ingredientHexHeight * YIntervalMod;
-		
-		for (row in 0...numRows)
-		{
-			if (row % 2 == 0)
-			{
-				for (col in 0...evenCols)
-				{
-					brewButtons.add(new IngredientHex(topLeftX + evenXOffset + col * XInterval, topLeftY + row * YInterval));
-				}
-			}
-			else
-			{
-				for (col in 0...oddCols)
-				{
-					brewButtons.add(new IngredientHex(topLeftX + col * XInterval, topLeftY + row * YInterval));
-				}
-			}
-		}
-		
-		brewButtons.forEach(Button.hide);
-		add(brewButtons);
+		var table = new IngredientTable();
+		brewContents = table.getTotalFlxGrp();
+		brewContents.forEach(Hideable.Hide);
+		add(brewContents);
 	}
 	
 	private function initInventoryButtons():Void
