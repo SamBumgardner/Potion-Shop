@@ -1,6 +1,9 @@
 package utilities;
 
 import utilities.ButtonEvent;
+import utilities.EventExtender;
+
+using utilities.EventExtender;
 
 /**
  * Basic class for subjects in the Observer design pattern.
@@ -37,11 +40,13 @@ class Subject
 		observers.remove(obs);
 	}
 	
-	public function notify(event:ButtonEvent):Void
+	public function notify(eventData:Int):Void
 	{
+		var e:ButtonEvent = 0;
+		
 		for (obs in observers)
 		{
-			obs.onNotify(event);
+			obs.onNotify(e.setID(getID()).setData(eventData));
 		}
 	}
 }

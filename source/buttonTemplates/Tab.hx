@@ -61,8 +61,7 @@ using utilities.EventExtender;
 		
 		if (!isActive)
 		{
-			var e:ButtonEvent = 0;
-			notify(e.setID(this.sub.getID()).setData(EventData.UP));
+			notify(EventData.UP);
 		}
 	}
 }
