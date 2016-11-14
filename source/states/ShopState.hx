@@ -13,6 +13,7 @@ import buttons.QuitGame;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.group.FlxGroup;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.input.mouse.FlxMouseEventManager;
 import flixel.text.FlxText;
@@ -29,12 +30,12 @@ class ShopState extends AdvancedState implements Observer
 {
 	private var sideTabs:FlxTypedGroup<ActiveButton>;
 	private var sideTabArray:Array<Tab>;
-	private var currentButtonSet:FlxTypedGroup<Button>;
-	private var custCards:FlxTypedGroup<Button>;
-	private var brewButtons:FlxTypedGroup<Button>;
-	private var inventoryButtons:FlxTypedGroup<Button>;
+	private var currentButtonSet:FlxGroup;
+	private var custCards:FlxGroup;
+	private var brewContents:FlxGroup;
+	private var inventoryButtons:FlxGroup;
 	
-	private var buttonGroups:Map<ShopButtonGroup, FlxTypedGroup<Button>>;
+	private var buttonGroups:Map<ShopButtonGroup, FlxGroup>;
 	
 	override public function create():Void
 	{
@@ -52,7 +53,7 @@ class ShopState extends AdvancedState implements Observer
 		
 		buttonGroups = [
 			Customer => custCards,
-			Brew => brewButtons,
+			Brew => brewContents,
 			Inventory => inventoryButtons
 		];
 		
@@ -88,7 +89,7 @@ class ShopState extends AdvancedState implements Observer
 	
 	private function initCustCards():Void
 	{
-		custCards = new FlxTypedGroup<Button>();
+		custCards = new FlxGroup();
 		
 		//Look at using some preprocessor stuff to do this instead (if possible:
 		var customerCardWidth = 800;
@@ -162,7 +163,7 @@ class ShopState extends AdvancedState implements Observer
 	
 	private function initInventoryButtons():Void
 	{
-		inventoryButtons = new FlxTypedGroup<Button>();
+		inventoryButtons = new FlxGroup();
 		
 		add(inventoryButtons);
 	}
@@ -177,8 +178,8 @@ class ShopState extends AdvancedState implements Observer
 	public function switchShopMode(tab:ActiveButton, group:ShopButtonGroup):Void
 	{
 		switchActiveTab(tab);
-		currentButtonSet.forEach(Button.hide);
-		buttonGroups[group].forEach(Button.reveal);
+		currentButtonSet.forEach(Hideable.Hide);
+		buttonGroups[group].forEach(Hideable.Reveal);
 		currentButtonSet = buttonGroups[group];
 	}
 	

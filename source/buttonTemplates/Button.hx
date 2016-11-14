@@ -12,7 +12,7 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
  * 
  * @author Samuel Bumgardner
  */
-class Button extends FlxSprite
+class Button extends Hideable
 {
 	
 	private var image:FlxGraphicAsset;
@@ -52,11 +52,10 @@ class Button extends FlxSprite
 	 * 
 	 * @param	button	The instance of button that should be re-registered.
 	 */
-	public static function hide(button:Button):Void
+	override public function hide():Void
 	{
-		FlxMouseEventManager.remove(button);
-		button.set_visible(false);
-		button.set_active(false);
+		FlxMouseEventManager.remove(this);
+		super.hide();
 	}
 	
 	/**
@@ -65,18 +64,17 @@ class Button extends FlxSprite
 	 * 
 	 * @param	button	The instance of button that should be re-registered.
 	 */
-	public static function reveal(button:Button):Void
+	override public function reveal():Void
 	{
-		Button.register(button);
-		button.set_visible(true);
-		button.set_active(true);
+		Button.register(this);
+		super.reveal();
 	}
 	
 	/**
 	 * Callback function registered to the FlxMouseEventManager.
 	 * @param	button	The instance of button that was acted upon by the mouse.
 	 */
-	public function mouseUp(button:Button):Void
+	public function mouseUp(button):Void
 	{
 		animation.play("Hover");
 	}
