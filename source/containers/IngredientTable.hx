@@ -43,7 +43,7 @@ class IngredientTable extends Hideable implements Observer
 		initIngInfo();
 		initIngredientButtons();
 		
-		displayDescription = new FlxText(50, 50, 0, "HI", 24);
+		displayDescription = new FlxText(x + 1150, y + 335, 300, "", 24);
 		displayDescription.set_color(FlxColor.BLACK);
 		totalGrp.add(displayDescription);
 		
@@ -87,13 +87,13 @@ class IngredientTable extends Hideable implements Observer
 		var evenCols = 3;
 		var oddCols = 4;
 		
-		var XIntervalMod = 1.6;
-		var YIntervalMod = .55;
+		var XIntervalMod = 1.56;
+		var YIntervalMod = .545;
 		
-		var topLeftX = 100;
-		var topLeftY = 100;
+		var topLeftX = x + 12;
+		var topLeftY = y + 12;
 		
-		var evenXOffset = ingredientHexWidth * .8;
+		var evenXOffset = ingredientHexWidth * .78;
 		
 		var XInterval = ingredientHexWidth * XIntervalMod;
 		var YInterval = ingredientHexHeight * YIntervalMod;

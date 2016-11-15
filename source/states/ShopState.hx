@@ -119,7 +119,7 @@ class ShopState extends AdvancedState implements Observer
 	
 	private function initBrewContent():Void
 	{
-		var table = new IngredientTable();
+		var table = new IngredientTable(60, 370);
 		brewContents = table.getTotalFlxGrp();
 		brewContents.forEach(Hideable.Hide);
 		add(brewContents);
