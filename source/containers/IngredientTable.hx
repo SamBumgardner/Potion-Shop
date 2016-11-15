@@ -7,6 +7,8 @@ import flixel.group.FlxGroup;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
+import haxe.Json;
+import sys.io.File;
 import utilities.ButtonEvent;
 import utilities.ButtonEvent.EventData;
 import utilities.EventExtender;
@@ -60,12 +62,16 @@ class IngredientTable extends Hideable implements Observer
 	{
 		ingInfo = new Array<IngredientData>();
 		
+		var fileHandle = File.read(AssetPaths.IngredientData__txt);
+		
 		// Just setting up an array of dummy ingredient info,
 		// making sure that I can get the other components working first.
 		for (i in 0...28)
 		{
-			ingInfo.push(new IngredientData([1, 1, 1, 1, 1, 1, 1, 1], 300, "Description for " + Std.string(i) + " Here!", AssetPaths.HexButton__png));
+			ingInfo.push(Json.parse(fileHandle.readLine()));
 		}
+		
+		fileHandle.close();
 	}
 	
 	private function initIngredientButtons():Void
