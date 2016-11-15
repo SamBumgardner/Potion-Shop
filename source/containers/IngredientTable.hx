@@ -7,6 +7,7 @@ import flixel.group.FlxGroup;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
+import graphicObjects.DisplaySprite;
 import haxe.Json;
 import sys.io.File;
 import utilities.ButtonEvent;
@@ -33,6 +34,7 @@ class IngredientTable extends Hideable implements Observer
 	private var currHoverIngID:Int;
 	private var displayName:FlxText;
 	private var displayNameCenterX:Int = 1005;
+	private var displayImage:DisplaySprite;
 	private var displayDescription:FlxText;
 	private var displayColorHover:Array<Int>;
 	private var displayColorLocked:Array<Int>;
@@ -138,6 +140,10 @@ class IngredientTable extends Hideable implements Observer
 		
 		displayColorHover = [0, 0, 0, 0, 0, 0, 0, 0];
 		displayColorLocked = [0, 0, 0, 0, 0, 0, 0, 0];
+		
+		displayImage = new DisplaySprite(x + 900, y + 340, AssetPaths.IngredientSpriteSheet__png,
+		                                 145, 125, 1, 3);
+		totalGrp.add(displayImage);
 	}
 	
 	private function clearHoverInfo(ingIndex:Int):Void
@@ -161,6 +167,7 @@ class IngredientTable extends Hideable implements Observer
 		{
 			displayName.text = "";
 			displayDescription.text = "";
+			displayImage.animation.play("0");
 			displayColorHover = [0, 0, 0, 0, 0, 0, 0, 0];
 			
 			currHoverIngID = -1;
@@ -174,6 +181,7 @@ class IngredientTable extends Hideable implements Observer
 		displayName.text = ingredient.name;
 		displayName.x = x + displayNameCenterX - displayName.width/2;
 		displayDescription.text = ingredient.description;
+		displayImage.animation.play(Std.string(ingIndex % 2 + 1));
 		displayColorHover = ingredient.colorValues;
 		
 		currHoverIngID = ingIndex;
