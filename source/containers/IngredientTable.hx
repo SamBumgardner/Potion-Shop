@@ -31,6 +31,8 @@ class IngredientTable extends Hideable implements Observer
 	private var ingInfo:Array<IngredientData>;
 	
 	private var currHoverIngID:Int;
+	private var displayName:FlxText;
+	private var displayNameCenterX:Int = 1005;
 	private var displayDescription:FlxText;
 	private var displayColorHover:Array<Int>;
 	private var displayColorLocked:Array<Int>;
@@ -126,6 +128,10 @@ class IngredientTable extends Hideable implements Observer
 	
 	private function initDisplayComponents():Void
 	{
+		displayName = new FlxText(x + displayNameCenterX, y + 545, 0, "", 20);
+		displayName.set_color(FlxColor.BLACK);
+		totalGrp.add(displayName);
+		
 		displayDescription = new FlxText(x + 1150, y + 335, 300, "", 24);
 		displayDescription.set_color(FlxColor.BLACK);
 		totalGrp.add(displayDescription);
@@ -153,6 +159,7 @@ class IngredientTable extends Hideable implements Observer
 		
 		if (currHoverIngID == ingIndex) 
 		{
+			displayName.text = "";
 			displayDescription.text = "";
 			displayColorHover = [0, 0, 0, 0, 0, 0, 0, 0];
 			
@@ -163,6 +170,9 @@ class IngredientTable extends Hideable implements Observer
 	private function setHoverInfo(ingIndex:Int):Void
 	{
 		var ingredient = ingInfo[ingIndex];
+		
+		displayName.text = ingredient.name;
+		displayName.x = x + displayNameCenterX - displayName.width/2;
 		displayDescription.text = ingredient.description;
 		displayColorHover = ingredient.colorValues;
 		
