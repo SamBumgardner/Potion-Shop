@@ -57,8 +57,6 @@ class ShopState extends AdvancedState implements Observer
 			Brew => brewContents,
 			Inventory => inventoryButtons
 		];
-		
-		add(new QuitGame(720, 800));
 	}
 	
 	private function initSideTabs():Void
