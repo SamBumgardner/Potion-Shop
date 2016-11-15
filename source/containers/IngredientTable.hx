@@ -35,9 +35,10 @@ class IngredientTable extends Hideable implements Observer
 	
 	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
 	{
-		super(X, Y, SimpleGraphic);
+		super(X, Y, AssetPaths.IngredientTable__png);
 		
 		totalGrp = new FlxGroup();
+		totalGrp.add(this);
 		
 		initNotifyCallbacks();
 		initIngInfo();
@@ -50,7 +51,7 @@ class IngredientTable extends Hideable implements Observer
 		displayColorHover = [0, 0, 0, 0, 0, 0, 0, 0];
 		displayColorLocked = [0, 0, 0, 0, 0, 0, 0, 0];
 		
-		totalGrp.add(this);
+		
 	}
 	
 	private function initNotifyCallbacks():Void
