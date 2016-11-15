@@ -8,17 +8,18 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
 class IngredientData
 {
 
+	public var name:String;
 	public var colorValues:Array<Int>;
 	public var price:Int;
 	public var description:String;
 	public var graphic:FlxGraphicAsset;
 	
-	public function new(cVal:Array<Int>, pr:Int, desc:String, img:FlxGraphicAsset) 
+	public function new(nm:String, cVal:Array<Int>, pr:Int, desc:String) 
 	{
+		name = nm;
 		colorValues = cVal;
 		price = pr;
 		description = desc;
-		graphic = img;
 	}
 	
 }
