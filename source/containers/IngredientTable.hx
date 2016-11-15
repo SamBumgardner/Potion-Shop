@@ -43,15 +43,7 @@ class IngredientTable extends Hideable implements Observer
 		initNotifyCallbacks();
 		initIngInfo();
 		initIngredientButtons();
-		
-		displayDescription = new FlxText(x + 1150, y + 335, 300, "", 24);
-		displayDescription.set_color(FlxColor.BLACK);
-		totalGrp.add(displayDescription);
-		
-		displayColorHover = [0, 0, 0, 0, 0, 0, 0, 0];
-		displayColorLocked = [0, 0, 0, 0, 0, 0, 0, 0];
-		
-		
+		initDisplayComponents();
 	}
 	
 	private function initNotifyCallbacks():Void
@@ -124,6 +116,16 @@ class IngredientTable extends Hideable implements Observer
 			ingHexArray[i].addObserver(this);
 			totalGrp.add(ingHexArray[i]);
 		}
+	}
+	
+	private function initDisplayComponents():Void
+	{
+		displayDescription = new FlxText(x + 1150, y + 335, 300, "", 24);
+		displayDescription.set_color(FlxColor.BLACK);
+		totalGrp.add(displayDescription);
+		
+		displayColorHover = [0, 0, 0, 0, 0, 0, 0, 0];
+		displayColorLocked = [0, 0, 0, 0, 0, 0, 0, 0];
 	}
 	
 	private function clearHoverInfo(ingIndex:Int):Void
