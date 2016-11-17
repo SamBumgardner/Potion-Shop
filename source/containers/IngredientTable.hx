@@ -212,9 +212,25 @@ class IngredientTable extends Hideable implements Observer
 			displayName.text = "";
 			displayDescription.text = "";
 			displayImage.animation.play("0");
-			displayColorHover = [0, 0, 0, 0, 0, 0, 0, 0];
+			displayColorHover.array = [0, 0, 0, 0, 0, 0, 0, 0];
 			
 			currHoverIngID = -1;
+		}
+	}
+	
+	private function updateHoverBars(ingredient:IngredientData):Void
+	{
+		for (i in 0...displayColorHover.array.length)
+		{
+			displayColorHover.array[i] = ingredient.colorValues[i] + displayColorLocked.array[i];
+		}
+	}
+	
+	private function updateLockedBars(ingredient:IngredientData):Void
+	{
+		for (i in 0...displayColorLocked.array.length)
+		{
+			displayColorLocked.array[i] += ingredient.colorValues[i];
 		}
 	}
 	
@@ -226,7 +242,8 @@ class IngredientTable extends Hideable implements Observer
 		displayName.x = x + displayNameCenterX - displayName.width/2;
 		displayDescription.text = ingredient.description;
 		displayImage.animation.play(Std.string(ingIndex % 2 + 1));
-		displayColorHover = ingredient.colorValues;
+		
+		updateHoverBars(ingredient);
 		
 		currHoverIngID = ingIndex;
 	}
@@ -236,13 +253,8 @@ class IngredientTable extends Hideable implements Observer
 		//Need to check if there is an open ingredient spot
 		var ingredient = ingInfo[ingIndex];
 		
-		for (i in 0...displayColorLocked.length)
-		{
-			displayColorLocked[i] += ingredient.colorValues[i];
-		}
-		
-		// also need to add the ingredient's graphic to the proper hexagon.
-		
+		updateLockedBars(ingredient);
+		updateHoverBars(ingredient);
 	}
 	
 	private function ingHexOut(id:Int):Void
