@@ -112,14 +112,16 @@ class IngredientTable extends Hideable implements Observer
 			{
 				for (col in 0...evenCols)
 				{
-					ingHexArray.push(new IngredientHex(topLeftX + evenXOffset + col * XInterval, topLeftY + row * YInterval));
+					ingHexArray.push(new IngredientHex(topLeftX + evenXOffset + col * XInterval,
+					                                   topLeftY + row * YInterval));
 				}
 			}
 			else
 			{
 				for (col in 0...oddCols)
 				{
-					ingHexArray.push(new IngredientHex(topLeftX + col * XInterval, topLeftY + row * YInterval));
+					ingHexArray.push(new IngredientHex(topLeftX + col * XInterval, 
+					                                   topLeftY + row * YInterval));
 				}
 			}
 		}
