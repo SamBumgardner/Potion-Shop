@@ -6,12 +6,15 @@ import flixel.FlxSprite;
 import flixel.group.FlxGroup;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.text.FlxText;
+import flixel.ui.FlxBar;
 import flixel.util.FlxColor;
 import graphicObjects.DisplaySprite;
 import haxe.Json;
 import sys.io.File;
 import utilities.ButtonEvent;
 import utilities.ButtonEvent.EventData;
+import utilities.ColorArray;
+import utilities.ColorConverter;
 import utilities.EventExtender;
 import utilities.IngredientData;
 import utilities.Observer;
@@ -36,8 +39,10 @@ class IngredientTable extends Hideable implements Observer
 	private var displayNameCenterX:Int = 1005;
 	private var displayImage:DisplaySprite;
 	private var displayDescription:FlxText;
-	private var displayColorHover:Array<Int>;
-	private var displayColorLocked:Array<Int>;
+	private var displayColorHover:ColorArray;
+	private var displayColorLocked:ColorArray;
+	private var displayHoverBars:Array<FlxBar>;
+	private var displayLockedBars:Array<FlxBar>;
 	
 	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
 	{
@@ -128,6 +133,46 @@ class IngredientTable extends Hideable implements Observer
 		}
 	}
 	
+	private function initDisplayBars():Void
+	{
+		var barInitialX = 1226;
+		var barInitialY = 55;
+		var barOffsetX = 33;
+		
+		var barWidth = 20;
+		var barHeight = 156;
+		
+		var barUnits = 12;
+		
+		displayColorHover = new ColorArray();
+		displayColorLocked = new ColorArray();
+		
+		displayHoverBars = new Array<FlxBar>();
+		displayLockedBars = new Array<FlxBar>();
+		
+		var colorConvert = new ColorConverter();
+		
+		for (i in 0...displayColorHover.array.length)
+		{
+			displayLockedBars.push(new FlxBar(x + barInitialX + barOffsetX * i, 
+			                                  y + barInitialY, BOTTOM_TO_TOP, barWidth, 
+			                                  barHeight, displayColorLocked, 
+											  colorConvert.intToColorStr[i], 0, barUnits));
+			displayHoverBars.push(new FlxBar(x + barInitialX + barOffsetX * i, 
+			                                 y + barInitialY, BOTTOM_TO_TOP, barWidth, 
+			                                 barHeight, displayColorHover, 
+											 colorConvert.intToColorStr[i], 0, barUnits));
+			
+			displayLockedBars[i].createFilledBar(0, colorConvert.intToColorHex[i]);
+			displayHoverBars[i].createFilledBar(0, colorConvert.intToColorHex[i] - 0xAA000000);
+			
+			//Note: The order of adding matters!
+			// Locked are added first so Hover draws in front.
+			totalGrp.add(displayLockedBars[i]);
+			totalGrp.add(displayHoverBars[i]);
+		}
+	}
+	
 	private function initDisplayComponents():Void
 	{
 		displayName = new FlxText(x + displayNameCenterX, y + 545, 0, "", 20);
@@ -138,8 +183,7 @@ class IngredientTable extends Hideable implements Observer
 		displayDescription.set_color(FlxColor.BLACK);
 		totalGrp.add(displayDescription);
 		
-		displayColorHover = [0, 0, 0, 0, 0, 0, 0, 0];
-		displayColorLocked = [0, 0, 0, 0, 0, 0, 0, 0];
+		initDisplayBars();
 		
 		displayImage = new DisplaySprite(x + 900, y + 340, AssetPaths.IngredientSpriteSheet__png,
 		                                 145, 125, 1, 3);
