@@ -33,6 +33,7 @@ class IngredientTable extends Hideable implements Observer
 	
 	private var notifyCallbacks:Array<Int->Void>;
 	
+	private static var emptyIng:IngredientData;
 	private var ingInfo:Array<IngredientData>;
 	private var selectedIDs:Array<Int>;
 	private var selectedHexArray:Array<SelectedHex>;
@@ -75,15 +76,18 @@ class IngredientTable extends Hideable implements Observer
 	
 	private function initIngInfo():Void
 	{
+		emptyIng = new IngredientData("", [0, 0, 0, 0, 0, 0, 0, 0], 0, "");
+		
 		ingInfo = new Array<IngredientData>();
 		
 		var fileHandle = File.read(AssetPaths.IngredientData__txt);
 		
-		// Just setting up an array of dummy ingredient info,
-		// making sure that I can get the other components working first.
 		for (i in 0...28)
 		{
-			ingInfo.push(Json.parse(fileHandle.readLine()));
+			var anonIng = Json.parse(fileHandle.readLine());
+			var ingredient = new IngredientData(anonIng.name, anonIng.colorValues, 
+			                                    anonIng.price, anonIng.description);
+			ingInfo.push(ingredient);
 		}
 		
 		fileHandle.close();
