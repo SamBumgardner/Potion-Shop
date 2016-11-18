@@ -41,14 +41,16 @@ class IngredientTable extends Hideable implements Observer
 	private var maxSelected:Int = 4;
 	
 	private var currHoverIngID:Int;
+	private var currHoverType:Int;
 	private var displayName:FlxText;
 	private var displayNameCenterX:Int = 1005;
 	private var displayImage:DisplaySprite;
 	private var displayDescription:FlxText;
 	private var displayColorHover:ColorArray;
-	private var displayColorLocked:ColorArray;
+	private var displayColorSelected:ColorArray;
 	private var displayHoverBars:Array<FlxBar>;
-	private var displayLockedBars:Array<FlxBar>;
+	private var displaySelectedBars:Array<FlxBar>;
+	private var displaySelectedImages:Array<DisplaySprite>;
 	
 	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
 	{
@@ -248,7 +250,7 @@ class IngredientTable extends Hideable implements Observer
 		totalGrp.add(displayImage);
 	}
 	
-	private function clearHoverInfo(ingIndex:Int):Void
+	private function clearHoverInfo(ID:Int, type:Int):Void
 	{
 		//The if test below is required for the following reasons:
 		
@@ -265,15 +267,22 @@ class IngredientTable extends Hideable implements Observer
 		// an easy change in the repo, just involves moving a block of 
 		// code around.
 		
-		if (currHoverIngID == ingIndex) 
+		if (currHoverIngID == ID && currHoverType == type) 
 		{
-			displayName.text = "";
-			displayDescription.text = "";
+			updateIngDisplayText(IngredientTable.emptyIng);
 			displayImage.animation.play("0");
-			displayColorHover.array = [0, 0, 0, 0, 0, 0, 0, 0];
+			updateHoverBars(IngredientTable.emptyIng);
 			
 			currHoverIngID = -1;
+			currHoverType = -1;
 		}
+	}
+	
+	private function updateIngDisplayText(ingredient:IngredientData):Void
+	{
+		displayName.text = ingredient.name;
+		displayName.x = x + displayNameCenterX - displayName.width / 2;
+		displayDescription.text = ingredient.description;
 	}
 	
 	private function updateHoverBars(ingredient:IngredientData):Void
@@ -284,7 +293,15 @@ class IngredientTable extends Hideable implements Observer
 		}
 	}
 	
-	private function updateLockedBars(ingredient:IngredientData):Void
+	private function increaseSelectedColors(ingredient:IngredientData):Void
+	{
+		for (i in 0...displayColorSelected.array.length)
+		{
+			displayColorSelected.array[i] += ingredient.colorValues[i];
+		}
+	}
+	
+	private function decreaseSelectedColors(ingredient:IngredientData):Void
 	{
 		for (i in 0...displayColorSelected.array.length)
 		{
@@ -292,27 +309,89 @@ class IngredientTable extends Hideable implements Observer
 		}
 	}
 	
-	private function setHoverInfo(ingIndex:Int):Void
+	private function updateSelectedImages():Void
+	{
+		for (i in 0...selectedIDs.length)
+		{	
+			if (selectedIDs[i] != -1)
+			{
+				displaySelectedImages[i].animation.play("1"); //placeholder animation index
+			}
+			else
+			{
+				displaySelectedImages[i].animation.play("0");
+			}
+		}
+	}
+	private function setIngHoverInfo(ingIndex:Int):Void
 	{
 		var ingredient = ingInfo[ingIndex];
 		
-		displayName.text = ingredient.name;
-		displayName.x = x + displayNameCenterX - displayName.width/2;
-		displayDescription.text = ingredient.description;
+		updateIngDisplayText(ingredient);
 		displayImage.animation.play(Std.string(ingIndex % 2 + 1));
-		
-		updateHoverBars(ingredient);
+		if (numSelected < maxSelected)
+		{
+			updateHoverBars(ingredient);
+		}
 		
 		currHoverIngID = ingIndex;
+		currHoverType = ButtonTypes.ING_HEX;
 	}
 	
-	private function lockIngredient(ingIndex:Int):Void
+	
+	private function selectIngredient(ingIndex:Int):Void
 	{
-		//Need to check if there is an open ingredient spot
-		var ingredient = ingInfo[ingIndex];
+		if (numSelected < maxSelected)
+		{
+			selectedIDs[numSelected] = ingIndex;
+			ActiveButton.activate(selectedHexArray[numSelected]);
+			numSelected++;
+			
+			var ingredient = ingInfo[ingIndex];
+			
+			increaseSelectedColors(ingredient);
+			if (numSelected < maxSelected)
+			{
+				updateHoverBars(ingredient);
+			}
+			updateSelectedImages();
+		}
+		else
+		{
+			//Give some indication that there is no room.
+		}
+	}
+	
+	
+	private function deselectIngredient(selectIndex:Int):Void
+	{
+		selectedIDs.splice(selectIndex, 1);
+		selectedIDs.push(-1);
+		numSelected--;
+		ActiveButton.deactivate(selectedHexArray[numSelected]);
 		
-		updateLockedBars(ingredient);
+		clearHoverInfo(selectIndex, ButtonTypes.SELECT_HEX);
+		updateSelectedImages();
+	}
+	
+	private function setSelectHoverInfo(selectIndex:Int):Void
+	{
+		var ingredient = ingInfo[selectedIDs[selectIndex]];
+		
+		updateIngDisplayText(ingredient);
+		decreaseSelectedColors(ingredient);
 		updateHoverBars(ingredient);
+		displayImage.animation.play(Std.string(selectedIDs[selectIndex] % 2 + 1));
+		
+		currHoverIngID = selectIndex;
+		currHoverType = ButtonTypes.SELECT_HEX;
+	}
+	
+	private function unsetSelectHoverInfo(selectIndex:Int):Void
+	{
+		var ingredient = ingInfo[selectedIDs[selectIndex]];
+		
+		increaseSelectedColors(ingredient);
 	}
 	
 	private function ingHexOut(id:Int):Void
