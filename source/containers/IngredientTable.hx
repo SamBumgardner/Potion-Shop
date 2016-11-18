@@ -202,30 +202,30 @@ class IngredientTable extends Hideable implements Observer
 		var barUnits = 12;
 		
 		displayColorHover = new ColorArray();
-		displayColorLocked = new ColorArray();
+		displayColorSelected = new ColorArray();
 		
 		displayHoverBars = new Array<FlxBar>();
-		displayLockedBars = new Array<FlxBar>();
+		displaySelectedBars = new Array<FlxBar>();
 		
 		var colorConvert = new ColorConverter();
 		
 		for (i in 0...displayColorHover.array.length)
 		{
-			displayLockedBars.push(new FlxBar(x + barInitialX + barOffsetX * i, 
+			displaySelectedBars.push(new FlxBar(x + barInitialX + barOffsetX * i, 
 			                                  y + barInitialY, BOTTOM_TO_TOP, barWidth, 
-			                                  barHeight, displayColorLocked, 
+			                                  barHeight, displayColorSelected, 
 											  colorConvert.intToColorStr[i], 0, barUnits));
 			displayHoverBars.push(new FlxBar(x + barInitialX + barOffsetX * i, 
 			                                 y + barInitialY, BOTTOM_TO_TOP, barWidth, 
 			                                 barHeight, displayColorHover, 
 											 colorConvert.intToColorStr[i], 0, barUnits));
 			
-			displayLockedBars[i].createFilledBar(0, colorConvert.intToColorHex[i]);
+			displaySelectedBars[i].createFilledBar(0, colorConvert.intToColorHex[i]);
 			displayHoverBars[i].createFilledBar(0, colorConvert.intToColorHex[i] - 0xAA000000);
 			
 			//Note: The order of adding matters!
 			// Locked are added first so Hover draws in front.
-			totalGrp.add(displayLockedBars[i]);
+			totalGrp.add(displaySelectedBars[i]);
 			totalGrp.add(displayHoverBars[i]);
 		}
 	}
@@ -244,6 +244,7 @@ class IngredientTable extends Hideable implements Observer
 		
 		displayImage = new DisplaySprite(x + 900, y + 340, AssetPaths.IngredientSpriteSheet__png,
 		                                 145, 125, 1, 3);
+		
 		totalGrp.add(displayImage);
 	}
 	
@@ -279,15 +280,15 @@ class IngredientTable extends Hideable implements Observer
 	{
 		for (i in 0...displayColorHover.array.length)
 		{
-			displayColorHover.array[i] = ingredient.colorValues[i] + displayColorLocked.array[i];
+			displayColorHover.array[i] = ingredient.colorValues[i] + displayColorSelected.array[i];
 		}
 	}
 	
 	private function updateLockedBars(ingredient:IngredientData):Void
 	{
-		for (i in 0...displayColorLocked.array.length)
+		for (i in 0...displayColorSelected.array.length)
 		{
-			displayColorLocked.array[i] += ingredient.colorValues[i];
+			displayColorSelected.array[i] -= ingredient.colorValues[i];
 		}
 	}
 	
