@@ -12,7 +12,6 @@ class IngredientData
 	public var colorValues:Array<Int>;
 	public var price:Int;
 	public var description:String;
-	public var graphic:FlxGraphicAsset;
 	
 	public function new(nm:String, cVal:Array<Int>, pr:Int, desc:String) 
 	{
