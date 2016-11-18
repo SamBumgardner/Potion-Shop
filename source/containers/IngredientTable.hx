@@ -31,7 +31,8 @@ class IngredientTable extends Hideable implements Observer
 {
 	private var totalGrp:FlxGroup;
 	
-	private var notifyCallbacks:Array<Int->Void>;
+	private var ingNotifyCallbacks:Array<ButtonEvent->Void>;
+	private var selectNotifyCallbacks:Array<ButtonEvent->Void>;
 	
 	private static var emptyIng:IngredientData;
 	private var ingInfo:Array<IngredientData>;
@@ -68,12 +69,19 @@ class IngredientTable extends Hideable implements Observer
 	
 	private function initNotifyCallbacks():Void
 	{
-		notifyCallbacks = new Array<Int->Void>();
+		ingNotifyCallbacks = new Array<Int->Void>();
 		
-		notifyCallbacks.push(ingHexOut);
-		notifyCallbacks.push(ingHexOver);
-		notifyCallbacks.push(ingHexDown);
-		notifyCallbacks.push(ingHexUp);
+		ingNotifyCallbacks.push(ingHexOut);
+		ingNotifyCallbacks.push(ingHexOver);
+		ingNotifyCallbacks.push(ingHexDown);
+		ingNotifyCallbacks.push(ingHexUp);
+		
+		selectNotifyCallbacks = new Array<Int->Void>();
+		
+		selectNotifyCallbacks.push(selectHexOut);
+		selectNotifyCallbacks.push(selectHexOver);
+		selectNotifyCallbacks.push(selectHexDown);
+		selectNotifyCallbacks.push(selectHexUp);
 	}
 	
 	private function initIngInfo():Void
@@ -394,34 +402,77 @@ class IngredientTable extends Hideable implements Observer
 		increaseSelectedColors(ingredient);
 	}
 	
-	private function ingHexOut(id:Int):Void
+	private function ingHexOut(id:ButtonEvent):Void
 	{
-		clearHoverInfo(id);
+		clearHoverInfo(id, ButtonTypes.ING_HEX);
 	}
 	
-	private function ingHexOver(id:Int):Void
+	private function ingHexOver(id:ButtonEvent):Void
 	{
-		setHoverInfo(id);
+		trace("ingHexOver");
+		setIngHoverInfo(id);
 	}
 	
-	private function ingHexDown(id:Int):Void
+	private function ingHexDown(id:ButtonEvent):Void
 	{
 		//Do whatever happens when the mouse is pressed over an ingredient button.
 		// Probably nothing, but it's nice to have in the array of notfiy callbacks.
 	}
 
-	private function ingHexUp(id:Int):Void
+	private function ingHexUp(id:ButtonEvent):Void
 	{
-		lockIngredient(id);
+		selectIngredient(id);
+	}
+	
+	private function selectHexOut(id:ButtonEvent):Void
+	{
+		if (currHoverIngID == id && currHoverType == ButtonTypes.SELECT_HEX)
+		{
+			unsetSelectHoverInfo(id);
+			clearHoverInfo(id, ButtonTypes.SELECT_HEX);
+		}
+		else if (currHoverType != ButtonTypes.SELECT_HEX)
+		{
+			unsetSelectHoverInfo(id);
+		}
+	}
+	
+	private function selectHexOver(id:ButtonEvent):Void
+	{
+		if (currHoverIngID != -1)
+		{ // Means that old hover info has not been cleared.
+			if (currHoverType == ButtonTypes.SELECT_HEX)
+			{
+				unsetSelectHoverInfo(currHoverIngID);
+			}
+			clearHoverInfo(currHoverIngID, currHoverType);
+		}
+		setSelectHoverInfo(id);
+	}
+	
+	private function selectHexDown(id:ButtonEvent):Void
+	{
+		//Do whatever happens when the mouse is pressed over an ingredient button.
+		// Probably nothing, but it's nice to have in the array of notfiy callbacks.
+	}
+
+	private function selectHexUp(id:ButtonEvent):Void
+	{
+		deselectIngredient(id);
+		if (numSelected > id)
+		{
+			selectHexOver(id);
+		}
 	}
 	
 	public function onNotify(event:ButtonEvent):Void
 	{
-		notifyCallbacks[event.getData()](event.getID());
-	}
-	
-	public function getTotalFlxGrp():FlxGroup
-	{
-		return totalGrp;
+		switch (event.getType())
+		{
+			case (ButtonTypes.ING_HEX): //Fix this later
+				ingNotifyCallbacks[event.getData()](event.getID());
+			case (ButtonTypes.SELECT_HEX):
+				selectNotifyCallbacks[event.getData()](event.getID());
+		}
 	}
 }
