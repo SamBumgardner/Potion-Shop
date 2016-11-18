@@ -13,10 +13,12 @@ class Subject
 {
 	private var observers:Array<Observer>;
 	private var subjectID:Int;
+	private var subjectType:Int;
 	
-	public function new(?setID:Int = 0) 
+	public function new(?setID:Int = 0, ?setType = 0) 
 	{
 		subjectID = setID;
+		subjectType = setType;
 		observers = new Array<Observer>();
 	}
 	
@@ -28,6 +30,16 @@ class Subject
 	public function setID(newID:Int):Void
 	{
 		subjectID = newID;
+	}
+	
+	public function getType():Int
+	{
+		return subjectType;
+	}
+	
+	public function setType(newType:Int):Void
+	{
+		subjectType = newType;
 	}
 	
 	public function addObserver(obs:Observer):Void
@@ -46,7 +58,7 @@ class Subject
 		
 		for (obs in observers)
 		{
-			obs.onNotify(e.setID(getID()).setData(eventData));
+			obs.onNotify(e.setID(subjectID).setType(subjectType).setData(eventData));
 		}
 	}
 }
