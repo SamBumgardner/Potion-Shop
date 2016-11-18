@@ -78,8 +78,8 @@ class ShopState extends AdvancedState implements Observer
 		
 		for (i in 0...sideTabArray.length)
 		{
-			sideTabArray[i].setID(i);
-			sideTabArray[i].addObserver(this);
+			sideTabArray[i].sub.setID(i);
+			sideTabArray[i].sub.addObserver(this);
 			sideTabs.add(sideTabArray[i]);
 		}
 		

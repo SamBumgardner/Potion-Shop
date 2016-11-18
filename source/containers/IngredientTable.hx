@@ -129,8 +129,8 @@ class IngredientTable extends Hideable implements Observer
 		//This is a bit (prob. insignificantly) inefficient, but it's more readable.
 		for (i in 0...ingHexArray.length)
 		{
-			ingHexArray[i].setID(i);
-			ingHexArray[i].addObserver(this);
+			ingHexArray[i].sub.setID(i);
+			ingHexArray[i].sub.addObserver(this);
 			totalGrp.add(ingHexArray[i]);
 		}
 	}

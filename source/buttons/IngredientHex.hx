@@ -10,14 +10,13 @@ import utilities.Subject;
 using utilities.EventExtender;
 
 /**
- * Data needed to instantiate an "ingredient hexagon" Button.
- * This class's fields should only be accessed from within the Button class. 
+ * Button used to represent an ingredient.
  * @author Samuel Bumgardner
  */
 
-@:tink class IngredientHex extends Button
+class IngredientHex extends Button
 {	
-	@:forward var sub:Subject = new Subject(); //using tink_lang Syntactic Delegation.
+	public var sub:Subject = new Subject(0, ButtonTypes.ING_HEX); //using tink_lang Syntactic Delegation.
 	
 	public function new(?X:Float = 0, ?Y:Float = 0)
 	{
@@ -30,19 +29,19 @@ using utilities.EventExtender;
 	
 	override public function mouseOver(button:Button):Void
 	{
-		super.mouseOver(button);
-		notify(EventData.OVER);
+		super.mouseOver(this);
+		sub.notify(EventData.OVER);
 	}
 	
 	override public function mouseOut(button:Button):Void
 	{
 		super.mouseOut(button);
-		notify(EventData.OUT);
+		sub.notify(EventData.OUT);
 	}
 	
 	override public function mouseUp(button:Button):Void
 	{
 		super.mouseUp(button);
-		notify(EventData.UP);
+		sub.notify(EventData.UP);
 	}
 }
