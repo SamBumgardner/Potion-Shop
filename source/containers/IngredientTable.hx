@@ -29,7 +29,6 @@ using utilities.EventExtender;
  */
 class IngredientTable extends Hideable implements Observer
 {
-	private var ingHexArray:Array<IngredientHex>;
 	private var totalGrp:FlxGroup;
 	
 	private var notifyCallbacks:Array<Int->Void>;
@@ -92,7 +91,7 @@ class IngredientTable extends Hideable implements Observer
 	
 	private function initIngredientButtons():Void
 	{
-		ingHexArray = new Array<IngredientHex>();
+		var ingHexArray = new Array<IngredientHex>();
 		
 		//Look at using some preprocessor stuff to do this instead (if possible:
 		var ingredientHexWidth = 145;
