@@ -29,6 +29,11 @@ using utilities.EventExtender;
  */
 class IngredientTable extends Hideable implements Observer
 {
+	
+	///////////////////////////////////////////
+	//          DATA INITIALIZATION          //
+	///////////////////////////////////////////
+	
 	private var totalGrp:FlxGroup;
 	
 	private var ingNotifyCallbacks:Array<ButtonEvent->Void>;
@@ -258,6 +263,21 @@ class IngredientTable extends Hideable implements Observer
 		totalGrp.add(displayImage);
 	}
 	
+	
+	///////////////////////////////////////////
+	//           PUBLIC INTERFACE            //
+	///////////////////////////////////////////
+	
+	public function getTotalFlxGrp():FlxGroup
+	{
+		return totalGrp;
+	}
+	
+	
+	///////////////////////////////////////////
+	//  POTION DATA  MANIPULATION FUNCTIONS  //
+	///////////////////////////////////////////
+	
 	private function clearHoverInfo(ID:Int, type:Int):Void
 	{
 		//The if test below is required for the following reasons:
@@ -331,6 +351,11 @@ class IngredientTable extends Hideable implements Observer
 			}
 		}
 	}
+	
+	///////////////////////////////////////////
+	//         INGREDIENT HEX HOVER          //
+	///////////////////////////////////////////
+	
 	private function setIngHoverInfo(ingIndex:Int):Void
 	{
 		var ingredient = ingInfo[ingIndex];
@@ -346,6 +371,9 @@ class IngredientTable extends Hideable implements Observer
 		currHoverType = ButtonTypes.ING_HEX;
 	}
 	
+	///////////////////////////////////////////
+	//         INGREDIENT HEX CLICK          //
+	///////////////////////////////////////////
 	
 	private function selectIngredient(ingIndex:Int):Void
 	{
@@ -370,6 +398,9 @@ class IngredientTable extends Hideable implements Observer
 		}
 	}
 	
+	///////////////////////////////////////////
+	//            SELECT HEX CLICK           //
+	///////////////////////////////////////////
 	
 	private function deselectIngredient(selectIndex:Int):Void
 	{
@@ -381,6 +412,10 @@ class IngredientTable extends Hideable implements Observer
 		clearHoverInfo(selectIndex, ButtonTypes.SELECT_HEX);
 		updateSelectedImages();
 	}
+	
+	///////////////////////////////////////////
+	//            SELECT HEX HOVER           //
+	///////////////////////////////////////////
 	
 	private function setSelectHoverInfo(selectIndex:Int):Void
 	{
@@ -401,6 +436,11 @@ class IngredientTable extends Hideable implements Observer
 		
 		increaseSelectedColors(ingredient);
 	}
+	
+	
+	///////////////////////////////////////////
+	//        INGREDIENT HEX CALLBACKS       //
+	///////////////////////////////////////////
 	
 	private function ingHexOut(id:ButtonEvent):Void
 	{
@@ -423,6 +463,11 @@ class IngredientTable extends Hideable implements Observer
 	{
 		selectIngredient(id);
 	}
+	
+	
+	///////////////////////////////////////////
+	//          SELECT HEX CALLBACKS         //
+	///////////////////////////////////////////
 	
 	private function selectHexOut(id:ButtonEvent):Void
 	{
@@ -464,6 +509,11 @@ class IngredientTable extends Hideable implements Observer
 			selectHexOver(id);
 		}
 	}
+	
+	
+	///////////////////////////////////////////
+	//          ORIGIN OF CALLBACKS          //
+	///////////////////////////////////////////
 	
 	public function onNotify(event:ButtonEvent):Void
 	{
