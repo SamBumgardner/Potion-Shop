@@ -1,7 +1,9 @@
 package containers;
 
+import buttonTemplates.ActiveButton;
 import buttonTemplates.Button;
 import buttons.IngredientHex;
+import buttons.SelectedHex;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup;
 import flixel.system.FlxAssets.FlxGraphicAsset;
@@ -33,6 +35,10 @@ class IngredientTable extends Hideable implements Observer
 	private var notifyCallbacks:Array<Int->Void>;
 	
 	private var ingInfo:Array<IngredientData>;
+	private var selectedIDs:Array<Int>;
+	private var selectedHexArray:Array<SelectedHex>;
+	private var numSelected:Int = 0;
+	private var maxSelected:Int = 4;
 	
 	private var currHoverIngID:Int;
 	private var displayName:FlxText;
@@ -54,6 +60,7 @@ class IngredientTable extends Hideable implements Observer
 		initNotifyCallbacks();
 		initIngInfo();
 		initIngredientButtons();
+		initSelectedButtons();
 		initDisplayComponents();
 	}
 	
@@ -132,6 +139,51 @@ class IngredientTable extends Hideable implements Observer
 			ingHexArray[i].sub.setID(i);
 			ingHexArray[i].sub.addObserver(this);
 			totalGrp.add(ingHexArray[i]);
+		}
+	}
+	
+	private function initSelectedButtons():Void
+	{
+		selectedIDs = new Array<Int>();
+		selectedHexArray = new Array<SelectedHex>();
+		displaySelectedImages = new Array<DisplaySprite>();
+		
+		//Look at using some preprocessor stuff to do this instead (if possible:
+		var ingredientHexWidth = 135;
+		var ingredientHexHeight = 155;
+		
+		var numRows = 2;
+		var numCols = 2;
+		
+		var XIntervalMod = 1.1;
+		var YIntervalMod = .8;
+		
+		var topLeftX = x + 900;
+		var topLeftY = y + 12;
+		
+		var rowXOffset = ingredientHexWidth * .55;
+		
+		var XInterval = ingredientHexWidth * XIntervalMod;
+		var YInterval = ingredientHexHeight * YIntervalMod;
+		
+		for (row in 0...numRows)
+		{
+			for (col in 0...numCols)
+			{
+				var selHex = new SelectedHex(topLeftX + col * XInterval - row * rowXOffset, 
+											 topLeftY + row * YInterval);
+				selHex.sub.setID(row * numCols + col);
+				selHex.sub.addObserver(this);
+				
+				selectedHexArray.push(selHex);
+				totalGrp.add(selHex);
+				
+				displaySelectedImages.push(new DisplaySprite(selHex.x, selHex.y, 
+				                                             AssetPaths.IngredientSpriteSheet__png,
+				                                             145, 125, 1, 3));
+				
+				totalGrp.add(displaySelectedImages[row * numCols + col]); //FIX this
+			}
 		}
 	}
 	
