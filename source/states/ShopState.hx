@@ -10,9 +10,11 @@ import buttons.CustomerTab;
 import buttons.IngredientHex;
 import buttons.InventoryTab;
 import buttons.QuitGame;
+import containers.IngredientTable;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.group.FlxGroup;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.input.mouse.FlxMouseEventManager;
 import flixel.text.FlxText;
@@ -29,12 +31,12 @@ class ShopState extends AdvancedState implements Observer
 {
 	private var sideTabs:FlxTypedGroup<ActiveButton>;
 	private var sideTabArray:Array<Tab>;
-	private var currentButtonSet:FlxTypedGroup<Button>;
-	private var custCards:FlxTypedGroup<Button>;
-	private var brewButtons:FlxTypedGroup<Button>;
-	private var inventoryButtons:FlxTypedGroup<Button>;
+	private var currentButtonSet:FlxGroup;
+	private var custCards:FlxGroup;
+	private var brewContents:FlxGroup;
+	private var inventoryButtons:FlxGroup;
 	
-	private var buttonGroups:Map<ShopButtonGroup, FlxTypedGroup<Button>>;
+	private var buttonGroups:Map<ShopButtonGroup, FlxGroup>;
 	
 	override public function create():Void
 	{
@@ -45,18 +47,16 @@ class ShopState extends AdvancedState implements Observer
 		
 		initSideTabs();
 		initCustCards();
-		initBrewButtons();
+		initBrewContent();
 		initInventoryButtons();
 		
 		currentButtonSet = custCards;
 		
 		buttonGroups = [
 			Customer => custCards,
-			Brew => brewButtons,
+			Brew => brewContents,
 			Inventory => inventoryButtons
 		];
-		
-		add(new QuitGame(720, 800));
 	}
 	
 	private function initSideTabs():Void
@@ -78,8 +78,8 @@ class ShopState extends AdvancedState implements Observer
 		
 		for (i in 0...sideTabArray.length)
 		{
-			sideTabArray[i].setID(i);
-			sideTabArray[i].addObserver(this);
+			sideTabArray[i].sub.setID(i);
+			sideTabArray[i].sub.addObserver(this);
 			sideTabs.add(sideTabArray[i]);
 		}
 		
@@ -88,7 +88,7 @@ class ShopState extends AdvancedState implements Observer
 	
 	private function initCustCards():Void
 	{
-		custCards = new FlxTypedGroup<Button>();
+		custCards = new FlxGroup();
 		
 		//Look at using some preprocessor stuff to do this instead (if possible:
 		var customerCardWidth = 800;
@@ -115,54 +115,17 @@ class ShopState extends AdvancedState implements Observer
 		add(custCards);
 	}
 	
-	private function initBrewButtons():Void
+	private function initBrewContent():Void
 	{
-		brewButtons = new FlxTypedGroup<Button>();
-		
-		//Look at using some preprocessor stuff to do this instead (if possible:
-		var ingredientHexWidth = 145;
-		var ingredientHexHeight = 125;
-		
-		var numRows = 8;
-		var evenCols = 3;
-		var oddCols = 4;
-		
-		var XIntervalMod = 1.6;
-		var YIntervalMod = .55;
-		
-		var topLeftX = 100;
-		var topLeftY = 100;
-		
-		var evenXOffset = ingredientHexWidth * .8;
-		
-		var XInterval = ingredientHexWidth * XIntervalMod;
-		var YInterval = ingredientHexHeight * YIntervalMod;
-		
-		for (row in 0...numRows)
-		{
-			if (row % 2 == 0)
-			{
-				for (col in 0...evenCols)
-				{
-					brewButtons.add(new IngredientHex(topLeftX + evenXOffset + col * XInterval, topLeftY + row * YInterval));
-				}
-			}
-			else
-			{
-				for (col in 0...oddCols)
-				{
-					brewButtons.add(new IngredientHex(topLeftX + col * XInterval, topLeftY + row * YInterval));
-				}
-			}
-		}
-		
-		brewButtons.forEach(Button.hide);
-		add(brewButtons);
+		var table = new IngredientTable(60, 370);
+		brewContents = table.getTotalFlxGrp();
+		brewContents.forEach(Hideable.Hide);
+		add(brewContents);
 	}
 	
 	private function initInventoryButtons():Void
 	{
-		inventoryButtons = new FlxTypedGroup<Button>();
+		inventoryButtons = new FlxGroup();
 		
 		add(inventoryButtons);
 	}
@@ -177,8 +140,8 @@ class ShopState extends AdvancedState implements Observer
 	public function switchShopMode(tab:ActiveButton, group:ShopButtonGroup):Void
 	{
 		switchActiveTab(tab);
-		currentButtonSet.forEach(Button.hide);
-		buttonGroups[group].forEach(Button.reveal);
+		currentButtonSet.forEach(Hideable.Hide);
+		buttonGroups[group].forEach(Hideable.Reveal);
 		currentButtonSet = buttonGroups[group];
 	}
 	

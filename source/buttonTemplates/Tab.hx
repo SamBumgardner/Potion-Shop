@@ -5,7 +5,8 @@ import flixel.FlxG;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
-import utilities.ButtonEvent;
+import utilities.ButtonEvent.ButtonTypes;
+import utilities.ButtonEvent.EventData;
 import utilities.EventExtender;
 import utilities.ShopButtonGroup;
 import utilities.Subject;
@@ -17,10 +18,10 @@ using utilities.EventExtender;
  * 
  * @author Samuel Bumgardner
  */
-@:tink class Tab extends MovingButton
+class Tab extends MovingButton
 {
 	private var buttonGroup:ShopButtonGroup;
-	@:forward var sub:Subject = new Subject(); //using tink_lang Syntactic Delegation.
+	public var sub:Subject = new Subject(0, ButtonTypes.TAB);
 	
 	public function new(?X:Float = 0, ?Y:Float = 0, ?beginActive:Bool)
 	{
@@ -61,8 +62,7 @@ using utilities.EventExtender;
 		
 		if (!isActive)
 		{
-			var e:ButtonEvent = 0;
-			notify(e.setID(this.sub.getID()).setData(EventData.UP));
+			sub.notify(EventData.UP);
 		}
 	}
 }

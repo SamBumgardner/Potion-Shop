@@ -1,0 +1,28 @@
+{"price":300,"name":"Rainbow Moss","description":"Colorful moss supposedly placed on rocks and trees by forgetful faeries to mark their path home.","colorValues":[1,0,0,0,0,1,0,0]}
+{"price":300,"name":"Mystery Thing","description":"An ingredient that does not have a description yet... How mysterious!","colorValues":[0,0,0,0,0,3,0,0]}
+{"price":300,"name":"Mystery Thing","description":"An ingredient that does not have a description yet... How mysterious!","colorValues":[0,0,0,0,1,1,0,0]}
+{"price":300,"name":"Mystery Thing","description":"An ingredient that does not have a description yet... How mysterious!","colorValues":[3,0,0,0,0,0,0,0]}
+{"price":300,"name":"Mystery Thing","description":"An ingredient that does not have a description yet... How mysterious!","colorValues":[1,0,0,0,0,2,0,0]}
+{"price":300,"name":"Mystery Thing","description":"An ingredient that does not have a description yet... How mysterious!","colorValues":[0,0,0,0,1,2,0,0]}
+{"price":300,"name":"Mystery Thing","description":"An ingredient that does not have a description yet... How mysterious!","colorValues":[0,0,0,0,3,0,0,0]}
+{"price":300,"name":"Mystery Thing","description":"An ingredient that does not have a description yet... How mysterious!","colorValues":[1,0,0,0,0,0,0,0]}
+{"price":300,"name":"Mystery Thing","description":"An ingredient that does not have a description yet... How mysterious!","colorValues":[0,0,0,0,0,1,0,0]}
+{"price":300,"name":"Milkweed Roots","description":"A bundle of thin, wiry roots capable of hightening intellectual acuity. Most commonly found around dairy farms.","colorValues":[0,0,0,0,1,0,0,0]}
+{"price":300,"name":"Dragon's Tongue","description":"A flower with brilliant red petals that feel warm to the touch. Occasionally used as seasoning in exotic cuisine.","colorValues":[1,1,0,0,0,0,0,0]}
+{"price":300,"name":"Mystery Thing","description":"An ingredient that does not have a description yet... How mysterious!","colorValues":[0,2,0,0,0,1,0,0]}
+{"price":300,"name":"Mystery Thing","description":"An ingredient that does not have a description yet... How mysterious!","colorValues":[0,0,0,2,0,1,0,0]}
+{"price":300,"name":"Mystery Thing","description":"An ingredient that does not have a description yet... How mysterious!","colorValues":[0,0,0,1,1,0,0,0]}
+{"price":300,"name":"Mystery Thing","description":"An ingredient that does not have a description yet... How mysterious!","colorValues":[0,1,0,0,0,0,0,0]}
+{"price":300,"name":"Mystery Thing","description":"An ingredient that does not have a description yet... How mysterious!","colorValues":[0,0,1,0,0,0,0,0]}
+{"price":300,"name":"Mystery Thing","description":"An ingredient that does not have a description yet... How mysterious!","colorValues":[0,0,0,1,0,0,0,0]}
+{"price":300,"name":"Mystery Thing","description":"An ingredient that does not have a description yet... How mysterious!","colorValues":[1,2,0,0,0,0,0,0]}
+{"price":300,"name":"Mystery Thing","description":"An ingredient that does not have a description yet... How mysterious!","colorValues":[0,1,1,0,0,0,0,0]}
+{"price":300,"name":"Mystery Thing","description":"An ingredient that does not have a description yet... How mysterious!","colorValues":[0,0,1,1,0,0,0,0]}
+{"price":300,"name":"Mystery Thing","description":"An ingredient that does not have a description yet... How mysterious!","colorValues":[0,0,0,2,1,0,0,0]}
+{"price":300,"name":"Mystery Thing","description":"An ingredient that does not have a description yet... How mysterious!","colorValues":[0,2,1,0,0,0,0,0]}
+{"price":300,"name":"Mystery Thing","description":"An ingredient that does not have a description yet... How mysterious!","colorValues":[0,0,3,0,0,0,0,0]}
+{"price":300,"name":"Mystery Thing","description":"An ingredient that does not have a description yet... How mysterious!","colorValues":[0,0,1,2,0,0,0,0]}
+{"price":300,"name":"Mystery Thing","description":"An ingredient that does not have a description yet... How mysterious!","colorValues":[0,3,0,0,0,0,0,0]}
+{"price":300,"name":"Mystery Thing","description":"An ingredient that does not have a description yet... How mysterious!","colorValues":[0,0,0,0,0,0,0,0]}
+{"price":300,"name":"Mystery Thing","description":"An ingredient that does not have a description yet... How mysterious!","colorValues":[0,0,0,0,0,0,0,0]}
+{"price":300,"name":"Mystery Thing","description":"An ingredient that does not have a description yet... How mysterious!","colorValues":[0,0,0,3,0,0,0,0]}
