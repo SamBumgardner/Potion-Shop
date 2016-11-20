@@ -46,7 +46,7 @@ class IngredientTable extends Hideable implements Observer
 	private var numSelected:Int = 0;
 	private var maxSelected:Int = 4;
 	
-	private var currHoverIngID:Int;
+	private var currHoverID:Int;
 	private var currHoverType:Int;
 	private var displayName:FlxText;
 	private var displayNameCenterX:Int = 1005;
@@ -295,13 +295,13 @@ class IngredientTable extends Hideable implements Observer
 		// an easy change in the repo, just involves moving a block of 
 		// code around.
 		
-		if (currHoverIngID == ID && currHoverType == type) 
+		if (currHoverID == ID && currHoverType == type) 
 		{
 			updateIngDisplayText(IngredientTable.emptyIng);
 			displayImage.animation.play("0");
 			updateHoverBars(IngredientTable.emptyIng);
 			
-			currHoverIngID = -1;
+			currHoverID = -1;
 			currHoverType = -1;
 		}
 	}
@@ -367,7 +367,7 @@ class IngredientTable extends Hideable implements Observer
 			updateHoverBars(ingredient);
 		}
 		
-		currHoverIngID = ingIndex;
+		currHoverID = ingIndex;
 		currHoverType = ButtonTypes.ING_HEX;
 	}
 	
@@ -426,7 +426,7 @@ class IngredientTable extends Hideable implements Observer
 		updateHoverBars(ingredient);
 		displayImage.animation.play(Std.string(selectedIDs[selectIndex] % 2 + 1));
 		
-		currHoverIngID = selectIndex;
+		currHoverID = selectIndex;
 		currHoverType = ButtonTypes.SELECT_HEX;
 	}
 	
@@ -471,7 +471,7 @@ class IngredientTable extends Hideable implements Observer
 	
 	private function selectHexOut(id:ButtonEvent):Void
 	{
-		if (currHoverIngID == id && currHoverType == ButtonTypes.SELECT_HEX)
+		if (currHoverID == id && currHoverType == ButtonTypes.SELECT_HEX)
 		{
 			unsetSelectHoverInfo(id);
 			clearHoverInfo(id, ButtonTypes.SELECT_HEX);
@@ -484,13 +484,13 @@ class IngredientTable extends Hideable implements Observer
 	
 	private function selectHexOver(id:ButtonEvent):Void
 	{
-		if (currHoverIngID != -1)
+		if (currHoverID != -1)
 		{ // Means that old hover info has not been cleared.
 			if (currHoverType == ButtonTypes.SELECT_HEX)
 			{
-				unsetSelectHoverInfo(currHoverIngID);
+				unsetSelectHoverInfo(currHoverID);
 			}
-			clearHoverInfo(currHoverIngID, currHoverType);
+			clearHoverInfo(currHoverID, currHoverType);
 		}
 		setSelectHoverInfo(id);
 	}
