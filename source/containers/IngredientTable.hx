@@ -293,32 +293,11 @@ class IngredientTable extends Hideable implements Observer
 	//  POTION DATA  MANIPULATION FUNCTIONS  //
 	///////////////////////////////////////////
 	
-	private function clearHoverInfo(ID:Int, type:Int):Void
+	private function clearHoverInfo():Void
 	{
-		//The if test below is required for the following reasons:
-		
-		//The FlxMouseEventManager does  callbacks in this order:
-		// OVER, OUT, DOWN, UP
-		// This means that if the mouse leaves a button and enters
-		// a new one on the same frame, then an object responding
-		// to both buttons will recieve an "OVER" event for the new
-		// button, then an "OUT" event for the button that the mouse
-		// just left.
-		
-		// Perferred behavior would be if the manager checked for events
-		// on the old button first, then handled new buttons. Would be
-		// an easy change in the repo, just involves moving a block of 
-		// code around.
-		
-		if (currHoverID == ID && currHoverType == type) 
-		{
-			updateIngDisplayText(IngredientTable.emptyIng);
-			displayImage.animation.play("0");
-			updateHoverBars(IngredientTable.emptyIng);
-			
-			currHoverID = -1;
-			currHoverType = -1;
-		}
+		updateIngDisplayText(IngredientTable.emptyIng);
+		displayImage.animation.play("0");
+		updateHoverBars(IngredientTable.emptyIng);
 	}
 	
 	private function updateIngDisplayText(ingredient:IngredientData):Void
@@ -381,9 +360,6 @@ class IngredientTable extends Hideable implements Observer
 		{
 			updateHoverBars(ingredient);
 		}
-		
-		currHoverID = ingIndex;
-		currHoverType = ButtonTypes.ING_HEX;
 	}
 	
 	///////////////////////////////////////////
@@ -424,7 +400,7 @@ class IngredientTable extends Hideable implements Observer
 		numSelected--;
 		ActiveButton.deactivate(selectedHexArray[numSelected]);
 		
-		clearHoverInfo(selectIndex, ButtonTypes.SELECT_HEX);
+		clearHoverInfo();
 		updateSelectedImages();
 	}
 	
@@ -440,9 +416,6 @@ class IngredientTable extends Hideable implements Observer
 		decreaseSelectedColors(ingredient);
 		updateHoverBars(ingredient);
 		displayImage.animation.play(Std.string(selectedIDs[selectIndex] % 2 + 1));
-		
-		currHoverID = selectIndex;
-		currHoverType = ButtonTypes.SELECT_HEX;
 	}
 	
 	private function unsetSelectHoverInfo(selectIndex:Int):Void
@@ -459,7 +432,7 @@ class IngredientTable extends Hideable implements Observer
 	
 	private function ingHexOut(id:ButtonEvent):Void
 	{
-		clearHoverInfo(id, ButtonTypes.ING_HEX);
+		clearHoverInfo();
 	}
 	
 	private function ingHexOver(id:ButtonEvent):Void
@@ -483,29 +456,14 @@ class IngredientTable extends Hideable implements Observer
 	//          SELECT HEX CALLBACKS         //
 	///////////////////////////////////////////
 	
-	private function selectHexOut(id:ButtonEvent):Void
+	private function selectHexOut(id:Int):Void
 	{
-		if (currHoverID == id && currHoverType == ButtonTypes.SELECT_HEX)
-		{
-			unsetSelectHoverInfo(id);
-			clearHoverInfo(id, ButtonTypes.SELECT_HEX);
-		}
-		else if (currHoverType != ButtonTypes.SELECT_HEX)
-		{
-			unsetSelectHoverInfo(id);
-		}
+		unsetSelectHoverInfo(id);
+		clearHoverInfo();
 	}
 	
-	private function selectHexOver(id:ButtonEvent):Void
+	private function selectHexOver(id:Int):Void
 	{
-		if (currHoverID != -1)
-		{ // Means that old hover info has not been cleared.
-			if (currHoverType == ButtonTypes.SELECT_HEX)
-			{
-				unsetSelectHoverInfo(currHoverID);
-			}
-			clearHoverInfo(currHoverID, currHoverType);
-		}
 		setSelectHoverInfo(id);
 	}
 	
