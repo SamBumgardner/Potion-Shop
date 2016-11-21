@@ -46,15 +46,31 @@ class IngredientTable extends Hideable implements Observer
 	private var numSelected:Int = 0;
 	private var maxSelected:Int = 4;
 	
+	private var potionName:String = "Cool Potion";
+	private var potionDescription:String = "Healing\nFire Breath\n";
+	private var potionImage:DisplaySprite;
+	
+	private var ingName:String;
+	private var ingDescription:String;
+	private var ingImage:DisplaySprite;
+	
+	private var currName:String;
+	private var currDescription:String;
 	private var displayName:FlxText;
 	private var displayNameCenterX:Int = 1005;
-	private var displayImage:DisplaySprite;
 	private var displayDescription:FlxText;
-	private var displayColorHover:ColorArray;
-	private var displayColorSelected:ColorArray;
-	private var displayHoverBars:Array<FlxBar>;
-	private var displaySelectedBars:Array<FlxBar>;
 	private var displaySelectedImages:Array<DisplaySprite>;
+	private var potionOn:Bool = false;
+	private var potionOff:Bool = false;
+	private var usePotionText:Bool = true;
+	
+	private var displayNormHover:ColorArray;
+	private var displayNormSelected:ColorArray;
+	private var displayBlendedHover:ColorArray;
+	private var displayBlendedSelected:ColorArray;
+	private var displayFadedBars:Array<FlxBar>;
+	private var displaySolidBars:Array<FlxBar>;
+	private var useBlended:Bool = false;
 	
 	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
 	{
@@ -320,6 +336,16 @@ class IngredientTable extends Hideable implements Observer
 		displayDescription.text = ingredient.description;
 	}
 	
+	private function setBarTracking(newFadedParent:ColorArray, newSolidParent:ColorArray):Void
+	{
+		var colorConvert = new ColorConverter();
+		for (i in 0...displayFadedBars.length)
+		{
+			displayFadedBars[i].setParent(newFadedParent, colorConvert.intToColorStr[i]);
+			displaySolidBars[i].setParent(newSolidParent, colorConvert.intToColorStr[i]);
+		}
+	}
+	
 	private function updateHoverBars(ingredient:IngredientData):Void
 	{
 		for (i in 0...displayColorHover.array.length)
@@ -357,6 +383,37 @@ class IngredientTable extends Hideable implements Observer
 				displaySelectedImages[i].animation.play("0");
 			}
 		}
+	}
+	
+	
+	///////////////////////////////////////////
+	//         SWITCH DISPLAY MODES          //
+	///////////////////////////////////////////
+	
+	private function blendModeOn()
+	{
+		useBlended = true;
+		setBarTracking(displayBlendedHover, displayBlendedSelected);
+	}
+	
+	private function blendModeOff()
+	{
+		useBlended = false;
+		setBarTracking(displayNormHover, displayNormSelected);
+	}
+	
+	private function potionDisplayOn()
+	{
+		Hideable.Hide(ingImage);
+		Hideable.Reveal(potionImage);
+		usePotionText = true;
+	}
+	
+	private function potionDisplayOff()
+	{
+		Hideable.Hide(potionImage);
+		Hideable.Reveal(ingImage);
+		usePotionText = false;
 	}
 	
 	///////////////////////////////////////////
