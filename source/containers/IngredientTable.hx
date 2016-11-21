@@ -4,8 +4,10 @@ import buttonTemplates.ActiveButton;
 import buttonTemplates.Button;
 import buttons.IngredientHex;
 import buttons.SelectedHex;
+import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup;
+import flixel.input.keyboard.FlxKey;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.text.FlxText;
 import flixel.ui.FlxBar;
@@ -579,17 +581,72 @@ class IngredientTable extends Hideable implements Observer
 	//                UPDATE                 //
 	///////////////////////////////////////////
 	
+	private function updateDisplayText():Void
+	{
+		if (usePotionText)
+		{
+			currName = potionName;
+			currDescription = potionDescription;
+		}
+		else
+		{
+			currName = ingName;
+			currDescription = ingDescription;
+		}
+		displayDescription.text = currDescription;
+		displayName.text = currName;
+		displayName.x = x + displayNameCenterX - displayName.width / 2;
+	}
+	
+	private function updatePotionData():Void
+	{
+		//Do stuff here.
+	}
+	
 	override public function update(elapsed:Float):Void 
 	{
+		if (FlxG.keys.justPressed.ALT)
+		{
+			blendModeOn();
+			potionOn = true;
+		}
+		else if (useBlended && !FlxG.keys.pressed.ALT)
+		{
+			blendModeOff();
+		}
+		
 		for (eventData in 0...newEvents.length)
 		{
-			if (newEvents[eventData] != ButtonTypes.NO_TYPE)
+			if (newEvents[eventData].getType() != ButtonTypes.NO_TYPE)
 			{
 				var event = newEvents[eventData];
 				eventCallbacks[eventData][event.getType()](event.getID());
 				newEvents[eventData] = ButtonTypes.NO_TYPE;
 			}
 		}
+		
+		if (usePotionText && !FlxG.keys.pressed.ALT && ingName != IngredientTable.emptyIng.name)
+		{
+			potionOff = true;
+		}
+		else if (!usePotionText && ingName == IngredientTable.emptyIng.name)
+		{
+			potionOn = true;
+		}
+		
+		if (potionOn)
+		{
+			potionDisplayOn();
+			potionOn = false;
+		}
+		else if (potionOff)
+		{
+			potionDisplayOff();
+			potionOff = false;
+		}
+		
+		updateDisplayText();
+		
 		super.update(elapsed);
 	}
 }
