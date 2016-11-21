@@ -146,23 +146,29 @@ class IngredientTable extends Hideable implements Observer
 		var XInterval = ingredientHexWidth * XIntervalMod;
 		var YInterval = ingredientHexHeight * YIntervalMod;
 		
+		var locX = 0;
+		var locY = 0;
+		
 		for (row in 0...numRows)
 		{
-			if (row % 2 == 0)
+			for (col in 0...oddCols)
 			{
-				for (col in 0...evenCols)
+				if (row % 2 == 0)
 				{
-					ingHexArray.push(new IngredientHex(topLeftX + evenXOffset + col * XInterval,
-					                                   topLeftY + row * YInterval));
+					if (col >= evenCols)
+					{
+						break;
+					}
+					// Need to cast Float to Int
+					locX = cast (topLeftX + evenXOffset + col * XInterval);
+					locY = cast (topLeftY + row * YInterval);
 				}
-			}
-			else
-			{
-				for (col in 0...oddCols)
+				else
 				{
-					ingHexArray.push(new IngredientHex(topLeftX + col * XInterval, 
-					                                   topLeftY + row * YInterval));
+					locX = cast (topLeftX + col * XInterval);
+					locY = cast (topLeftY + row * YInterval);
 				}
+				ingHexArray.push(new IngredientHex(locX, locY));
 			}
 		}
 		
