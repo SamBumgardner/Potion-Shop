@@ -194,7 +194,7 @@ class IngredientTable extends Hideable implements Observer
 		displaySelectedImages = new Array<DisplaySprite>();
 		
 		//Look at using some preprocessor stuff to do this instead (if possible:
-		var ingredientHexWidth = 135;
+		var selectedHexWidth = 135;
 		var ingredientHexHeight = 155;
 		
 		var numRows = 2;
@@ -203,12 +203,12 @@ class IngredientTable extends Hideable implements Observer
 		var XIntervalMod = 1.1;
 		var YIntervalMod = .8;
 		
-		var topLeftX = x + 900;
+		var topLeftX = x + 845;
 		var topLeftY = y + 12;
 		
-		var rowXOffset = ingredientHexWidth * .55;
+		var rowXOffset = -selectedHexWidth * .55;
 		
-		var XInterval = ingredientHexWidth * XIntervalMod;
+		var XInterval = selectedHexWidth * XIntervalMod;
 		var YInterval = ingredientHexHeight * YIntervalMod;
 		
 		for (row in 0...numRows)
