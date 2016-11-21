@@ -338,15 +338,14 @@ class IngredientTable extends Hideable implements Observer
 	private function clearHoverInfo():Void
 	{
 		updateIngDisplayText(IngredientTable.emptyIng);
-		displayImage.animation.play("0");
+		ingImage.animation.play("0");
 		updateHoverBars(IngredientTable.emptyIng);
 	}
 	
 	private function updateIngDisplayText(ingredient:IngredientData):Void
 	{
-		displayName.text = ingredient.name;
-		displayName.x = x + displayNameCenterX - displayName.width / 2;
-		displayDescription.text = ingredient.description;
+		ingName = ingredient.name;
+		ingDescription = ingredient.description;
 	}
 	
 	private function setBarTracking(newFadedParent:ColorArray, newSolidParent:ColorArray):Void
@@ -361,25 +360,25 @@ class IngredientTable extends Hideable implements Observer
 	
 	private function updateHoverBars(ingredient:IngredientData):Void
 	{
-		for (i in 0...displayColorHover.array.length)
+		for (i in 0...displayNormHover.array.length)
 		{
-			displayColorHover.array[i] = ingredient.colorValues[i] + displayColorSelected.array[i];
+			displayNormHover.array[i] = ingredient.colorValues[i] + displayNormSelected.array[i];
 		}
 	}
 	
 	private function increaseSelectedColors(ingredient:IngredientData):Void
 	{
-		for (i in 0...displayColorSelected.array.length)
+		for (i in 0...displayNormSelected.array.length)
 		{
-			displayColorSelected.array[i] += ingredient.colorValues[i];
+			displayNormSelected.array[i] += ingredient.colorValues[i];
 		}
 	}
 	
 	private function decreaseSelectedColors(ingredient:IngredientData):Void
 	{
-		for (i in 0...displayColorSelected.array.length)
+		for (i in 0...displayNormSelected.array.length)
 		{
-			displayColorSelected.array[i] -= ingredient.colorValues[i];
+			displayNormSelected.array[i] -= ingredient.colorValues[i];
 		}
 	}
 	
@@ -438,7 +437,7 @@ class IngredientTable extends Hideable implements Observer
 		var ingredient = ingInfo[ingIndex];
 		
 		updateIngDisplayText(ingredient);
-		displayImage.animation.play(Std.string(ingIndex % 2 + 1));
+		ingImage.animation.play(Std.string(ingIndex % 2 + 1));
 		if (numSelected < maxSelected)
 		{
 			updateHoverBars(ingredient);
@@ -498,7 +497,7 @@ class IngredientTable extends Hideable implements Observer
 		updateIngDisplayText(ingredient);
 		decreaseSelectedColors(ingredient);
 		updateHoverBars(ingredient);
-		displayImage.animation.play(Std.string(selectedIDs[selectIndex] % 2 + 1));
+		ingImage.animation.play(Std.string(selectedIDs[selectIndex] % 2 + 1));
 	}
 	
 	private function unsetSelectHoverInfo(selectIndex:Int):Void
