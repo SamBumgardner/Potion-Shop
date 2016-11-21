@@ -126,6 +126,7 @@ class IngredientTable extends Hideable implements Observer
 	private function initIngredientButtons():Void
 	{
 		var ingHexArray = new Array<IngredientHex>();
+		var displayIngImages = new Array<DisplaySprite>();
 		
 		//Look at using some preprocessor stuff to do this instead (if possible:
 		var ingredientHexWidth = 145;
@@ -169,6 +170,9 @@ class IngredientTable extends Hideable implements Observer
 					locY = cast (topLeftY + row * YInterval);
 				}
 				ingHexArray.push(new IngredientHex(locX, locY));
+				displayIngImages.push(new DisplaySprite(locX, locY, 
+				                      AssetPaths.IngredientSpriteSheet__png,
+				                      145, 125, 1, 3));
 			}
 		}
 		
@@ -178,6 +182,8 @@ class IngredientTable extends Hideable implements Observer
 			ingHexArray[i].sub.setID(i);
 			ingHexArray[i].sub.addObserver(this);
 			totalGrp.add(ingHexArray[i]);
+			displayIngImages[i].animation.play(Std.string(i % 2 + 1));
+			totalGrp.add(displayIngImages[i]);
 		}
 	}
 	
