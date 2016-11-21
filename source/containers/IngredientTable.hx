@@ -259,32 +259,37 @@ class IngredientTable extends Hideable implements Observer
 		
 		var barUnits = 12;
 		
-		displayColorHover = new ColorArray();
-		displayColorSelected = new ColorArray();
+		displayNormHover = new ColorArray();
+		displayNormSelected = new ColorArray();
+		displayBlendedHover = new ColorArray();
+		displayBlendedSelected = new ColorArray();
 		
-		displayHoverBars = new Array<FlxBar>();
-		displaySelectedBars = new Array<FlxBar>();
+		displayFadedBars = new Array<FlxBar>();
+		displaySolidBars = new Array<FlxBar>();
 		
 		var colorConvert = new ColorConverter();
 		
-		for (i in 0...displayColorHover.array.length)
+		for (i in 0...displayNormHover.array.length)
 		{
-			displaySelectedBars.push(new FlxBar(x + barInitialX + barOffsetX * i, 
+			displaySolidBars.push(new FlxBar(x + barInitialX + barOffsetX * i, 
 			                                  y + barInitialY, BOTTOM_TO_TOP, barWidth, 
-			                                  barHeight, displayColorSelected, 
+			                                  barHeight, displayNormSelected, 
 											  colorConvert.intToColorStr[i], 0, barUnits));
-			displayHoverBars.push(new FlxBar(x + barInitialX + barOffsetX * i, 
+			displayFadedBars.push(new FlxBar(x + barInitialX + barOffsetX * i, 
 			                                 y + barInitialY, BOTTOM_TO_TOP, barWidth, 
-			                                 barHeight, displayColorHover, 
+			                                 barHeight, displayNormHover, 
 											 colorConvert.intToColorStr[i], 0, barUnits));
 			
-			displaySelectedBars[i].createFilledBar(0, colorConvert.intToColorHex[i]);
-			displayHoverBars[i].createFilledBar(0, colorConvert.intToColorHex[i] - 0xAA000000);
+			displaySolidBars[i].createFilledBar(0, colorConvert.intToColorHex[i]);
+			displaySolidBars[i].numDivisions = barUnits;
+			
+			displayFadedBars[i].createFilledBar(0, colorConvert.intToColorHex[i] - 0xAA000000);
+			displayFadedBars[i].numDivisions = barUnits;
 			
 			//Note: The order of adding matters!
 			// Locked are added first so Hover draws in front.
-			totalGrp.add(displaySelectedBars[i]);
-			totalGrp.add(displayHoverBars[i]);
+			totalGrp.add(displaySolidBars[i]);
+			totalGrp.add(displayFadedBars[i]);
 		}
 	}
 	
@@ -300,11 +305,19 @@ class IngredientTable extends Hideable implements Observer
 		
 		initDisplayBars();
 		
-		displayImage = new DisplaySprite(x + 900, y + 340, 
+		ingImage = new DisplaySprite(x + 900, y + 340, 
 		               AssetPaths.IngredientSpriteSheet__png,
 		               145, 125, 1, 3);
+					   
+		potionImage = new DisplaySprite(x + 900, y + 340, 
+		               AssetPaths.PotionSpriteSheet__png,
+		               145, 125, 2, 5);
 		
-		totalGrp.add(displayImage);
+		//TEMPORARY LINE, REMOVE LATER
+		potionImage.animation.play("1");
+		
+		totalGrp.add(ingImage);
+		totalGrp.add(potionImage);
 	}
 	
 	
