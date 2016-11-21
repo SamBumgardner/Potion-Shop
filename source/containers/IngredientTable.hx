@@ -349,7 +349,7 @@ class IngredientTable extends Hideable implements Observer
 		{	
 			if (selectedIDs[i] != -1)
 			{
-				displaySelectedImages[i].animation.play("1"); //placeholder animation index
+				displaySelectedImages[i].animation.play(Std.string(selectedIDs[i] % 2 + 1)); //placeholder animation index
 			}
 			else
 			{
