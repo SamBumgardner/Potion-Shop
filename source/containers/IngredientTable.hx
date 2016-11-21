@@ -36,8 +36,8 @@ class IngredientTable extends Hideable implements Observer
 	
 	private var totalGrp:FlxGroup;
 	
-	private var ingNotifyCallbacks:Array<ButtonEvent->Void>;
-	private var selectNotifyCallbacks:Array<ButtonEvent->Void>;
+	private var newEvents:Array<ButtonEvent>;
+	private var eventCallbacks:Array<Array<Int->Void>>;
 	
 	private static var emptyIng:IngredientData;
 	private var ingInfo:Array<IngredientData>;
@@ -46,8 +46,6 @@ class IngredientTable extends Hideable implements Observer
 	private var numSelected:Int = 0;
 	private var maxSelected:Int = 4;
 	
-	private var currHoverID:Int;
-	private var currHoverType:Int;
 	private var displayName:FlxText;
 	private var displayNameCenterX:Int = 1005;
 	private var displayImage:DisplaySprite;
@@ -65,28 +63,45 @@ class IngredientTable extends Hideable implements Observer
 		totalGrp = new FlxGroup();
 		totalGrp.add(this);
 		
-		initNotifyCallbacks();
+		initEventSystem();
 		initIngInfo();
 		initIngredientButtons();
 		initSelectedButtons();
 		initDisplayComponents();
 	}
 	
-	private function initNotifyCallbacks():Void
+	private function initEventSystem():Void
 	{
-		ingNotifyCallbacks = new Array<Int->Void>();
+		var numOfEventTypes = 4; // see EventData enum
+		var numOfButtonTypes = 4; // see ButtonTypes enum
 		
-		ingNotifyCallbacks.push(ingHexOut);
-		ingNotifyCallbacks.push(ingHexOver);
-		ingNotifyCallbacks.push(ingHexDown);
-		ingNotifyCallbacks.push(ingHexUp);
+		newEvents = new Array<ButtonEvent>();
+		for (i in 0...numOfEventTypes)
+		{
+			newEvents.push(ButtonTypes.NO_TYPE);
+		}
 		
-		selectNotifyCallbacks = new Array<Int->Void>();
+		eventCallbacks = new Array<Array<ButtonEvent->Void>>();
+		for (i in 0...numOfEventTypes)
+		{
+			eventCallbacks.push(new Array<Int->Void>());
+			for (j in 0...numOfButtonTypes)
+			{
+				eventCallbacks[i].push(null);
+			}
+		}
 		
-		selectNotifyCallbacks.push(selectHexOut);
-		selectNotifyCallbacks.push(selectHexOver);
-		selectNotifyCallbacks.push(selectHexDown);
-		selectNotifyCallbacks.push(selectHexUp);
+		eventCallbacks[EventData.OUT][ButtonTypes.ING_HEX] = ingHexOut;
+		eventCallbacks[EventData.OUT][ButtonTypes.SELECT_HEX] = selectHexOut;
+		
+		eventCallbacks[EventData.OVER][ButtonTypes.ING_HEX] = ingHexOver;
+		eventCallbacks[EventData.OVER][ButtonTypes.SELECT_HEX] = selectHexOver;
+		
+		eventCallbacks[EventData.DOWN][ButtonTypes.ING_HEX] = ingHexDown;
+		eventCallbacks[EventData.DOWN][ButtonTypes.SELECT_HEX] = selectHexDown;
+		
+		eventCallbacks[EventData.UP][ButtonTypes.ING_HEX] = ingHexUp;
+		eventCallbacks[EventData.UP][ButtonTypes.SELECT_HEX] = selectHexUp;
 	}
 	
 	private function initIngInfo():Void
@@ -517,12 +532,25 @@ class IngredientTable extends Hideable implements Observer
 	
 	public function onNotify(event:ButtonEvent):Void
 	{
-		switch (event.getType())
+		newEvents[event.getData()] = event;
+	}
+	
+	
+	///////////////////////////////////////////
+	//                UPDATE                 //
+	///////////////////////////////////////////
+	
+	override public function update(elapsed:Float):Void 
+	{
+		for (eventData in 0...newEvents.length)
 		{
-			case (ButtonTypes.ING_HEX): //Fix this later
-				ingNotifyCallbacks[event.getData()](event.getID());
-			case (ButtonTypes.SELECT_HEX):
-				selectNotifyCallbacks[event.getData()](event.getID());
+			if (newEvents[eventData] != ButtonTypes.NO_TYPE)
+			{
+				var event = newEvents[eventData];
+				eventCallbacks[eventData][event.getType()](event.getID());
+				newEvents[eventData] = ButtonTypes.NO_TYPE;
+			}
 		}
+		super.update(elapsed);
 	}
 }
