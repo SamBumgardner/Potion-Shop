@@ -27,9 +27,9 @@ class AdvancedState extends FlxState
 		FlxMouseEventManager.init();
 	}
 	
-	public function activateSubstate(substateClass):Void
+	public function activateSubstate(caller:Button, substateClass):Void
 	{
-		forEachOfType(Button, function(button){button.mouseOut(button);}, true); // So no button is stuck in "hover" animation
+		caller.mouseOut(caller);
 		openSubState(Type.createInstance(substateClass, []));
 	}
 	

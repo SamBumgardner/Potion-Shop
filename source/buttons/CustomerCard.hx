@@ -25,6 +25,6 @@ class CustomerCard extends Button
 	override public function mouseUp(button:Button):Void
 	{
 		super.mouseUp(button);
-		(cast FlxG.state).activateSubstate(CustomerDetails);
+		(cast FlxG.state).activateSubstate(this, CustomerDetails);
 	}
 }
