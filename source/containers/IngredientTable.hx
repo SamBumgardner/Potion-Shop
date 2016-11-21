@@ -224,8 +224,8 @@ class IngredientTable extends Hideable implements Observer
 				totalGrp.add(selHex);
 				
 				displaySelectedImages.push(new DisplaySprite(selHex.x, selHex.y, 
-				                                             AssetPaths.IngredientSpriteSheet__png,
-				                                             145, 125, 1, 3));
+				                           AssetPaths.IngredientSpriteSheet__png,
+				                           145, 125, 1, 3));
 				
 				totalGrp.add(displaySelectedImages[row * numCols + col]); //FIX this
 			}
@@ -284,8 +284,9 @@ class IngredientTable extends Hideable implements Observer
 		
 		initDisplayBars();
 		
-		displayImage = new DisplaySprite(x + 900, y + 340, AssetPaths.IngredientSpriteSheet__png,
-		                                 145, 125, 1, 3);
+		displayImage = new DisplaySprite(x + 900, y + 340, 
+		               AssetPaths.IngredientSpriteSheet__png,
+		               145, 125, 1, 3);
 		
 		totalGrp.add(displayImage);
 	}
