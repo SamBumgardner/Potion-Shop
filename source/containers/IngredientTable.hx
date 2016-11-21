@@ -464,7 +464,6 @@ class IngredientTable extends Hideable implements Observer
 	
 	private function ingHexOver(id:ButtonEvent):Void
 	{
-		trace("ingHexOver");
 		setIngHoverInfo(id);
 	}
 	
