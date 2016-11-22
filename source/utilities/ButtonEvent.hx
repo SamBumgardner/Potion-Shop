@@ -18,9 +18,12 @@ class EventData
 @:enum
 class ButtonTypes 
 {
-	public static var NO_TYPE(default, never)    = -1;
-	public static var BUTTON(default, never)     = 0;
-	public static var TAB(default, never)        = 1;
-	public static var ING_HEX(default, never)    = 2;
-	public static var SELECT_HEX(default, never) = 3;
+	public static var NO_TYPE(default, never)       = -1;
+	public static var BUTTON(default, never)        = 0;
+	public static var TAB(default, never)           = 1;
+	public static var ING_HEX(default, never)       = 2;
+	public static var SELECT_HEX(default, never)    = 3;
+	public static var CAULDRON(default, never)      = 4;
+	public static var ACTIVATE_BREW(default, never) = 5;
+	public static var ING_LOCK(default, never)      = 6;
 }
