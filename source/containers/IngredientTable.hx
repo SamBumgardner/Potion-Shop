@@ -71,8 +71,8 @@ class IngredientTable extends Hideable implements Observer
 	private var displayNormSelected:ColorArray;
 	private var displayBlendedHover:ColorArray;
 	private var displayBlendedSelected:ColorArray;
-	private var displayFadedBars:Array<FlxBar>;
-	private var displaySolidBars:Array<FlxBar>;
+	private var displayHoverBars:Array<FlxBar>;
+	private var displaySelectedBars:Array<FlxBar>;
 	private var useBlended:Bool = false;
 	
 	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
@@ -267,32 +267,32 @@ class IngredientTable extends Hideable implements Observer
 		displayBlendedHover = new ColorArray();
 		displayBlendedSelected = new ColorArray();
 		
-		displayFadedBars = new Array<FlxBar>();
-		displaySolidBars = new Array<FlxBar>();
+		displayHoverBars = new Array<FlxBar>();
+		displaySelectedBars = new Array<FlxBar>();
 		
 		var colorConvert = new ColorConverter();
 		
 		for (i in 0...displayNormHover.array.length)
 		{
-			displaySolidBars.push(new FlxBar(x + barInitialX + barOffsetX * i, 
+			displaySelectedBars.push(new FlxBar(x + barInitialX + barOffsetX * i, 
 			                                  y + barInitialY, BOTTOM_TO_TOP, barWidth, 
 			                                  barHeight, displayNormSelected, 
 											  colorConvert.intToColorStr[i], 0, barUnits));
-			displayFadedBars.push(new FlxBar(x + barInitialX + barOffsetX * i, 
+			displayHoverBars.push(new FlxBar(x + barInitialX + barOffsetX * i, 
 			                                 y + barInitialY, BOTTOM_TO_TOP, barWidth, 
 			                                 barHeight, displayNormHover, 
 											 colorConvert.intToColorStr[i], 0, barUnits));
 			
-			displaySolidBars[i].createFilledBar(0, colorConvert.intToColorHex[i]);
-			displaySolidBars[i].numDivisions = barUnits;
+			displaySelectedBars[i].createFilledBar(0, colorConvert.intToColorHex[i] - 0x88000000);
+			displaySelectedBars[i].numDivisions = barUnits;
 			
-			displayFadedBars[i].createFilledBar(0, colorConvert.intToColorHex[i] - 0xAA000000);
-			displayFadedBars[i].numDivisions = barUnits;
+			displayHoverBars[i].createFilledBar(0, colorConvert.intToColorHex[i] - 0x88000000);
+			displayHoverBars[i].numDivisions = barUnits;
 			
 			//Note: The order of adding matters!
 			// Locked are added first so Hover draws in front.
-			totalGrp.add(displaySolidBars[i]);
-			totalGrp.add(displayFadedBars[i]);
+			totalGrp.add(displaySelectedBars[i]);
+			totalGrp.add(displayHoverBars[i]);
 		}
 	}
 	
@@ -357,10 +357,10 @@ class IngredientTable extends Hideable implements Observer
 	private function setBarTracking(newFadedParent:ColorArray, newSolidParent:ColorArray):Void
 	{
 		var colorConvert = new ColorConverter();
-		for (i in 0...displayFadedBars.length)
+		for (i in 0...displayHoverBars.length)
 		{
-			displayFadedBars[i].setParent(newFadedParent, colorConvert.intToColorStr[i]);
-			displaySolidBars[i].setParent(newSolidParent, colorConvert.intToColorStr[i]);
+			displayHoverBars[i].setParent(newFadedParent, colorConvert.intToColorStr[i]);
+			displaySelectedBars[i].setParent(newSolidParent, colorConvert.intToColorStr[i]);
 		}
 	}
 	
