@@ -74,6 +74,7 @@ class IngredientTable extends Hideable implements Observer
 	private var displayHoverBars:Array<FlxBar>;
 	private var displaySelectedBars:Array<FlxBar>;
 	private var useBlended:Bool = false;
+	private var colorsChanged:Bool = false;
 	
 	public function new(?X:Float=0, ?Y:Float=0, ?SimpleGraphic:FlxGraphicAsset) 
 	{
@@ -370,6 +371,7 @@ class IngredientTable extends Hideable implements Observer
 		{
 			displayNormHover.array[i] = displayNormSelected.array[i] + ingredient.colorValues[i];
 		}
+		colorsChanged = true;
 	}
 	
 	private function decreaseHoverBars(ingredient:IngredientData):Void
@@ -378,6 +380,7 @@ class IngredientTable extends Hideable implements Observer
 		{
 			displayNormHover.array[i] = displayNormSelected.array[i] - ingredient.colorValues[i];
 		}
+		colorsChanged = true;
 	}
 	
 	private function increaseSelectedColors(ingredient:IngredientData):Void
@@ -386,6 +389,7 @@ class IngredientTable extends Hideable implements Observer
 		{
 			displayNormSelected.array[i] += ingredient.colorValues[i];
 		}
+		colorsChanged = true;
 	}
 	
 	private function decreaseSelectedBars(ingredient:IngredientData):Void
@@ -394,6 +398,7 @@ class IngredientTable extends Hideable implements Observer
 		{
 			displayNormSelected.array[i] -= ingredient.colorValues[i];
 		}
+		colorsChanged = true;
 	}
 	
 	private function updateSelectedImages():Void
