@@ -337,6 +337,14 @@ class IngredientTable extends Hideable implements Observer
 		return totalGrp;
 	}
 	
+	public function switchCurrCauldron(caulID:Int):Void
+	{
+	}
+	
+	public function lockCurrCauldron():Void
+	{
+	}
+	
 	
 	///////////////////////////////////////////
 	//  POTION DATA  MANIPULATION FUNCTIONS  //
