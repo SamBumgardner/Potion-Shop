@@ -297,6 +297,9 @@ class IngredientTable extends Hideable implements Observer
 	
 	private function initDisplayComponents():Void
 	{
+		ingName = IngredientTable.emptyIng.name;
+		ingDescription = IngredientTable.emptyIng.description;
+		
 		displayName = new FlxText(x + displayNameCenterX, y + 545, 0, "", 20);
 		displayName.set_color(FlxColor.BLACK);
 		totalGrp.add(displayName);
