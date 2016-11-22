@@ -133,15 +133,15 @@ class ShopState extends AdvancedState implements Observer
 	private function switchActiveTab(tab:ActiveButton):Void
 	{
 		
-		sideTabs.forEach(ActiveButton.deactivate);
+		sideTabs.forEach(ActiveButton.deactivate, true);
 		ActiveButton.activate(tab);
 	}
 	
 	public function switchShopMode(tab:ActiveButton, group:ShopButtonGroup):Void
 	{
 		switchActiveTab(tab);
-		currentButtonSet.forEach(Hideable.Hide);
-		buttonGroups[group].forEach(Hideable.Reveal);
+		currentButtonSet.forEach(Hideable.Hide, true);
+		buttonGroups[group].forEach(Hideable.Reveal, true);
 		currentButtonSet = buttonGroups[group];
 	}
 	
