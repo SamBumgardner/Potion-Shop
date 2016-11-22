@@ -642,6 +642,13 @@ class IngredientTable extends Hideable implements Observer
 			}
 		}
 		
+		// Update blended color values.
+		if (colorsChanged)
+		{
+			updatePotionData();
+			colorsChanged = false;
+		}
+		
 		// Determine if norm/alt display should be presented.
 		if (FlxG.keys.justPressed.ALT)
 		{
