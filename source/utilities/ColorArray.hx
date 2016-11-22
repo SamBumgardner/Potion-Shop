@@ -23,6 +23,11 @@ class ColorArray
 		array = [0, 0, 0, 0, 0, 0, 0, 0];
 	}
 	
+	public function reset()
+	{
+		array = [0, 0, 0, 0, 0, 0, 0, 0];
+	}
+	
 	public function get_red():Int    { return array[0]; }
 	
 	public function get_orange():Int { return array[1]; }
