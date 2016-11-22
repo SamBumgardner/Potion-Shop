@@ -38,4 +38,30 @@ class ColorArray
 	public function get_black():Int  { return array[6]; }
 	
 	public function get_white():Int  { return array[7]; }
+	
+	public function blendColors(indexesToCombine:Array<Int>, indexToIncrease:Int):Void
+	{
+		var stopLooping = false;
+		
+		while (true) // ends when stopLooping == false in middle of loop.
+		{
+			for (index in indexesToCombine)
+			{
+				if (array[index] == 0)
+				{
+					stopLooping = true;
+					break;
+				}
+			}
+			if (stopLooping) // Test to end while loop.
+			{
+				break;
+			}
+			for (index in indexesToCombine)
+			{
+				array[index]--;
+			}
+			array[indexToIncrease]++;
+		}
+	}
 }
