@@ -10,7 +10,7 @@ import buttons.CustomerTab;
 import buttons.IngredientHex;
 import buttons.InventoryTab;
 import buttons.QuitGame;
-import containers.IngredientTable;
+import containers.BrewContainer;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -33,6 +33,7 @@ class ShopState extends AdvancedState implements Observer
 	private var sideTabArray:Array<Tab>;
 	private var currentButtonSet:FlxGroup;
 	private var custCards:FlxGroup;
+	private var brewContainer:BrewContainer;
 	private var brewContents:FlxGroup;
 	private var inventoryButtons:FlxGroup;
 	
@@ -107,7 +108,6 @@ class ShopState extends AdvancedState implements Observer
 		{
 			for (col in 0...2)
 			{
-				
 				custCards.add(new CustomerCard(topLeftX + col * XInterval, topLeftY + row * YInterval));
 			}
 		}
@@ -117,9 +117,10 @@ class ShopState extends AdvancedState implements Observer
 	
 	private function initBrewContent():Void
 	{
-		var table = new IngredientTable(60, 370);
-		brewContents = table.getTotalFlxGrp();
-		brewContents.forEach(Hideable.Hide);
+		brewContainer = new BrewContainer();
+		brewContents = brewContainer.getTotalFlxGrp();
+		
+		brewContents.forEach(Hideable.Hide, true);
 		add(brewContents);
 	}
 	
