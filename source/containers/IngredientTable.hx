@@ -3,6 +3,8 @@ package containers;
 import buttonTemplates.ActiveButton;
 import buttonTemplates.Button;
 import buttons.IngredientHex;
+import buttons.IngredientLock;
+import buttons.LockCover;
 import buttons.SelectedHex;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -51,6 +53,7 @@ class IngredientTable extends Hideable implements Observer
 	private var cauldronArray:Array<CauldronInfo>;
 	private var selectedHexArray:Array<SelectedHex>;
 	private var maxSelected:Int = 4;
+	private var lockButton:IngredientLock;
 	
 	private var potionName:String = "Cool Potion";
 	private var potionDescription:String = "Healing\nFire Breath\n";
@@ -92,12 +95,13 @@ class IngredientTable extends Hideable implements Observer
 		initSelectedButtons();
 		initCauldronData();
 		initDisplayComponents();
+		initLockButtons();
 	}
 	
 	private function initEventSystem():Void
 	{
 		var numOfEventTypes = 4; // see EventData enum
-		var numOfButtonTypes = 4; // see ButtonTypes enum
+		var numOfButtonTypes = 8; // see ButtonTypes enum
 		
 		newEvents = new Array<ButtonEvent>();
 		for (i in 0...numOfEventTypes)
@@ -126,6 +130,8 @@ class IngredientTable extends Hideable implements Observer
 		
 		eventCallbacks[EventData.UP][ButtonTypes.ING_HEX] = ingHexUp;
 		eventCallbacks[EventData.UP][ButtonTypes.SELECT_HEX] = selectHexUp;
+		
+		eventCallbacks[EventData.UP][ButtonTypes.ING_LOCK] = lockButtonUp;
 	}
 	
 	private function initIngInfo():Void
@@ -341,6 +347,12 @@ class IngredientTable extends Hideable implements Observer
 		totalGrp.add(potionImage);
 	}
 	
+	private function initLockButtons():Void
+	{
+		lockButton = new IngredientLock(x, y);
+		lockButton.sub.addObserver(this);
+		totalGrp.add(lockButton.getTotalFlxGrp());
+	}
 	
 	///////////////////////////////////////////
 	//           PUBLIC INTERFACE            //
@@ -370,10 +382,20 @@ class IngredientTable extends Hideable implements Observer
 		}
 		hardUpdateBars();
 		
+		if (currCauldron.isLocked)
+		{
+			ActiveButton.activate(lockButton);
+		}
+		else
+		{
+			ActiveButton.deactivate(lockButton);
+		}
 	}
 	
 	public function lockCurrCauldron():Void
 	{
+		currCauldron.isLocked = true;
+		ActiveButton.activate(lockButton);
 	}
 	
 	
@@ -627,6 +649,17 @@ class IngredientTable extends Hideable implements Observer
 		{
 			selectHexOver(id);
 		}
+	}
+	
+	
+	///////////////////////////////////////////
+	//         LOCK BUTTON CALLBACKS         //
+	///////////////////////////////////////////
+	
+	private function lockButtonUp(id:ButtonEvent):Void
+	{
+		currCauldron.isLocked = false;
+		ActiveButton.deactivate(lockButton);
 	}
 	
 	
