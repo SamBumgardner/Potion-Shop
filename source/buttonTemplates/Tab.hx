@@ -23,7 +23,7 @@ class Tab extends MovingButton
 	private var buttonGroup:ShopButtonGroup;
 	public var sub:Subject = new Subject(0, ButtonTypes.TAB);
 	
-	public function new(?X:Float = 0, ?Y:Float = 0, ?beginActive:Bool)
+	public function new(?X:Float = 0, ?Y:Float = 0, ?defaultGraphicsInit:Bool = true, ?beginActive:Bool)
 	{
 		activeAnchorChangeX = -28;
 		activeAnchorChangeY = 0;
@@ -35,7 +35,7 @@ class Tab extends MovingButton
 		bWidth = 150;
 		bHeight = 250;
 		
-		super(X, Y, beginActive);
+		super(X, Y, defaultGraphicsInit, beginActive);
 	}
 	
 	override public function mouseOver(button:Button):Void

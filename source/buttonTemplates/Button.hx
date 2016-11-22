@@ -23,14 +23,17 @@ class Button extends Hideable
 	 * @param	X             The initial X position of the button.
 	 * @param	Y             The initial Y position of the button.
 	 */
-	public function new(?X:Float = 0, ?Y:Float = 0)
+	public function new(?X:Float = 0, ?Y:Float = 0, ?defaultGraphicsInit:Bool = true)
 	{
 		super(X, Y);
 		
-		loadGraphic(image, true, bWidth, bHeight);
-		animation.add("Normal", [0], 1, false);
-		animation.add("Hover", [1], 1, false);
-		animation.add("Pressed", [2], 1, false);
+		if (defaultGraphicsInit)
+		{
+			loadGraphic(image, true, bWidth, bHeight);
+			animation.add("Normal", [0], 1, false);
+			animation.add("Hover", [1], 1, false);
+			animation.add("Pressed", [2], 1, false);
+		}
 		
 		Button.register(this);
 	}
