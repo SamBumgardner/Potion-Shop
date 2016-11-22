@@ -345,7 +345,7 @@ class IngredientTable extends Hideable implements Observer
 	{
 		updateIngDisplayText(IngredientTable.emptyIng);
 		ingImage.animation.play("0");
-		updateHoverBars(IngredientTable.emptyIng);
+		increaseHoverBars(IngredientTable.emptyIng);
 	}
 	
 	private function updateIngDisplayText(ingredient:IngredientData):Void
@@ -364,11 +364,19 @@ class IngredientTable extends Hideable implements Observer
 		}
 	}
 	
-	private function updateHoverBars(ingredient:IngredientData):Void
+	private function increaseHoverBars(ingredient:IngredientData):Void
 	{
 		for (i in 0...displayNormHover.array.length)
 		{
-			displayNormHover.array[i] = ingredient.colorValues[i] + displayNormSelected.array[i];
+			displayNormHover.array[i] = displayNormSelected.array[i] + ingredient.colorValues[i];
+		}
+	}
+	
+	private function decreaseHoverBars(ingredient:IngredientData):Void
+	{
+		for (i in 0...displayNormHover.array.length)
+		{
+			displayNormHover.array[i] = displayNormSelected.array[i] - ingredient.colorValues[i];
 		}
 	}
 	
@@ -380,7 +388,7 @@ class IngredientTable extends Hideable implements Observer
 		}
 	}
 	
-	private function decreaseSelectedColors(ingredient:IngredientData):Void
+	private function decreaseSelectedBars(ingredient:IngredientData):Void
 	{
 		for (i in 0...displayNormSelected.array.length)
 		{
@@ -446,7 +454,7 @@ class IngredientTable extends Hideable implements Observer
 		ingImage.animation.play(Std.string(ingIndex % 2 + 1));
 		if (numSelected < maxSelected)
 		{
-			updateHoverBars(ingredient);
+			increaseHoverBars(ingredient);
 		}
 	}
 	
@@ -467,7 +475,7 @@ class IngredientTable extends Hideable implements Observer
 			increaseSelectedColors(ingredient);
 			if (numSelected < maxSelected)
 			{
-				updateHoverBars(ingredient);
+				increaseHoverBars(ingredient);
 			}
 			updateSelectedImages();
 		}
@@ -483,11 +491,14 @@ class IngredientTable extends Hideable implements Observer
 	
 	private function deselectIngredient(selectIndex:Int):Void
 	{
+		var ingredient = ingInfo[selectedIDs[selectIndex]];
+		
 		selectedIDs.splice(selectIndex, 1);
 		selectedIDs.push(-1);
 		numSelected--;
 		ActiveButton.deactivate(selectedHexArray[numSelected]);
 		
+		decreaseSelectedBars(ingredient);
 		clearHoverInfo();
 		updateSelectedImages();
 	}
@@ -501,18 +512,10 @@ class IngredientTable extends Hideable implements Observer
 		var ingredient = ingInfo[selectedIDs[selectIndex]];
 		
 		updateIngDisplayText(ingredient);
-		decreaseSelectedColors(ingredient);
-		updateHoverBars(ingredient);
+		
+		decreaseHoverBars(ingredient);
 		ingImage.animation.play(Std.string(selectedIDs[selectIndex] % 2 + 1));
 	}
-	
-	private function unsetSelectHoverInfo(selectIndex:Int):Void
-	{
-		var ingredient = ingInfo[selectedIDs[selectIndex]];
-		
-		increaseSelectedColors(ingredient);
-	}
-	
 	
 	///////////////////////////////////////////
 	//        INGREDIENT HEX CALLBACKS       //
@@ -546,7 +549,6 @@ class IngredientTable extends Hideable implements Observer
 	
 	private function selectHexOut(id:Int):Void
 	{
-		unsetSelectHoverInfo(id);
 		clearHoverInfo();
 	}
 	
