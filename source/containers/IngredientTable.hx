@@ -17,6 +17,7 @@ import haxe.Json;
 import sys.io.File;
 import utilities.ButtonEvent;
 import utilities.ButtonEvent.EventData;
+import utilities.CauldronInfo;
 import utilities.ColorArray;
 import utilities.ColorConverter;
 import utilities.ColorEnum;
@@ -44,9 +45,11 @@ class IngredientTable extends Hideable implements Observer
 	
 	private static var emptyIng:IngredientData;
 	private var ingInfo:Array<IngredientData>;
-	private var selectedIDs:Array<Int>;
+	
+	private var currCaulID:Int = 0;
+	private var currCauldron:CauldronInfo;
+	private var cauldronArray:Array<CauldronInfo>;
 	private var selectedHexArray:Array<SelectedHex>;
-	private var numSelected:Int = 0;
 	private var maxSelected:Int = 4;
 	
 	private var potionName:String = "Cool Potion";
@@ -87,6 +90,7 @@ class IngredientTable extends Hideable implements Observer
 		initIngInfo();
 		initIngredientButtons();
 		initSelectedButtons();
+		initCauldronData();
 		initDisplayComponents();
 	}
 	
@@ -209,7 +213,6 @@ class IngredientTable extends Hideable implements Observer
 	
 	private function initSelectedButtons():Void
 	{
-		selectedIDs = new Array<Int>();
 		selectedHexArray = new Array<SelectedHex>();
 		displaySelectedImages = new Array<DisplaySprite>();
 		
@@ -250,6 +253,17 @@ class IngredientTable extends Hideable implements Observer
 				totalGrp.add(displaySelectedImages[row * numCols + col]); //FIX this
 			}
 		}
+	}
+	
+	private function initCauldronData():Void
+	{
+		var numCauldrons:Int = 4;
+		cauldronArray = new Array<CauldronInfo>();
+		for (i in 0...numCauldrons)
+		{
+			cauldronArray.push(new CauldronInfo());
+		}
+		currCauldron = cauldronArray[currCaulID];
 	}
 	
 	private function initDisplayBars():Void
@@ -339,6 +353,23 @@ class IngredientTable extends Hideable implements Observer
 	
 	public function switchCurrCauldron(caulID:Int):Void
 	{
+		cauldronArray[currCaulID] = currCauldron;
+		currCauldron = cauldronArray[caulID];
+		currCaulID = caulID;
+		updateSelectedImages();
+		for (i in 0...maxSelected)
+		{
+			if (i < currCauldron.numSelected)
+			{
+				ActiveButton.activate(selectedHexArray[i]);
+			}
+			else
+			{
+				ActiveButton.deactivate(selectedHexArray[i]);
+			}
+		}
+		hardUpdateBars();
+		
 	}
 	
 	public function lockCurrCauldron():Void
@@ -409,13 +440,26 @@ class IngredientTable extends Hideable implements Observer
 		colorsChanged = true;
 	}
 	
+	private function hardUpdateBars():Void
+	{
+		displayNormHover.reset();
+		displayNormSelected.reset();
+		
+		for (i in 0...currCauldron.numSelected)
+		{
+			var ingredient = ingInfo[currCauldron.selectedIDs[i]];
+			increaseSelectedColors(ingredient);
+		}
+		increaseHoverBars(IngredientTable.emptyIng);
+	}
+	
 	private function updateSelectedImages():Void
 	{
-		for (i in 0...selectedIDs.length)
+		for (i in 0...currCauldron.selectedIDs.length)
 		{	
-			if (selectedIDs[i] != -1)
+			if (currCauldron.selectedIDs[i] != -1)
 			{
-				displaySelectedImages[i].animation.play(Std.string(selectedIDs[i] % 2 + 1)); //placeholder animation index
+				displaySelectedImages[i].animation.play(Std.string(currCauldron.selectedIDs[i] % 2 + 1)); //placeholder animation index
 			}
 			else
 			{
@@ -465,7 +509,7 @@ class IngredientTable extends Hideable implements Observer
 		
 		updateIngDisplayText(ingredient);
 		ingImage.animation.play(Std.string(ingIndex % 2 + 1));
-		if (numSelected < maxSelected)
+		if (currCauldron.numSelected < maxSelected)
 		{
 			increaseHoverBars(ingredient);
 		}
@@ -477,16 +521,16 @@ class IngredientTable extends Hideable implements Observer
 	
 	private function selectIngredient(ingIndex:Int):Void
 	{
-		if (numSelected < maxSelected)
+		if (currCauldron.numSelected < maxSelected)
 		{
-			selectedIDs[numSelected] = ingIndex;
-			ActiveButton.activate(selectedHexArray[numSelected]);
-			numSelected++;
+			currCauldron.selectedIDs[currCauldron.numSelected] = ingIndex;
+			ActiveButton.activate(selectedHexArray[currCauldron.numSelected]);
+			currCauldron.numSelected++;
 			
 			var ingredient = ingInfo[ingIndex];
 			
 			increaseSelectedColors(ingredient);
-			if (numSelected < maxSelected)
+			if (currCauldron.numSelected < maxSelected)
 			{
 				increaseHoverBars(ingredient);
 			}
@@ -504,12 +548,12 @@ class IngredientTable extends Hideable implements Observer
 	
 	private function deselectIngredient(selectIndex:Int):Void
 	{
-		var ingredient = ingInfo[selectedIDs[selectIndex]];
+		var ingredient = ingInfo[currCauldron.selectedIDs[selectIndex]];
 		
-		selectedIDs.splice(selectIndex, 1);
-		selectedIDs.push(-1);
-		numSelected--;
-		ActiveButton.deactivate(selectedHexArray[numSelected]);
+		currCauldron.selectedIDs.splice(selectIndex, 1);
+		currCauldron.selectedIDs.push(-1);
+		currCauldron.numSelected--;
+		ActiveButton.deactivate(selectedHexArray[currCauldron.numSelected]);
 		
 		decreaseSelectedBars(ingredient);
 		clearHoverInfo();
@@ -522,12 +566,12 @@ class IngredientTable extends Hideable implements Observer
 	
 	private function setSelectHoverInfo(selectIndex:Int):Void
 	{
-		var ingredient = ingInfo[selectedIDs[selectIndex]];
+		var ingredient = ingInfo[currCauldron.selectedIDs[selectIndex]];
 		
 		updateIngDisplayText(ingredient);
 		
 		decreaseHoverBars(ingredient);
-		ingImage.animation.play(Std.string(selectedIDs[selectIndex] % 2 + 1));
+		ingImage.animation.play(Std.string(currCauldron.selectedIDs[selectIndex] % 2 + 1));
 	}
 	
 	///////////////////////////////////////////
@@ -579,7 +623,7 @@ class IngredientTable extends Hideable implements Observer
 	private function selectHexUp(id:ButtonEvent):Void
 	{
 		deselectIngredient(id);
-		if (numSelected > id)
+		if (currCauldron.numSelected > id)
 		{
 			selectHexOver(id);
 		}
