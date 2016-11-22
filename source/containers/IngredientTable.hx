@@ -19,6 +19,7 @@ import utilities.ButtonEvent;
 import utilities.ButtonEvent.EventData;
 import utilities.ColorArray;
 import utilities.ColorConverter;
+import utilities.ColorEnum;
 import utilities.EventExtender;
 import utilities.IngredientData;
 import utilities.Observer;
@@ -603,7 +604,22 @@ class IngredientTable extends Hideable implements Observer
 	
 	private function updatePotionData():Void
 	{
-		//Do stuff here.
+		// Copy unblended arrays
+		displayBlendedSelected.array = displayNormSelected.array.concat([]);
+		displayBlendedHover.array = displayNormHover.array.concat([]);
+		
+		// Used ColorEnum to map the colors to indexes.
+		displayBlendedSelected.blendColors([ColorEnum.R, ColorEnum.Y, ColorEnum.B], ColorEnum.K);
+		displayBlendedSelected.blendColors([ColorEnum.R, ColorEnum.Y], ColorEnum.O);
+		displayBlendedSelected.blendColors([ColorEnum.Y, ColorEnum.B], ColorEnum.G);
+		displayBlendedSelected.blendColors([ColorEnum.B, ColorEnum.R], ColorEnum.P);
+		displayBlendedSelected.blendColors([ColorEnum.O, ColorEnum.G, ColorEnum.P], ColorEnum.W);
+		
+		displayBlendedHover.blendColors([ColorEnum.R, ColorEnum.Y, ColorEnum.B], ColorEnum.K);
+		displayBlendedHover.blendColors([ColorEnum.R, ColorEnum.Y], ColorEnum.O);
+		displayBlendedHover.blendColors([ColorEnum.Y, ColorEnum.B], ColorEnum.G);
+		displayBlendedHover.blendColors([ColorEnum.B, ColorEnum.R], ColorEnum.P);
+		displayBlendedHover.blendColors([ColorEnum.O, ColorEnum.G, ColorEnum.P], ColorEnum.W);
 	}
 	
 	override public function update(elapsed:Float):Void 
