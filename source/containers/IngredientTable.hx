@@ -631,16 +631,7 @@ class IngredientTable extends Hideable implements Observer
 	
 	override public function update(elapsed:Float):Void 
 	{
-		if (FlxG.keys.justPressed.ALT)
-		{
-			blendModeOn();
-			potionOn = true;
-		}
-		else if (useBlended && !FlxG.keys.pressed.ALT)
-		{
-			blendModeOff();
-		}
-		
+		// Respond to mouse events
 		for (eventData in 0...newEvents.length)
 		{
 			if (newEvents[eventData].getType() != ButtonTypes.NO_TYPE)
@@ -649,6 +640,17 @@ class IngredientTable extends Hideable implements Observer
 				eventCallbacks[eventData][event.getType()](event.getID());
 				newEvents[eventData] = ButtonTypes.NO_TYPE;
 			}
+		}
+		
+		// Determine if norm/alt display should be presented.
+		if (FlxG.keys.justPressed.ALT)
+		{
+			blendModeOn();
+			potionOn = true;
+		}
+		else if (useBlended && !FlxG.keys.pressed.ALT)
+		{
+			blendModeOff();
 		}
 		
 		if (usePotionText && !FlxG.keys.pressed.ALT && ingName != IngredientTable.emptyIng.name)
@@ -660,6 +662,7 @@ class IngredientTable extends Hideable implements Observer
 			potionOn = true;
 		}
 		
+		// Set display to norm/alt mode.
 		if (potionOn)
 		{
 			potionDisplayOn();
@@ -671,6 +674,7 @@ class IngredientTable extends Hideable implements Observer
 			potionOff = false;
 		}
 		
+		// Update display.
 		updateDisplayText();
 		
 		super.update(elapsed);
