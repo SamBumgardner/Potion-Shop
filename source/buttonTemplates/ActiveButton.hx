@@ -23,9 +23,9 @@ class ActiveButton extends Button
 	 * @param	Y             The initial Y position of the button.
 	 * @param	beginActive   Determines the button's starting state.
 	 */
-	public function new(?X:Float = 0, ?Y:Float = 0, ?beginActive:Bool)
+	public function new(?X:Float = 0, ?Y:Float = 0, ?defaultGraphicsInit:Bool = true, ?beginActive:Bool)
 	{
-		super(X, Y);
+		super(X, Y, defaultGraphicsInit);
 		
 		if (beginActive)
 		{

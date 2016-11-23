@@ -32,12 +32,12 @@ class MovingButton extends ActiveButton
 	 * @param	beginActive   Applies adjusted positioning and any other necessary changes
 	 *       	              to the button so that it appears active upon instantiation.
 	 */
-	public function new(?X:Float = 0, ?Y:Float = 0, ?beginActive:Bool)
+	public function new(?X:Float = 0, ?Y:Float = 0, ?defaultGraphicsInit:Bool = true, ?beginActive:Bool)
 	{
 		anchorX = X;
 		anchorY = Y;
 		
-		super(anchorX, anchorY, beginActive);
+		super(anchorX, anchorY, defaultGraphicsInit, beginActive);
 		
 		if (beginActive)
 		{

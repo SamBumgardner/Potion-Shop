@@ -1,0 +1,8 @@
+["Red 4", "Red 3", "Red 2", "Red 1"]
+["Orange 4", "Orange 3", "Orange 2", "Orange 1"]
+["Yellow 4", "Yellow 3", "Yellow 2", "Yellow 1"]
+["Green 4", "Green 3", "Green 2", "Green 1"]
+["Blue 4", "Blue 3", "Blue 2", "Blue 1"]
+["Purple 4", "Purple 3", "Purple 2", "Purple 1"]
+["Black 4", "Black 3", "Black 2", "Black 1"]
+["White 4", "White 3", "White 2", "White 1"]

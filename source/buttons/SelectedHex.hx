@@ -20,7 +20,7 @@ class SelectedHex extends ActiveButton
 		bWidth = 135;
 		bHeight = 155;
 		
-		super(X, Y, false);
+		super(X, Y, true, false);
 	}
 	
 	override public function mouseOver(button:Button):Void
