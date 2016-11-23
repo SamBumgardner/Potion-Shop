@@ -322,9 +322,10 @@ class IngredientTable extends Hideable implements Observer
 		ingName = IngredientTable.emptyIng.name;
 		ingDescription = IngredientTable.emptyIng.description;
 		
-		displayName = new FlxText(x + displayNameCenterX, y + 545, 0, "", 20);
+		displayName = new FlxText(x + displayNameCenterX, y + 545, 240, "", 20);
 		displayName.set_color(FlxColor.BLACK);
 		totalGrp.add(displayName);
+		displayName.alignment = FlxTextAlign.CENTER;
 		
 		displayDescription = new FlxText(x + 1150, y + 335, 300, "", 24);
 		displayDescription.set_color(FlxColor.BLACK);
