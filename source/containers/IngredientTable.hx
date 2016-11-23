@@ -79,6 +79,7 @@ class IngredientTable extends Hideable implements Observer
 	private var displayBlendedSelected:ColorArray;
 	private var displayHoverBars:Array<FlxBar>;
 	private var displaySelectedBars:Array<FlxBar>;
+	private var displayBarTexts:Array<FlxText>;
 	private var useBlended:Bool = false;
 	private var colorsChanged:Bool = false;
 	
@@ -293,6 +294,8 @@ class IngredientTable extends Hideable implements Observer
 		displayHoverBars = new Array<FlxBar>();
 		displaySelectedBars = new Array<FlxBar>();
 		
+		displayBarTexts = new Array<FlxText>();
+		
 		var colorConvert = new ColorConverter();
 		
 		for (i in 0...displayNormHover.array.length)
@@ -305,6 +308,8 @@ class IngredientTable extends Hideable implements Observer
 			                                 y + barInitialY, BOTTOM_TO_TOP, barWidth, 
 			                                 barHeight, displayNormHover, 
 											 colorConvert.intToColorStr[i], 0, barUnits));
+			displayBarTexts.push(new FlxText(x + barInitialX + barOffsetX * i, 
+			                                  y + barInitialY + barHeight + 40, 0, "0", 20));
 			
 			displaySelectedBars[i].createFilledBar(0, colorConvert.intToColorHex[i] - 0x88000000);
 			displaySelectedBars[i].numDivisions = barUnits;
@@ -312,10 +317,11 @@ class IngredientTable extends Hideable implements Observer
 			displayHoverBars[i].createFilledBar(0, colorConvert.intToColorHex[i] - 0x88000000);
 			displayHoverBars[i].numDivisions = barUnits;
 			
-			//Note: The order of adding matters!
-			// Locked are added first so Hover draws in front.
+			displayBarTexts[i].color = FlxColor.BLACK;
+			
 			totalGrp.add(displaySelectedBars[i]);
 			totalGrp.add(displayHoverBars[i]);
+			totalGrp.add(displayBarTexts[i]);
 		}
 	}
 	
@@ -697,6 +703,26 @@ class IngredientTable extends Hideable implements Observer
 		displayName.x = x + displayNameCenterX - displayName.width / 2;
 	}
 	
+	private function updateBarTexts(SelectedColorArray:ColorArray, HoverColorArray:ColorArray):Void
+	{
+		for (i in 0...displayBarTexts.length)
+		{
+			displayBarTexts[i].text = Std.string(HoverColorArray.array[i]);
+			if (HoverColorArray.array[i] > SelectedColorArray.array[i])
+			{
+				displayBarTexts[i].color = FlxColor.GREEN - 0x00333333;
+			}
+			else if (HoverColorArray.array[i] < SelectedColorArray.array[i])
+			{
+				displayBarTexts[i].color = FlxColor.RED - 0x00333333;
+			}
+			else
+			{
+				displayBarTexts[i].color = FlxColor.BLACK; 
+			}
+		}
+	}
+	
 	private function updatePotionData():Void
 	{
 		// Copy unblended arrays
@@ -774,6 +800,16 @@ class IngredientTable extends Hideable implements Observer
 		
 		// Update display.
 		updateDisplayText();
+		
+		// Update color number text.
+		if (useBlended)
+		{
+			updateBarTexts(displayBlendedSelected, displayBlendedHover);
+		}
+		else
+		{
+			updateBarTexts(displayNormSelected, displayNormHover);
+		}
 		
 		super.update(elapsed);
 	}
