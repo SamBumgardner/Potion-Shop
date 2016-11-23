@@ -26,6 +26,7 @@ import utilities.ColorEnum;
 import utilities.EventExtender;
 import utilities.IngredientData;
 import utilities.Observer;
+import utilities.PotionData;
 
 using utilities.EventExtender;
 
@@ -55,8 +56,7 @@ class IngredientTable extends Hideable implements Observer
 	private var maxSelected:Int = 4;
 	private var lockButton:IngredientLock;
 	
-	private var potionName:String = "Cool Potion";
-	private var potionDescription:String = "Healing\nFire Breath\n";
+	private var potionInfo:PotionData;
 	private var potionImage:DisplaySprite;
 	
 	private var ingName:String;
@@ -96,6 +96,8 @@ class IngredientTable extends Hideable implements Observer
 		initCauldronData();
 		initDisplayComponents();
 		initLockButtons();
+		
+		potionInfo = new PotionData(); // Didn't seem to fit in any init function.
 	}
 	
 	private function initEventSystem():Void
@@ -342,7 +344,7 @@ class IngredientTable extends Hideable implements Observer
 		               145, 125, 2, 5);
 		
 		//TEMPORARY LINE, REMOVE LATER
-		potionImage.animation.play("1");
+		potionImage.animation.play("0");
 		
 		totalGrp.add(ingImage);
 		totalGrp.add(potionImage);
@@ -682,8 +684,8 @@ class IngredientTable extends Hideable implements Observer
 	{
 		if (usePotionText)
 		{
-			currName = potionName;
-			currDescription = potionDescription;
+			currName = potionInfo.name;
+			currDescription = potionInfo.description;
 		}
 		else
 		{
@@ -692,7 +694,7 @@ class IngredientTable extends Hideable implements Observer
 		}
 		displayDescription.text = currDescription;
 		displayName.text = currName;
-		displayName.x = x + displayNameCenterX - displayName.width / 2;
+		displayName.x = x + displayNameCenterX;
 	}
 	
 	private function updatePotionData():Void
@@ -713,6 +715,9 @@ class IngredientTable extends Hideable implements Observer
 		displayBlendedHover.blendColors([ColorEnum.Y, ColorEnum.B], ColorEnum.G);
 		displayBlendedHover.blendColors([ColorEnum.B, ColorEnum.R], ColorEnum.P);
 		displayBlendedHover.blendColors([ColorEnum.O, ColorEnum.G, ColorEnum.P], ColorEnum.W);
+		
+		potionInfo.updatePotion(displayBlendedHover.array);
+		potionImage.animation.play(Std.string(potionInfo.colorByIndex + 1));
 	}
 	
 	override public function update(elapsed:Float):Void 
