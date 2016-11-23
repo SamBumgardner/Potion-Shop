@@ -694,7 +694,7 @@ class IngredientTable extends Hideable implements Observer
 		}
 		displayDescription.text = currDescription;
 		displayName.text = currName;
-		displayName.x = x + displayNameCenterX;
+		displayName.x = x + displayNameCenterX - displayName.width / 2;
 	}
 	
 	private function updatePotionData():Void
