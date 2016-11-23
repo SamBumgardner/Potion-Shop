@@ -1,5 +1,7 @@
 package utilities;
 import flixel.system.FlxAssets.FlxGraphicAsset;
+import haxe.Json;
+import sys.io.File;
 
 /**
  * Class for translating an array of color values into
@@ -10,6 +12,7 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
  */
 class PotionData
 {
+	static public var effectTextArray:Array<Array<String>>;
 	public var name:String;
 	public var colorByIndex:Int;
 	public var activeEffects:Array<Array<Int>>;
@@ -21,9 +24,13 @@ class PotionData
 		description = "";
 		colorByIndex = -1;
 		initActiveEffects();
+		if (effectTextArray == null)
+		{
+			initEffectTextArray();
+		}
 	}
 	
-	private function initActiveEffects()
+	private function initActiveEffects():Void
 	{
 		var numOfColors = 8;
 		var numOfEffects = 4;
@@ -38,6 +45,22 @@ class PotionData
 				activeEffects[i].push(0);
 			}
 		}
+	}
+	
+	private function initEffectTextArray():Void
+	{
+		effectTextArray = new Array<Array<String>>();
+		
+		var fileHandle = File.read(AssetPaths.PotionEffects__txt);
+		var numColors = 8;
+		var dynamicArr:Array<Dynamic> = new Array<Dynamic>();
+		for (i in 0...numColors)
+		{
+			dynamicArr = Json.parse(fileHandle.readLine());
+			PotionData.effectTextArray.push(cast dynamicArr);
+		}
+		
+		fileHandle.close();
 	}
 	
 	public function updatePotion(colorValues:Array<Int>)
@@ -97,7 +120,7 @@ class PotionData
 				{
 					thisColorIntesity += effectPrices[j] * activeEffects[i][j];
 					
-					description += colorConverter.intToColorStr[i] + " " + Std.string(4 - j); //placeholder.
+					description += PotionData.effectTextArray[i][j]; 
 					if (activeEffects[i][j] > 1)
 					{
 						description += "++";
