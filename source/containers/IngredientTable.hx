@@ -134,7 +134,7 @@ class IngredientTable extends Hideable implements Observer
 		eventCallbacks[EventData.UP][ButtonTypes.ING_HEX] = ingHexUp;
 		eventCallbacks[EventData.UP][ButtonTypes.SELECT_HEX] = selectHexUp;
 		
-		eventCallbacks[EventData.UP][ButtonTypes.ING_LOCK] = lockButtonUp;
+		eventCallbacks[EventData.UP][ButtonTypes.LOCK] = lockButtonUp;
 	}
 	
 	private function initIngInfo():Void

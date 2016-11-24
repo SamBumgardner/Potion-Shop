@@ -16,7 +16,7 @@ class IngredientLock extends ActiveButton
 {
 	private var cover:LockCover;
 	private var totalGrp:FlxGroup;
-	public var sub:Subject = new Subject(0, ButtonTypes.ING_LOCK);
+	public var sub:Subject = new Subject(0, ButtonTypes.LOCK);
 	
 	public function new(?X:Float=0, ?Y:Float=0) 
 	{
