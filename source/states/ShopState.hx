@@ -121,6 +121,12 @@ class ShopState extends AdvancedState implements Observer
 		currentButtonSet = buttonGroups[group];
 	}
 	
+	private function advanceTime():Void
+	{
+		brewContainer.advanceTime();
+		forEach(AdvancedSprite.AdvanceTimeReset, true);
+	}
+	
 	public function onNotify(event:ButtonEvent):Void
 	{
 		if (event.getData() == EventData.UP)

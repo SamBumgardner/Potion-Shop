@@ -114,4 +114,21 @@ class CustomerCard extends ActiveButton implements Observer
 	{
 		animation.play("Normal");
 	}
+	
+	override public function advanceTimeReset():Void 
+	{
+		
+		if (lockButton.lockType != LockTypes.WAIT)
+		{
+			unlockCustomer();
+			//Also need to reduce customer satisfaction, or whatever
+			//  happens when they have to wait.
+		}
+		else
+		{
+			unlockCustomer();
+			//Also need to do whatever random generation that is needed
+			//  to create the new customer data & variables.
+		}
+	}
 }

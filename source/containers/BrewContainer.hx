@@ -83,6 +83,10 @@ class BrewContainer implements Observer
 		return totalGrp;
 	}
 	
+	public function advanceTime():Void
+	{
+		switchActiveCauldron(cauldronArray[0]);
+	}
 	
 	public function onNotify(event:ButtonEvent):Void
 	{
