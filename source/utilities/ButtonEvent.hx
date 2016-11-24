@@ -26,4 +26,9 @@ class ButtonTypes
 	public static var CAULDRON(default, never)      = 4;
 	public static var ACTIVATE_BREW(default, never) = 5;
 	public static var LOCK(default, never)      = 6;
+	public static var NEXT_PHASE(default, never)    = 7;
+	public static var SELL(default, never)          = 8;
+	public static var WAIT(default, never)          = 9;
+	public static var CANCEL(default, never)        = 10;
+	public static var CUSTOMER(default, never)      = 11;
 }
