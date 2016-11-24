@@ -25,5 +25,5 @@ class ButtonTypes
 	public static var SELECT_HEX(default, never)    = 3;
 	public static var CAULDRON(default, never)      = 4;
 	public static var ACTIVATE_BREW(default, never) = 5;
-	public static var ING_LOCK(default, never)      = 6;
+	public static var LOCK(default, never)      = 6;
 }
