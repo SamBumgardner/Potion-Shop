@@ -2,10 +2,13 @@ package buttons;
 
 import buttonTemplates.ActiveButton;
 import buttonTemplates.Button;
+import buttons.CustomerLock.LockTypes;
 import flixel.FlxG;
+import flixel.group.FlxGroup;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import states.CustomerDetails;
 import utilities.ButtonEvent;
+import utilities.Observer;
 import utilities.Subject;
 
 using utilities.EventExtender;
@@ -19,6 +22,8 @@ using utilities.EventExtender;
 class CustomerCard extends ActiveButton implements Observer
 {
 	public var sub:Subject = new Subject(0, ButtonTypes.CUSTOMER);
+	private var lockButton:CustomerLock;
+	private var totalGrp:FlxGroup = new FlxGroup();
 	
 	public function new(?X:Float = 0, ?Y:Float = 0)
 	{
@@ -27,6 +32,46 @@ class CustomerCard extends ActiveButton implements Observer
 		bHeight = 225;
 		
 		super(X, Y);
+		
+		totalGrp.add(this);
+		
+		initLockButton();
+	}
+	
+	private function initLockButton():Void
+	{
+		lockButton = new CustomerLock(x, y);
+		lockButton.sub.addObserver(this);
+		lockButton.getTotalFlxGrp().forEach(AdvancedSprite.Hide, true);
+		totalGrp.add(lockButton.getTotalFlxGrp());
+	}
+	
+	public function getTotalFlxGrp():FlxGroup
+	{
+		return totalGrp;
+	}
+	
+	public function lockCustomer(lockType:Int):Void
+	{
+		lockButton.setLockType(lockType);
+		ActiveButton.activate(lockButton);
+	}
+	
+	public function unlockCustomer():Void
+	{
+		lockButton.setLockType(LockTypes.NONE);
+		ActiveButton.deactivate(lockButton);
+	}
+	
+	public function onNotify(event:ButtonEvent):Void
+	{
+		// lockButton is the only thing that should trigger this.
+		if (event.getType() == ButtonTypes.LOCK)
+		{
+			unlockCustomer();
+		}
+	}
+	
 	override public function mouseOver(button:Button):Void
 	{
 		if (!isActive)
