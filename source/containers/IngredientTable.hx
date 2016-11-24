@@ -34,7 +34,7 @@ using utilities.EventExtender;
  * The table that responds to events happenning to different IngredientHexes.
  * @author Samuel Bumgardner
  */
-class IngredientTable extends Hideable implements Observer
+class IngredientTable extends AdvancedSprite implements Observer
 {
 	
 	///////////////////////////////////////////
@@ -518,15 +518,15 @@ class IngredientTable extends Hideable implements Observer
 	
 	private function potionDisplayOn()
 	{
-		Hideable.Hide(ingImage);
-		Hideable.Reveal(potionImage);
+		AdvancedSprite.Hide(ingImage);
+		AdvancedSprite.Reveal(potionImage);
 		usePotionText = true;
 	}
 	
 	private function potionDisplayOff()
 	{
-		Hideable.Hide(potionImage);
-		Hideable.Reveal(ingImage);
+		AdvancedSprite.Hide(potionImage);
+		AdvancedSprite.Reveal(ingImage);
 		usePotionText = false;
 	}
 	

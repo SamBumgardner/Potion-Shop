@@ -12,7 +12,7 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
  * 
  * @author Samuel Bumgardner
  */
-class Button extends Hideable
+class Button extends AdvancedSprite
 {
 	
 	private var image:FlxGraphicAsset;

@@ -120,7 +120,7 @@ class ShopState extends AdvancedState implements Observer
 		brewContainer = new BrewContainer();
 		brewContents = brewContainer.getTotalFlxGrp();
 		
-		brewContents.forEach(Hideable.Hide, true);
+		brewContents.forEach(AdvancedSprite.Hide, true);
 		add(brewContents);
 	}
 	
@@ -141,8 +141,8 @@ class ShopState extends AdvancedState implements Observer
 	public function switchShopMode(tab:ActiveButton, group:ShopButtonGroup):Void
 	{
 		switchActiveTab(tab);
-		currentButtonSet.forEach(Hideable.Hide, true);
-		buttonGroups[group].forEach(Hideable.Reveal, true);
+		currentButtonSet.forEach(AdvancedSprite.Hide, true);
+		buttonGroups[group].forEach(AdvancedSprite.Reveal, true);
 		currentButtonSet = buttonGroups[group];
 	}
 	
