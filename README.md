@@ -36,6 +36,6 @@ If you're interested in making contributions to this game, please follow the ste
 ## Contacts
 
 * [@SamBumgardner](https://github.com/SamBumgardner) - Programmer and Designer.
-* Alex Mullins - Artist.
+* Alex Mullins - Artist and Designer.
 
 Feel free to send me an email at sambumgardner1@gmail.com!
