@@ -8,6 +8,7 @@ import buttons.BrewTab;
 import buttons.CustomerTab;
 import buttons.InventoryTab;
 import containers.BrewContainer;
+import containers.CustContainer;
 import flixel.FlxG;
 import flixel.group.FlxGroup;
 import flixel.group.FlxGroup.FlxTypedGroup;
@@ -23,7 +24,8 @@ class ShopState extends AdvancedState implements Observer
 	private var sideTabs:FlxTypedGroup<ActiveButton>;
 	private var sideTabArray:Array<Tab>;
 	private var currentButtonSet:FlxGroup;
-	private var custCards:FlxGroup;
+	private var custContainer:CustContainer;
+	private var custContents:FlxGroup;
 	private var brewContainer:BrewContainer;
 	private var brewContents:FlxGroup;
 	private var inventoryButtons:FlxGroup;
@@ -38,14 +40,14 @@ class ShopState extends AdvancedState implements Observer
 		setUpBackground(AssetPaths.ShopBg__png);
 		
 		initSideTabs();
-		initCustCards();
+		initCustContents();
 		initBrewContent();
 		initInventoryButtons();
 		
-		currentButtonSet = custCards;
+		currentButtonSet = custContents;
 		
 		buttonGroups = [
-			Customer => custCards,
+			Customer => custContents,
 			Brew => brewContents,
 			Inventory => inventoryButtons
 		];
@@ -78,32 +80,14 @@ class ShopState extends AdvancedState implements Observer
 		add(sideTabs);
 	}
 	
-	private function initCustCards():Void
+	private function initCustContents():Void
 	{
-		custCards = new FlxGroup();
+		custContainer = new CustContainer();
+		custContainer.sub.addObserver(this);
 		
-		//Look at using some preprocessor stuff to do this instead (if possible:
-		var customerCardWidth = 800;
-		var customerCardHeight = 400;
+		custContents = custContainer.getTotalFlxGrp();
 		
-		var numOfVisibleCards = 4;
-		
-		var XIntervalMod = 1.01;
-		var YIntervalMod = 1.01;
-		var topLeftX = FlxG.width - customerCardWidth * (2.2 * XIntervalMod);
-		var topLeftY = FlxG.height - customerCardHeight * (2.2 * YIntervalMod);
-		var XInterval = customerCardWidth * XIntervalMod;
-		var YInterval = customerCardHeight * YIntervalMod;
-		
-		for (row in 0...(cast numOfVisibleCards / 2))
-		{
-			for (col in 0...2)
-			{
-				custCards.add(new CustomerCard(topLeftX + col * XInterval, topLeftY + row * YInterval));
-			}
-		}
-		
-		add(custCards);
+		add(custContents);
 	}
 	
 	private function initBrewContent():Void
@@ -129,7 +113,7 @@ class ShopState extends AdvancedState implements Observer
 		ActiveButton.activate(tab);
 	}
 	
-	public function switchShopMode(tab:ActiveButton, group:ShopButtonGroup):Void
+	private function switchShopMode(tab:ActiveButton, group:ShopButtonGroup):Void
 	{
 		switchActiveTab(tab);
 		currentButtonSet.forEach(AdvancedSprite.Hide, true);
@@ -141,7 +125,14 @@ class ShopState extends AdvancedState implements Observer
 	{
 		if (event.getData() == EventData.UP)
 		{
-			switchShopMode(sideTabArray[event.getID()], cast event.getID());
+			switch event.getType()
+			{
+				case ButtonTypes.TAB: 
+					switchShopMode(sideTabArray[event.getID()], cast event.getID());
+				case ButtonTypes.NEXT_PHASE:
+					advanceTime();
+			}
+			
 		}
 	}
 }
