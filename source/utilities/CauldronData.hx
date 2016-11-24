@@ -6,7 +6,7 @@ package utilities;
  * one cauldron's info and another's using these variables.
  * @author Samuel Bumgardner
  */
-class CauldronInfo
+class CauldronData
 {
 	public var selectedIDs:Array<Int>;
 	public var numSelected:Int;
@@ -24,4 +24,14 @@ class CauldronInfo
 		}
 	}
 	
+	public function resetData()
+	{
+		numSelected = 0;
+		isLocked = false;
+		
+		for (i in 0...selectedIDs.length)
+		{
+			selectedIDs[i] = -1;
+		}
+	}
 }

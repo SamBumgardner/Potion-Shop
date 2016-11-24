@@ -19,7 +19,7 @@ import haxe.Json;
 import sys.io.File;
 import utilities.ButtonEvent;
 import utilities.ButtonEvent.EventData;
-import utilities.CauldronInfo;
+import utilities.CauldronData;
 import utilities.ColorArray;
 import utilities.ColorConverter;
 import utilities.ColorEnum;
@@ -50,8 +50,8 @@ class IngredientTable extends AdvancedSprite implements Observer
 	private var ingInfo:Array<IngredientData>;
 	
 	private var currCaulID:Int = 0;
-	private var currCauldron:CauldronInfo;
-	private var cauldronArray:Array<CauldronInfo>;
+	private var currCauldron:CauldronData;
+	private var cauldronArray:Array<CauldronData>;
 	private var selectedHexArray:Array<SelectedHex>;
 	private var maxSelected:Int = 4;
 	private var lockButton:IngredientLock;
@@ -267,10 +267,10 @@ class IngredientTable extends AdvancedSprite implements Observer
 	private function initCauldronData():Void
 	{
 		var numCauldrons:Int = 4;
-		cauldronArray = new Array<CauldronInfo>();
+		cauldronArray = new Array<CauldronData>();
 		for (i in 0...numCauldrons)
 		{
-			cauldronArray.push(new CauldronInfo());
+			cauldronArray.push(new CauldronData());
 		}
 		currCauldron = cauldronArray[currCaulID];
 	}
