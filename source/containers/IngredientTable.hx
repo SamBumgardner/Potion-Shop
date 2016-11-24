@@ -360,6 +360,7 @@ class IngredientTable extends AdvancedSprite implements Observer
 	{
 		lockButton = new IngredientLock(x, y);
 		lockButton.sub.addObserver(this);
+		lockButton.getTotalFlxGrp().forEach(AdvancedSprite.Hide, true);
 		totalGrp.add(lockButton.getTotalFlxGrp());
 	}
 	
