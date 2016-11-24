@@ -32,13 +32,13 @@ class BrewContainer implements Observer
 		initActivateBrewButton();
 	}
 	
-	public function initIngTable():Void
+	private function initIngTable():Void
 	{
 		ingTable = new IngredientTable(60, 370);
 		totalGrp.add(ingTable.getTotalFlxGrp());
 	}
 	
-	public function initCauldronButtons():Void
+	private function initCauldronButtons():Void
 	{
 		cauldronArray = new Array<Cauldron>();
 		
@@ -65,7 +65,7 @@ class BrewContainer implements Observer
 		}
 	}
 	
-	public function initActivateBrewButton():Void
+	private function initActivateBrewButton():Void
 	{
 		var topLeftX = 1630;
 		var topLeftY = 430;
