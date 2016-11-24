@@ -1,6 +1,6 @@
 package containers;
 import buttonTemplates.ActiveButton;
-import buttons.ActivateBrew;
+import buttonTemplates.SimpleObservableButton;
 import buttons.Cauldron;
 import flixel.group.FlxGroup;
 import utilities.ButtonEvent;
@@ -70,8 +70,10 @@ class BrewContainer implements Observer
 		var topLeftX = 1630;
 		var topLeftY = 430;
 		
-		var newActivateBrew = new ActivateBrew(topLeftX, topLeftY);
-		newActivateBrew.sub.setID(0);
+		var newActivateBrew = new SimpleObservableButton(topLeftX, topLeftY,
+		                                                 ButtonTypes.ACTIVATE_BREW, true,
+		                                                 AssetPaths.BrewButton__png, 120,
+		                                                 500);
 		newActivateBrew.sub.addObserver(this);
 		totalGrp.add(newActivateBrew);
 	}
