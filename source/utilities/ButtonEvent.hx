@@ -26,4 +26,5 @@ class ButtonTypes
 	public static var CAULDRON(default, never)      = 4;
 	public static var ACTIVATE_BREW(default, never) = 5;
 	public static var ING_LOCK(default, never)      = 6;
+	public static var POTION_INV(default, never)    = 7;
 }
