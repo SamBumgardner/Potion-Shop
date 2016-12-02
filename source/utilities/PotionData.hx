@@ -107,14 +107,15 @@ class PotionData
 	
 	private function updateText()
 	{
-		var intensity:String = "Tasteless";
-		var dominantColor:String = "clear";
+		var intensity:String = "";
+		var dominantColor:String = "";
+		var potionText:String = "";
 		var maxIntensity = 0;
 		var maxColorIndex = -1;
 		var thisColorIntesity = 0;
 		
 		var effectPrices = [10, 5, 3, 1];
-		var possibleIntensities = ["Tasteless", "Weak", "", "Ordinary", "Flavorful", "", "Hearty", 
+		var possibleIntensities = ["Empty", "Weak", "", "Ordinary", "Flavorful", "", "Hearty", 
 		                           "", "Extra-strength", "Intense", "Overpowering", "", ""];
 		var colorConverter = new ColorConverter();
 		
@@ -153,9 +154,16 @@ class PotionData
 				maxIntensity--;
 			} 
 			while (intensity == "");
+			potionText = "potion";
+		}
+		else
+		{
+			intensity = "Empty";
+			dominantColor = "glass";
+			potionText = "bottle";
 		}
 		
 		colorByIndex = maxColorIndex;
-		name = intensity + " " + dominantColor + " potion";
+		name = intensity + " " + dominantColor + " " + potionText;
 	}
 }
