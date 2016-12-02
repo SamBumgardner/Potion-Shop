@@ -2,6 +2,7 @@ package containers;
 
 import buttons.InvPotionButton;
 import flixel.group.FlxGroup;
+import graphicObjects.DisplaySprite;
 import utilities.ButtonEvent;
 import utilities.Observer;
 import utilities.Subject;
@@ -19,6 +20,7 @@ class PotionRow extends Hideable
 {
 	private var totalGrp:FlxGroup = new FlxGroup();
 	private var potionButtonArray:Array<InvPotionButton> = new Array<InvPotionButton>();
+	private var potionImagesArray:Array<DisplaySprite> = new Array <DisplaySprite>();
 	
 	public function new(?X:Float=0, ?Y:Float=0) 
 	{
@@ -41,18 +43,31 @@ class PotionRow extends Hideable
 		var xInterval = 125 + 10;
 		
 		var currPotionButton:InvPotionButton;
+		var currPotionImg:DisplaySprite;
 		
 		for (i in 0...numOfPotionsInRow)
 		{
 			currPotionButton = new InvPotionButton(x + topLeftX + xInterval * i, y + topLeftY);
 			potionButtonArray.push(currPotionButton);
 			totalGrp.add(currPotionButton);
+			
+			currPotionImg = new DisplaySprite(x + topLeftX + xInterval * i, y + topLeftY,
+			                    AssetPaths.PotionSpriteSheet__png,
+		                        145, 125, 2, 5);
+			currPotionImg.animation.play("0");
+			potionImagesArray.push(currPotionImg);
+			totalGrp.add(currPotionImg);
 		}
 	}
 	
 	public function getPotionButtonArray():Array<InvPotionButton>
 	{
 		return potionButtonArray;
+	}
+	
+	public function getPotionImgArray():Array<DisplaySprite>
+	{
+		return potionImagesArray;
 	}
 	
 	public function getTotalFlxGrp():FlxGroup
