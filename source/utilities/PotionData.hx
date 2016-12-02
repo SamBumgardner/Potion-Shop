@@ -18,15 +18,24 @@ class PotionData
 	public var activeEffects:Array<Array<Int>>;
 	public var description:String;
 	
-	public function new() 
+	public function new(?initialColorValues:Array<Int>) 
 	{
-		name = "Tasteless clear potion";
-		description = "";
-		colorByIndex = -1;
-		initActiveEffects();
 		if (effectTextArray == null)
 		{
 			initEffectTextArray();
+		}
+		
+		name = "";
+		description = "";
+		colorByIndex = -1;
+		initActiveEffects();
+		if (initialColorValues != null)
+		{
+			updatePotion(initialColorValues);
+		}
+		else
+		{
+			updatePotion([0, 0, 0, 0, 0, 0, 0, 0]);
 		}
 	}
 	
