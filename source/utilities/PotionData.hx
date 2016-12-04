@@ -115,8 +115,8 @@ class PotionData
 		var thisColorIntesity = 0;
 		
 		var effectPrices = [10, 5, 3, 1];
-		var possibleIntensities = ["Empty", "Weak", "", "Ordinary", "Flavorful", "", "Hearty", 
-		                           "", "Extra-strength", "Intense", "Overpowering", "", ""];
+		var possibleIntensities = ["Empty", "Weak", null, "Ordinary", "Flavorful", null, "Hearty", 
+		                           null, "Extra-strength", "Intense", "Overpowering", null, null];
 		var colorConverter = new ColorConverter();
 		
 		description = "";
@@ -153,7 +153,7 @@ class PotionData
 				intensity = possibleIntensities[maxIntensity];
 				maxIntensity--;
 			} 
-			while (intensity == "");
+			while (intensity == null);
 			potionText = "potion";
 		}
 		else

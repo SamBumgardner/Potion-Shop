@@ -89,10 +89,6 @@ class InventoryTable extends Hideable implements Observer
 			var maxPotionEffects = 9;
 			noPotion = new PotionData();
 			noPotion.name = "";
-			for (i in 0...maxPotionEffects)
-			{
-				noPotion.description += " \n";
-			}
 		}
 		
 		//Makes the local potionDataArray automatically track GameManager's potionDataArray.
@@ -309,9 +305,16 @@ class InventoryTable extends Hideable implements Observer
 		
 		displayName.text = potion.name;
 		var effectList:Array<String> = potion.description.split('\n');
-		for (i in 0...(cast (Math.min(9, effectList.length))))
+		for (i in 0...9)
 		{
-			displayPotionDesc[i].text = effectList[i];
+			if (effectList[i] != null)
+			{
+				displayPotionDesc[i].text = effectList[i];
+			}
+			else
+			{
+				displayPotionDesc[i].text = "";
+			}
 		}
 		displayPotionImg.animation.play(Std.string(potion.colorByIndex + 1));
 	}
