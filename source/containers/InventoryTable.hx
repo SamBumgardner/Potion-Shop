@@ -92,20 +92,8 @@ class InventoryTable extends Hideable implements Observer
 			}
 		}
 		
-		var numOfPotions = 27;
-		
-		for (i in 0...numOfPotions)
-		{
-			var newColorArray:Array<Int> = new Array<Int>();
-			for (j in 0...8)
-			{
-				for (k in 0...4)
-				{
-					newColorArray.push(FlxG.random.int(0, 10));
-				}
-			}
-			potionDataArray.push(new PotionData(newColorArray));
-		}
+		//Makes the local potionDataArray automatically track GameManager's potionDataArray.
+		potionDataArray =  Reflect.field(Type.resolveClass("GameManager"), "potionDataArray");
 	}
 	
 	
