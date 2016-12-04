@@ -192,6 +192,14 @@ class InventoryTable extends Hideable implements Observer
 		}
 	}
 	
+	override public function hide():Void
+	{
+		super.hide();
+		clearActivePotionButton();
+		clearActivePotionRow();
+		clearPotionHoverInfo();
+	}
+	
 	public function getTotalGrp():FlxGroup
 	{
 		return totalGrp;
@@ -201,20 +209,36 @@ class InventoryTable extends Hideable implements Observer
 	//         MISC. BUTTON ACTIONS          // 
 	///////////////////////////////////////////
 	
-	private function switchActivePotionButton(event:ButtonEvent):Void
+	private function clearActivePotionButton():Void
 	{
 		var potionsPerRow = 9;
 		if (selectedPotionIndex != -1)
 		{
 			ActiveButton.deactivate(potionRowArray[selectedPotionRowIndex]
 			            .getPotionButtonArray()[selectedPotionIndex % potionsPerRow]);
+			selectedPotionIndex = -1;
 		}
-		selectedPotionIndex = event.getID();
-		
-		var newSelectedRow:Int = Math.floor(event.getID() / potionsPerRow);
-		if (selectedPotionRowIndex != newSelectedRow && selectedPotionRowIndex != -1)
+	}
+	
+	private function clearActivePotionRow():Void
+	{
+		if (selectedPotionRowIndex != -1)
 		{
 			potionRowArray[selectedPotionRowIndex].unselected();
+			selectedPotionRowIndex = -1;
+		}
+	}
+	
+	private function switchActivePotionButton(event:ButtonEvent):Void
+	{
+		var potionsPerRow = 9;
+		clearActivePotionButton();
+		selectedPotionIndex = event.getID();
+		
+		var newSelectedRow:Int = Math.floor(selectedPotionIndex / potionsPerRow);
+		if (selectedPotionRowIndex != newSelectedRow)
+		{
+			clearActivePotionRow();
 		}
 		potionRowArray[newSelectedRow].selected();
 		selectedPotionRowIndex = newSelectedRow;
