@@ -57,7 +57,7 @@ class Button extends Hideable
 	 */
 	override public function hide():Void
 	{
-		FlxMouseEventManager.remove(this);
+		FlxMouseEventManager.setObjectMouseEnabled(this, false);
 		super.hide();
 	}
 	
@@ -69,7 +69,7 @@ class Button extends Hideable
 	 */
 	override public function reveal():Void
 	{
-		Button.register(this);
+		FlxMouseEventManager.setObjectMouseEnabled(this, true);
 		super.reveal();
 	}
 	
