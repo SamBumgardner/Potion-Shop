@@ -5,6 +5,7 @@ import buttons.InvPotionButton;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup;
+import flixel.input.mouse.FlxMouseEventManager;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import graphicObjects.DisplaySprite;
@@ -28,6 +29,7 @@ class InventoryTable extends Hideable implements Observer
 	private var eventCallbacks:Array<Array<ButtonEvent->Void>> = new Array<Array<ButtonEvent->Void>>();
 	
 	private static var noPotion:PotionData;
+	private var currentPotionPage:Int = 0;
 	private var potionRowArray:Array<PotionRow> = new Array<PotionRow>();
 	private var potionDataArray:Array<PotionData> = new Array<PotionData>();
 	private var selectedPotionIndex:Int = -1;
@@ -51,6 +53,7 @@ class InventoryTable extends Hideable implements Observer
 		initEventSystem();
 		initPotionData();
 		initPotionRows();
+		updatePotionButtons();
 		initDisplayComponents();
 	}
 	
@@ -111,7 +114,6 @@ class InventoryTable extends Hideable implements Observer
 		
 		var potionRow:PotionRow;
 		var currPotionArray:Array<InvPotionButton>;
-		var currPotionImgArray:Array<DisplaySprite>;
 		for (i in 0...(numOfRows + 1))
 		{
 			if (i < numOfRows)
@@ -121,23 +123,11 @@ class InventoryTable extends Hideable implements Observer
 				potionRowArray.push(potionRow);
 				
 				currPotionArray = potionRow.getPotionButtonArray();
-				currPotionImgArray = potionRow.getPotionImgArray();
 				for (j in 0...currPotionArray.length)
 				{
 					currPotionArray[j].sub.setID(i * currPotionArray.length + j);
 					currPotionArray[j].sub.setType(LocalButtonTypes.POTION_INV);
 					currPotionArray[j].sub.addObserver(this);
-					
-					if (potionDataArray[i * currPotionArray.length + j] != null)
-					{
-						currPotionImgArray[j].animation.play(Std.string(
-						                     potionDataArray[i * currPotionArray.length + j]
-						                     .colorByIndex + 1));
-					}
-					else
-					{
-						currPotionImgArray[j].animation.play("0");
-					}
 				}
 			}
 			else
@@ -192,6 +182,49 @@ class InventoryTable extends Hideable implements Observer
 		}
 	}
 	
+	
+	///////////////////////////////////////////
+	//           PUBLIC INTERFACE            //
+	///////////////////////////////////////////
+	
+	/**
+	 * Function that updates the appearance of the potion buttons
+	 * to match the current contents of the potionDataArray.
+	 */
+	public function updatePotionButtons():Void
+	{
+		
+		var numOfRows:Int = 3;
+		
+		var potionRow:PotionRow;
+		var currPotionArray:Array<InvPotionButton>;
+		var currPotionImgArray:Array<DisplaySprite>;
+		
+		for (i in 0...numOfRows)
+		{
+			potionRow = potionRowArray[numOfRows * currentPotionPage + i];
+			
+			currPotionArray = potionRow.getPotionButtonArray();
+			currPotionImgArray = potionRow.getPotionImgArray();
+			
+			for (j in 0...currPotionArray.length)
+			{
+				if (potionDataArray[i * currPotionArray.length + j] != null)
+				{
+					FlxMouseEventManager.setObjectMouseEnabled(currPotionArray[j], true);
+					currPotionImgArray[j].animation.play(Std.string(
+										 potionDataArray[i * currPotionArray.length + j]
+										 .colorByIndex + 1));
+				}
+				else
+				{
+					FlxMouseEventManager.setObjectMouseEnabled(currPotionArray[j], false);
+					currPotionImgArray[j].animation.play("0");
+				}
+			}
+		}
+	}
+	
 	override public function hide():Void
 	{
 		super.hide();
@@ -200,10 +233,17 @@ class InventoryTable extends Hideable implements Observer
 		clearPotionHoverInfo();
 	}
 	
+	override public function reveal():Void
+	{
+		super.reveal();
+		updatePotionButtons();
+	}
+	
 	public function getTotalGrp():FlxGroup
 	{
 		return totalGrp;
 	}
+	
 	
 	///////////////////////////////////////////
 	//         MISC. BUTTON ACTIONS          // 

@@ -42,4 +42,19 @@ class InvPotionButton extends StaySelectedButton
 			sub.notify(EventData.OUT);
 		}
 	}
+	
+	/**
+	 * Special logic needed for buttons that may need to not react to 
+	 * mouse events, but are already using active/inactive logic for 
+	 * something else.
+	 * 
+	 * This leaves it up to whatever is managing the button to decide
+	 * whether to re-enable this button in the mouse event manager when
+	 * this button is revealed.
+	 */
+	override public function reveal():Void
+	{
+		set_visible(true);
+		set_active(true);
+	}
 }
