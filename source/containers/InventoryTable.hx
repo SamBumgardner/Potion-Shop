@@ -375,7 +375,7 @@ class InventoryTable extends Hideable implements Observer
 			displayIndex = selectedIndex;
 			useSelectedDisplay = true;
 		}
-		if (useSelectedDisplay && !FlxG.keys.pressed.ALT && hoverIndex != -1)
+		if (!FlxG.keys.pressed.ALT && hoverIndex != -1)
 		{
 			if (displayIndex != hoverIndex)
 			{
