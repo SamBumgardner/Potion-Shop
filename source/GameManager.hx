@@ -5,6 +5,7 @@ import flixel.FlxG;
 import flixel.FlxSubState;
 import states.OptionsMenu;
 import states.ShopState;
+import utilities.PotionData;
 
 /**
  * Object responsible for managing data about the game as a whole.
@@ -16,6 +17,9 @@ import states.ShopState;
  */
 class GameManager
 {
+	public static var potionDataArray:Array<PotionData>;
+	public static var currentMoney:Int;
+	
 	public function new(){}
 	
 	public static function startNewGame():Void
