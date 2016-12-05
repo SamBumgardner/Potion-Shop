@@ -6,8 +6,11 @@ import buttons.CustomerLock.LockTypes;
 import flixel.FlxG;
 import flixel.group.FlxGroup;
 import flixel.system.FlxAssets.FlxGraphicAsset;
-import states.CustomerDetails;
+import flixel.text.FlxText;
+import flixel.util.FlxColor;
+import states.MakeSaleSubstate;
 import utilities.ButtonEvent;
+import utilities.CustomerData;
 import utilities.Observer;
 import utilities.Subject;
 
@@ -24,6 +27,10 @@ class CustomerCard extends ActiveButton implements Observer
 	public var sub:Subject = new Subject(0, ButtonTypes.CUSTOMER);
 	private var lockButton:CustomerLock;
 	private var totalGrp:FlxGroup = new FlxGroup();
+	private var customerInfo:CustomerData;
+	private var displayName:FlxText;
+	private var displayRequest:FlxText;
+	private var displayPrice:FlxText;
 	
 	public function new(?X:Float = 0, ?Y:Float = 0)
 	{
@@ -35,7 +42,36 @@ class CustomerCard extends ActiveButton implements Observer
 		
 		totalGrp.add(this);
 		
+		initDisplayComponents();
 		initLockButton();
+	}
+	
+	private function initDisplayComponents():Void
+	{
+		var textSize = 16;
+		
+		var nameXOffset = 20;
+		var nameYOffset = 155;
+		var nameWidth = 130;
+		displayName = new FlxText(x + nameXOffset, y + nameYOffset, nameWidth, "Customer Name Here", textSize);
+		displayName.color = FlxColor.BLACK;
+		totalGrp.add(displayName);
+		
+		var requestXOffset = 170;
+		var requestYOffset = 25;
+		var requestWidth = 420;
+		displayRequest = new FlxText(x + requestXOffset, y + requestYOffset, requestWidth, 
+		                 "Big Request goes here...\nblah\nblah\nblah\nblah", textSize);
+		displayRequest.color = FlxColor.BLACK;
+		totalGrp.add(displayRequest);
+		
+		var priceXOffset = 170;
+		var priceYOffset = 175;
+		var priceWidth = 420;
+		displayPrice = new FlxText(x + priceXOffset, y + priceYOffset, priceWidth,
+		               "I'm willing to pay 1000000 dollars", textSize);
+		displayPrice.color = FlxColor.BLACK;
+		totalGrp.add(displayPrice);
 	}
 	
 	private function initLockButton():Void
