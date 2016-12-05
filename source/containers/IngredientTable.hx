@@ -825,12 +825,15 @@ class IngredientTable extends AdvancedSprite implements Observer
 	
 	override public function advanceTimeReset():Void 
 	{
-		for (cauldron in cauldronArray)
+		for (cauldronID in 0...cauldronArray.length)
 		{
-			// Also need to find & save brewing results!
-			// If tracking inventory, need to refund ingredients
-			//   placed in cauldrons but not brewed.
-			cauldron.resetData();
+			switchCurrCauldron(cauldronID);
+			if (cauldronArray[cauldronID].isLocked)
+			{
+				updatePotionData();
+				GameManager.addPotionToInventory(new PotionData(displayBlendedHover.array));
+			}
+			cauldronArray[cauldronID].resetData();
 		}
 		switchCurrCauldron(0);
 		
