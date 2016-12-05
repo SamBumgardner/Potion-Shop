@@ -152,7 +152,7 @@ class InventoryTable extends AdvancedSprite implements Observer
 		var descTextIntervalX = 260;
 		var descTextIntervalY = 40;
 		
-		displayName = new FlxText(infoRowX + nameTextOffsetX, infoRowY + nameTextOffsetY, 200, "Initial potion name", 20);
+		displayName = new FlxText(infoRowX + nameTextOffsetX, infoRowY + nameTextOffsetY, 200, "", 20);
 		displayName.set_color(FlxColor.BLACK);
 		totalGrp.add(displayName);
 		displayName.alignment = FlxTextAlign.CENTER;
@@ -160,7 +160,7 @@ class InventoryTable extends AdvancedSprite implements Observer
 		displayPotionImg = new DisplaySprite(infoRowX + imgOffsetX, infoRowY + offsetY,
 		                                     AssetPaths.PotionSpriteSheet__png, 145, 125,
 		                                     2, 5);
-		displayPotionImg.animation.play("1");
+		displayPotionImg.animation.play("0");
 		totalGrp.add(displayPotionImg);
 		
 		var maxPotionEffects = 9;
@@ -171,7 +171,7 @@ class InventoryTable extends AdvancedSprite implements Observer
 		{
 			tempFlxText = new FlxText(infoRowX + descTextOffsetX + descTextIntervalX * (i % cols),
 			                          10 + infoRowY + offsetY + descTextIntervalY * Math.floor(i / 3), 
-			                          0, "description", 24);
+			                          0, "", 24);
 			tempFlxText.set_color(FlxColor.BLACK);
 			displayPotionDesc.push(tempFlxText);
 			totalGrp.add(tempFlxText);
