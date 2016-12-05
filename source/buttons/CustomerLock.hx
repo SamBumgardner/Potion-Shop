@@ -22,15 +22,18 @@ class CustomerLock extends ActiveButton
 	public var sub:Subject = new Subject(0, ButtonTypes.LOCK);
 	
 	public function new(?X:Float=0, ?Y:Float=0) 
-	{
-		super(X + 233, Y + 45, false);
-		
+	{	
 		totalGrp = new FlxGroup();
 		lockType = LockTypes.NONE;
 		
 		cover = new CustomerCover(X, Y);
 		totalGrp.add(cover);
 		totalGrp.add(this);
+		
+		//super needs to be called after CustomerCover's instantiation,
+		// because if I do this first, it is considered "behind" the cover
+		// by the FlxMouseEventManager.
+		super(X + 233, Y + 45, false);
 		
 		image = AssetPaths.CustCoverLabel__png;
 		bWidth = 144;
