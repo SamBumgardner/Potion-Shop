@@ -22,9 +22,9 @@ class AdvancedState extends FlxState
 	}
 	
 	private function resetMouseEventManager():Void
-	{
-		FlxG.plugins.removeType(FlxMouseEventManager); // Necessary due to a bug in HaxeFlixel
-		FlxMouseEventManager.init();
+	{ 
+		//Currently only works on remove-logic-refactoring branch of flixel.
+		FlxMouseEventManager.removeAll();
 	}
 	
 	public function activateSubstate(caller:Button, substateClass):Void
