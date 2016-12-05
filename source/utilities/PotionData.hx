@@ -18,15 +18,24 @@ class PotionData
 	public var activeEffects:Array<Array<Int>>;
 	public var description:String;
 	
-	public function new() 
+	public function new(?initialColorValues:Array<Int>) 
 	{
-		name = "Tasteless clear potion";
-		description = "";
-		colorByIndex = -1;
-		initActiveEffects();
 		if (effectTextArray == null)
 		{
 			initEffectTextArray();
+		}
+		
+		name = "";
+		description = "";
+		colorByIndex = -1;
+		initActiveEffects();
+		if (initialColorValues != null)
+		{
+			updatePotion(initialColorValues);
+		}
+		else
+		{
+			updatePotion([0, 0, 0, 0, 0, 0, 0, 0]);
 		}
 	}
 	
@@ -98,15 +107,16 @@ class PotionData
 	
 	private function updateText()
 	{
-		var intensity:String = "Tasteless";
-		var dominantColor:String = "clear";
+		var intensity:String = "";
+		var dominantColor:String = "";
+		var potionText:String = "";
 		var maxIntensity = 0;
 		var maxColorIndex = -1;
 		var thisColorIntesity = 0;
 		
 		var effectPrices = [10, 5, 3, 1];
-		var possibleIntensities = ["Tasteless", "Weak", "", "Ordinary", "Flavorful", "", "Hearty", 
-		                           "", "Extra-strength", "Intense", "Overpowering", "", ""];
+		var possibleIntensities = ["Empty", "Weak", null, "Ordinary", "Flavorful", null, "Hearty", 
+		                           null, "Extra-strength", "Intense", "Overpowering", null, null];
 		var colorConverter = new ColorConverter();
 		
 		description = "";
@@ -143,10 +153,17 @@ class PotionData
 				intensity = possibleIntensities[maxIntensity];
 				maxIntensity--;
 			} 
-			while (intensity == "");
+			while (intensity == null);
+			potionText = "potion";
+		}
+		else
+		{
+			intensity = "Empty";
+			dominantColor = "glass";
+			potionText = "bottle";
 		}
 		
 		colorByIndex = maxColorIndex;
-		name = intensity + " " + dominantColor + " potion";
+		name = intensity + " " + dominantColor + " " + potionText;
 	}
 }
