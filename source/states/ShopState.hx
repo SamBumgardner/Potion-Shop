@@ -9,6 +9,7 @@ import buttons.CustomerTab;
 import buttons.InventoryTab;
 import containers.BrewContainer;
 import containers.CustContainer;
+import containers.InventoryTable;
 import flixel.FlxG;
 import flixel.group.FlxGroup;
 import flixel.group.FlxGroup.FlxTypedGroup;
@@ -28,7 +29,7 @@ class ShopState extends AdvancedState implements Observer
 	private var custContents:FlxGroup;
 	private var brewContainer:BrewContainer;
 	private var brewContents:FlxGroup;
-	private var inventoryButtons:FlxGroup;
+	private var inventoryContents:FlxGroup;
 	
 	private var buttonGroups:Map<ShopButtonGroup, FlxGroup>;
 	
@@ -42,14 +43,14 @@ class ShopState extends AdvancedState implements Observer
 		initSideTabs();
 		initCustContents();
 		initBrewContent();
-		initInventoryButtons();
+		initinventoryContents();
 		
 		currentButtonSet = custContents;
 		
 		buttonGroups = [
 			Customer => custContents,
 			Brew => brewContents,
-			Inventory => inventoryButtons
+			Inventory => inventoryContents
 		];
 	}
 	
@@ -99,11 +100,14 @@ class ShopState extends AdvancedState implements Observer
 		add(brewContents);
 	}
 	
-	private function initInventoryButtons():Void
+	private function initinventoryContents():Void
 	{
-		inventoryButtons = new FlxGroup();
+		var inventoryTable = new InventoryTable(300, 215);
 		
-		add(inventoryButtons);
+		inventoryContents = inventoryTable.getTotalGrp();
+		
+		inventoryContents.forEach(AdvancedSprite.Hide, true);
+		add(inventoryContents);
 	}
 	
 	private function switchActiveTab(tab:ActiveButton):Void
