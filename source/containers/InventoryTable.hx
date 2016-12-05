@@ -152,7 +152,7 @@ class InventoryTable extends AdvancedSprite implements Observer
 		var descTextIntervalX = 260;
 		var descTextIntervalY = 40;
 		
-		displayName = new FlxText(infoRowX + nameTextOffsetX, infoRowY + nameTextOffsetY, 200, "Overpowering yellow potion", 20);
+		displayName = new FlxText(infoRowX + nameTextOffsetX, infoRowY + nameTextOffsetY, 200, "Initial potion name", 20);
 		displayName.set_color(FlxColor.BLACK);
 		totalGrp.add(displayName);
 		displayName.alignment = FlxTextAlign.CENTER;
