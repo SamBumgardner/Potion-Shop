@@ -404,8 +404,11 @@ class IngredientTable extends AdvancedSprite implements Observer
 	
 	public function lockCurrCauldron():Void
 	{
-		currCauldron.isLocked = true;
-		ActiveButton.activate(lockButton);
+		if (currCauldron.numSelected > 0)
+		{
+			currCauldron.isLocked = true;
+			ActiveButton.activate(lockButton);
+		}
 	}
 	
 	
