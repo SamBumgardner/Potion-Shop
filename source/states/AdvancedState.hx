@@ -27,10 +27,10 @@ class AdvancedState extends FlxState
 		FlxMouseEventManager.removeAll();
 	}
 	
-	public function activateSubstate(caller:Button, substateClass):Void
+	public function activateSubstate(caller:Button, substateClass, ?arrayOfArgs):Void
 	{
 		caller.mouseOut(caller);
-		openSubState(Type.createInstance(substateClass, []));
+		openSubState(Type.createInstance(substateClass, arrayOfArgs));
 	}
 	
 	override public function closeSubState():Void

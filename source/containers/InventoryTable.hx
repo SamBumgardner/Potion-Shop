@@ -235,6 +235,11 @@ class InventoryTable extends AdvancedSprite implements Observer
 		updatePotionButtons();
 	}
 	
+	public function getSelectedIndex():Int
+	{
+		return selectedIndex;
+	}
+	
 	public function getTotalGrp():FlxGroup
 	{
 		return totalGrp;

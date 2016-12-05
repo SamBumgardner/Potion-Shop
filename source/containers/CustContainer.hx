@@ -6,6 +6,7 @@ import buttons.CustomerLock;
 import buttons.NextPhaseButton;
 import flixel.FlxG;
 import flixel.group.FlxGroup;
+import states.MakeSaleSubstate;
 import utilities.ButtonEvent;
 import utilities.EventExtender;
 import utilities.Observer;
@@ -25,6 +26,7 @@ class CustContainer implements Observer
 	private var totalGrp:FlxGroup = new FlxGroup();
 	private var custArray:Array<CustomerCard>;
 	private var currCustID:Int = -1;
+	private var sellButton:SimpleObservableButton;
 	public var sub:Subject = new Subject(0, ButtonTypes.NEXT_PHASE);
 	
 	public function new() 
@@ -67,7 +69,7 @@ class CustContainer implements Observer
 		var startY = 915;
 		var xInterval = 450;
 		
-		var sellButton = new SimpleObservableButton(420, 915, ButtonTypes.SELL, true,
+		sellButton = new SimpleObservableButton(420, 915, ButtonTypes.SELL, true,
 		                                            AssetPaths.SellButton__png, 300, 150);
 		sellButton.sub.addObserver(this);
 		totalGrp.add(sellButton);
@@ -86,6 +88,16 @@ class CustContainer implements Observer
 		var nextPhase = new NextPhaseButton(1720, 980);
 		nextPhase.sub.addObserver(this);
 		totalGrp.add(nextPhase);
+	}
+	
+	public function saleSucceeded():Int
+	{
+		custArray[currCustID].lockCustomer(LockTypes.SOLD);
+		ActiveButton.deactivate(custArray[currCustID]);
+		var moneyEarned = 50; // should match what customer was willing to pay.
+		currCustID = -1;
+		
+		return moneyEarned;
 	}
 	
 	public function getTotalFlxGrp():FlxGroup
@@ -127,9 +139,7 @@ class CustContainer implements Observer
 	{
 		if (currCustID != -1)
 		{
-			custArray[currCustID].lockCustomer(LockTypes.SOLD);
-			ActiveButton.deactivate(custArray[currCustID]);
-			currCustID = -1;
+			(cast FlxG.state).activateSubstate(sellButton, MakeSaleSubstate, [this]);
 		}
 	}
 	

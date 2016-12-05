@@ -1,5 +1,6 @@
 package;
 
+import containers.CustContainer;
 import flash.system.System;
 import flixel.FlxG;
 import flixel.FlxSubState;
@@ -65,5 +66,11 @@ class GameManager
 			}
 		}
 		return new PotionData(newColorArray);
+	}
+	
+	public static function saleSucceeded(objectOfOrigin:CustContainer):Void
+	{
+		//Do whatever happens when sale succeeded.
+		currentMoney += objectOfOrigin.saleSucceeded();
 	}
 }
