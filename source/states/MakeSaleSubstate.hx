@@ -58,7 +58,7 @@ class MakeSaleSubstate extends FlxSubState implements Observer
 	
 	private function attemptPotionSale():Void
 	{
-		var potionIndex:Int = saleInvTable.getSelectedIndex();
+		var potionIndex:Int = saleInvTable.getSelectedPotionIndex();
 		if (potionIndex != -1)
 		{
 			GameManager.potionDataArray.remove(GameManager.potionDataArray[potionIndex]);

@@ -36,7 +36,6 @@ class InventoryTable extends AdvancedSprite implements Observer
 	private var selectedPotionRowIndex:Int = -1;
 	
 	private var hoverIndex:Int = -1;
-	private var selectedIndex:Int = -1;
 	private var displayIndex:Int = -1;
 	private var displayName:FlxText;
 	private var displayPotionImg:DisplaySprite;
@@ -137,7 +136,7 @@ class InventoryTable extends AdvancedSprite implements Observer
 	private function initDisplayComponents():Void
 	{
 		hoverIndex = -1;
-		selectedIndex = -1;
+		selectedPotionIndex = -1;
 		
 		var infoRowX = x + 37;
 		var infoRowY = y + 53 + (160 + 10) * 3;
@@ -235,9 +234,9 @@ class InventoryTable extends AdvancedSprite implements Observer
 		updatePotionButtons();
 	}
 	
-	public function getSelectedIndex():Int
+	public function getSelectedPotionIndex():Int
 	{
-		return selectedIndex;
+		return selectedPotionIndex;
 	}
 	
 	public function getTotalGrp():FlxGroup
@@ -252,9 +251,9 @@ class InventoryTable extends AdvancedSprite implements Observer
 	
 	private function clearActivePotionButton():Void
 	{
-		var potionsPerRow = 9;
 		if (selectedPotionIndex != -1)
 		{
+			var potionsPerRow = 9;
 			ActiveButton.deactivate(potionRowArray[selectedPotionRowIndex]
 			            .getPotionButtonArray()[selectedPotionIndex % potionsPerRow]);
 			selectedPotionIndex = -1;
@@ -346,7 +345,7 @@ class InventoryTable extends AdvancedSprite implements Observer
 	private function potionInvUp(event:ButtonEvent):Void
 	{
 		switchActivePotionButton(event);
-		selectedIndex = event.getID();
+		selectedPotionIndex = event.getID();
 	}
 	
 	public function onNotify(event:ButtonEvent):Void 
@@ -373,11 +372,11 @@ class InventoryTable extends AdvancedSprite implements Observer
 		
 		if (FlxG.keys.justPressed.ALT || (!useSelectedDisplay && hoverIndex == -1))
 		{
-			if (displayIndex != selectedIndex)
+			if (displayIndex != selectedPotionIndex)
 			{
 				displayIndexChanged = true;
 			}
-			displayIndex = selectedIndex;
+			displayIndex = selectedPotionIndex;
 			useSelectedDisplay = true;
 		}
 		if (!FlxG.keys.pressed.ALT && hoverIndex != -1)
