@@ -1,16 +1,16 @@
 {"price":300,"name":"Rainbow Moss","description":"Colorful moss supposedly placed on rocks and trees by forgetful faeries to mark their path home.","colorValues":[1,0,0,0,0,1,0,0]}
-{"price":300,"name":"Mystery Thing","description":"An ingredient that does not have a description yet... How mysterious!","colorValues":[0,0,0,0,0,3,0,0]}
+{"price":300,"name":"Imperial Chrysanthemum","description":"Rain, sunlight, and darkness must be carefully balanced when raising this plant to ensure its growth to full maturity.","colorValues":[0,0,0,0,0,3,0,0]}
 {"price":300,"name":"Inkwell Mushroom","description":"A Mushroom oozing with an ink-like substance. Suitable for writing or potion-brewing.","colorValues":[0,0,0,0,1,1,0,0]}
-{"price":300,"name":"Mystery Thing","description":"An ingredient that does not have a description yet... How mysterious!","colorValues":[3,0,0,0,0,0,0,0]}
+{"price":300,"name":"Meat Beet","description":"A rotund vegetable that has the same texture and consistency as a well-cooked steak.","colorValues":[3,0,0,0,0,0,0,0]}
 {"price":300,"name":"Chimera's Scale","description":"Contains beneficial properties from many animal-based ingredients. Most potent if shed naturally. ","colorValues":[1,0,0,0,0,2,0,0]}
 {"price":300,"name":"Moonlight Web","description":"A dark-hued spider web found in the depths of a forest. Emits a fluorescent glow to attract insects.","colorValues":[0,0,0,0,1,2,0,0]}
 {"price":300,"name":"Burr Berries","description":"Spiky, iridescent berries that are cold to the touch.","colorValues":[0,0,0,0,3,0,0,0]}
 {"price":300,"name":"Peppy Pepper","description":"The primary ingredient in many popular hot sauces. Can also be pickled in a pinch.","colorValues":[1,0,0,0,0,0,0,0]}
 {"price":300,"name":"Semblance Horn","description":"A rough horn that gains a reflective, mirror-like sheen when polished properly.","colorValues":[0,0,0,0,0,1,0,0]}
-{"price":300,"name":"Milkweed Roots","description":"A bundle of thin, wiry roots capable of hightening intellectual acuity. Most commonly found around dairy farms.","colorValues":[0,0,0,0,1,0,0,0]}
+{"price":300,"name":"Milkweed Roots","description":"A bundle of thin, wiry roots capable of hightening intellectual acuity. Most commonly found near dairy farms.","colorValues":[0,0,0,0,1,0,0,0]}
 {"price":300,"name":"Dragon's Tongue","description":"A flower with brilliant red petals that feel warm to the touch. Occasionally used as seasoning in exotic cuisine.","colorValues":[1,1,0,0,0,0,0,0]}
 {"price":300,"name":"Fuyu Persummons","description":"A popular fruit among mages. When cut in half, it reveals a sigil-like pattern of seeds.","colorValues":[0,2,0,0,0,1,0,0]}
-{"price":300,"name":"Carbuncle Ear","description":"A capricious plant, used in potions and poisons alike.","colorValues":[0,0,0,2,0,1,0,0]}
+{"price":300,"name":"Carbuncle Ear","description":"A delicate plant named after the mythological carbuncle, a creature said to possess great compassion and wisdom.","colorValues":[0,0,0,2,0,1,0,0]}
 {"price":300,"name":"Turtle Zest","description":"Grated from the empty shell of a crystal turtle.","colorValues":[0,0,0,1,1,0,0,0]}
 {"price":300,"name":"Fobb Slime","description":"A prized ingredient among apprentice alchemists. Useful in a variety of basic potions and generally safe to use.","colorValues":[0,1,0,0,0,0,0,0]}
 {"price":300,"name":"Cuttle Eye","description":"The cuttlefishing industry took a sharp nosedive as undersea tourism became more common, but has rebounded in recent years.","colorValues":[0,0,1,0,0,0,0,0]}
@@ -23,6 +23,6 @@
 {"price":300,"name":"Sun Salt","description":"Glistening yellow crytals that glow when exposed to sunlight. Should only be used in small quantites.","colorValues":[0,0,3,0,0,0,0,0]}
 {"price":300,"name":"Lucky Bone","description":"The bone may be lucky, but the original owner probably wasn't.","colorValues":[0,0,1,2,0,0,0,0]}
 {"price":300,"name":"Arancia","description":"A delicious orange fruit. Its seeds and peel are its most alchemically potent components.","colorValues":[0,3,0,0,0,0,0,0]}
-{"price":300,"name":"Mystery Thing","description":"An ingredient that does not have a description yet... How mysterious!","colorValues":[0,0,0,0,0,0,0,0]}
-{"price":300,"name":"Mystery Thing","description":"An ingredient that does not have a description yet... How mysterious!","colorValues":[0,0,0,0,0,0,0,0]}
+{"price":300,"name":"Star Stone","description":"A shining stone born from the core of a dying star.","colorValues":[0,0,0,0,0,0,0,3]}
+{"price":300,"name":"Distilled Shadow","description":"A Jet-black gem that tends to disappear when exposed to bright light.","colorValues":[0,0,0,0,0,0,3,0]}
 {"price":300,"name":"Shale of the Forest","description":"Bark from a petrified tree, possibly thousands of years old. Probably a renewable resource.","colorValues":[0,0,0,3,0,0,0,0]}
