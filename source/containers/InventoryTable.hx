@@ -10,6 +10,7 @@ import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import graphicObjects.DisplaySprite;
 import utilities.ButtonEvent;
+import utilities.CustomerData;
 import utilities.Observer;
 import utilities.PotionData;
 
@@ -200,21 +201,20 @@ class InventoryTable extends AdvancedSprite implements Observer
 			potionRow = potionRowArray[numOfRows * currentPotionPage + i];
 			
 			currPotionArray = potionRow.getPotionButtonArray();
-			currPotionImgArray = potionRow.getPotionImgArray();
 			
 			for (j in 0...currPotionArray.length)
 			{
 				if (potionDataArray[i * currPotionArray.length + j] != null)
 				{
 					FlxMouseEventManager.setObjectMouseEnabled(currPotionArray[j], true);
-					currPotionImgArray[j].animation.play(Std.string(
+					currPotionArray[j].changePotionImg(Std.string(
 										 potionDataArray[i * currPotionArray.length + j]
 										 .colorByIndex + 1));
 				}
 				else
 				{
 					FlxMouseEventManager.setObjectMouseEnabled(currPotionArray[j], false);
-					currPotionImgArray[j].animation.play("0");
+					currPotionArray[j].changePotionImg("0");
 				}
 			}
 		}
@@ -242,6 +242,33 @@ class InventoryTable extends AdvancedSprite implements Observer
 	public function getTotalGrp():FlxGroup
 	{
 		return totalGrp;
+	}
+	
+	public function grayOutInvalidPotions(customer:CustomerData):Void
+	{
+		var numOfRows:Int = 3;
+		
+		var potionRow:PotionRow;
+		var currPotionArray:Array<InvPotionButton>;
+		var currPotionImgArray:Array<DisplaySprite>;
+		
+		for (i in 0...numOfRows)
+		{
+			potionRow = potionRowArray[numOfRows * currentPotionPage + i];
+			
+			currPotionArray = potionRow.getPotionButtonArray();
+			
+			for (j in 0...currPotionArray.length)
+			{
+				if (potionDataArray[i * currPotionArray.length + j] != null)
+				{
+					if (!customer.checkPotion(potionDataArray[i * currPotionArray.length + j]))
+					{
+						currPotionArray[j].grayOut();
+					}
+				}
+			}
+		}
 	}
 	
 	
