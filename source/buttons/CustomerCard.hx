@@ -60,26 +60,27 @@ class CustomerCard extends ActiveButton implements Observer
 		
 		var textSize = 16;
 		
-		var nameXOffset = 20;
+		var nameXOffset = 16;
 		var nameYOffset = 155;
 		var nameWidth = 130;
-		displayName = new FlxText(x + nameXOffset, y + nameYOffset, nameWidth, "Customer Name Here", textSize);
+		displayName = new FlxText(x + nameXOffset, y + nameYOffset, nameWidth, "", textSize);
+		displayName.alignment = FlxTextAlign.CENTER;
 		displayName.color = FlxColor.BLACK;
 		totalGrp.add(displayName);
 		
-		var requestXOffset = 170;
+		var requestXOffset = 164;
 		var requestYOffset = 25;
 		var requestWidth = 420;
 		displayRequest = new FlxText(x + requestXOffset, y + requestYOffset, requestWidth, 
-		                 "Big Request goes here...\nblah\nblah\nblah\nblah", textSize);
+		                 "", textSize);
 		displayRequest.color = FlxColor.BLACK;
 		totalGrp.add(displayRequest);
 		
-		var priceXOffset = 170;
+		var priceXOffset = 164;
 		var priceYOffset = 175;
 		var priceWidth = 420;
 		displayPrice = new FlxText(x + priceXOffset, y + priceYOffset, priceWidth,
-		               "I'm willing to pay 1000000 dollars", textSize);
+		               "", textSize);
 		displayPrice.color = FlxColor.BLACK;
 		totalGrp.add(displayPrice);
 		
