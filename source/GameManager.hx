@@ -18,6 +18,9 @@ import utilities.PotionData;
  */
 class GameManager
 {
+	private static var maleCustomerNames:Array<String>;
+	private static var femaleCustomerNames:Array<String>;
+	private static var alreadyPickedNames:Array<Array<Int>>;
 	public static var potionDataArray:Array<PotionData>;
 	public static var currentMoney:Int;
 	
@@ -50,6 +53,28 @@ class GameManager
 		System.exit(0);
 	}
 	
+	public static function loadCustomerNames():Void
+	{
+		var linesPerFile:Int = 50;
+		
+		maleCustomerNames = new Array<String>();
+		femaleCustomerNames = new Array<String>();
+		
+		var fileHandle = File.read(AssetPaths.MaleCustomerNames__txt);
+		for (i in 0...linesPerFile)
+		{
+			maleCustomerNames.push(fileHandle.readLine());
+		}
+		fileHandle.close();
+		
+		fileHandle = File.read(AssetPaths.FemaleCustomerNames__txt);
+		for (i in 0...linesPerFile)
+		{
+			femaleCustomerNames.push(fileHandle.readLine());
+		}
+		fileHandle.close();
+	}
+	
 	public static function addPotionToInventory(newPotion:PotionData):Void
 	{
 		potionDataArray.push(newPotion);
@@ -66,6 +91,53 @@ class GameManager
 			}
 		}
 		return new PotionData(newColorArray);
+	}
+	
+	public static function generateRandomCustomer():CustomerData
+	{
+		var linesPerFile:Int = 50;
+		var custName:String = "";
+		
+		if (FlxG.random.bool())
+		{
+			var randomSelection = FlxG.random.int(0, linesPerFile - 1, GameManager.alreadyPickedNames[0]);
+			custName = maleCustomerNames[randomSelection];
+			GameManager.alreadyPickedNames[0].push(randomSelection);
+			
+		}
+		else
+		{
+			var randomSelection = FlxG.random.int(0, linesPerFile - 1, GameManager.alreadyPickedNames[1]);
+			custName = femaleCustomerNames[randomSelection];
+			GameManager.alreadyPickedNames[1].push(randomSelection);
+		}
+		
+		var custPicIndex:Int = FlxG.random.int(0, 2);
+		
+		//Can definitely generate potions that aren't creatable.
+		// Address in future changes.
+		var custPotionValues:Array<Int> = [0, 0, 0, 0, 0, 0, 0, 0];
+		
+		var bigColorIndex:Int = FlxG.random.int(0, 7);
+		var medColorIndex:Int = FlxG.random.int(0, 7, [bigColorIndex]);
+		var smallColorIndex:Int = FlxG.random.int(0, 7, [bigColorIndex, medColorIndex]);
+		
+		var bigColorValue:Int = FlxG.random.int(1, 10);
+		var medColorValue:Int = FlxG.random.int(0, cast Math.min(10 - bigColorValue, 3));
+		var smallColorValue:Int = FlxG.random.int(0, cast Math.min(10 - medColorValue, 3));
+		
+		custPotionValues[bigColorIndex] = bigColorValue;
+		custPotionValues[medColorIndex] = medColorValue;
+		custPotionValues[smallColorIndex] = smallColorValue;
+		
+		var totalColorValue:Int = bigColorValue + medColorValue + smallColorValue;
+		return new CustomerData(custName, custPicIndex, custPotionValues, FlxG.random.int(totalColorValue * 15, totalColorValue * 25)); 
+	}
+	
+	public static function resetSelectedNames():Void
+	{
+		alreadyPickedNames[0] = new Array<Int>();
+		alreadyPickedNames[1] = new Array<Int>();
 	}
 	
 	public static function saleSucceeded(objectOfOrigin:CustContainer):Void

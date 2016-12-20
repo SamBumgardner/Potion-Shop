@@ -58,9 +58,12 @@ class CustContainer implements Observer
 				custArray.push(new CustomerCard(topLeftX + col * XInterval, topLeftY + row * YInterval));
 				custArray[row * numCols + col].sub.addObserver(this);
 				custArray[row * numCols + col].sub.setID(row * numCols + col);
+				
 				totalGrp.add(custArray[row * numCols + col].getTotalFlxGrp());
 			}
 		}
+		
+		moveOnCustomers();
 	}
 	
 	private function initAuxButtons():Void
@@ -88,6 +91,24 @@ class CustContainer implements Observer
 		var nextPhase = new NextPhaseButton(1720, 980);
 		nextPhase.sub.addObserver(this);
 		totalGrp.add(nextPhase);
+	}
+	
+	private function moveOnCustomers():Void
+	{
+		var numOfVisibleCards = 6;
+		var numCols = 2;
+		
+		GameManager.resetSelectedNames();
+		for (row in 0...(cast numOfVisibleCards / numCols))
+		{
+			for (col in 0...numCols)
+			{
+				if (custArray[row * numCols + col].lockButton.lockType != LockTypes.WAIT)
+				{
+					custArray[row * numCols + col].changeCustomerData(GameManager.generateRandomCustomer());
+				}
+			}
+		}
 	}
 	
 	public function saleSucceeded():Int

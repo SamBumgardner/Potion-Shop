@@ -27,12 +27,13 @@ class CustomerCard extends ActiveButton implements Observer
 	public var sub:Subject = new Subject(0, ButtonTypes.CUSTOMER);
 	private var lockButton:CustomerLock;
 	private var totalGrp:FlxGroup = new FlxGroup();
-	private var customerInfo:CustomerData;
+	public var customerInfo:CustomerData;
 	private var displayName:FlxText;
 	private var displayRequest:FlxText;
 	private var displayPrice:FlxText;
+	private var displayFace:DisplaySprite;
 	
-	public function new(?X:Float = 0, ?Y:Float = 0)
+	public function new(?X:Float = 0, ?Y:Float = 0, ?initialCustData:CustomerData)
 	{
 		image = AssetPaths.CustomerCard__png;
 		bWidth = 600;
@@ -42,12 +43,20 @@ class CustomerCard extends ActiveButton implements Observer
 		
 		totalGrp.add(this);
 		
-		initDisplayComponents();
+		initDisplayComponents(initialCustData);
 		initLockButton();
 	}
 	
-	private function initDisplayComponents():Void
-	{
+	private function initDisplayComponents(?initialCustData:CustomerData):Void
+	{	
+		var faceXOffset = 17;
+		var faceYOffset = 17;
+		
+		displayFace = new DisplaySprite(x + faceXOffset, y + faceYOffset, 
+		                  AssetPaths.CustomerSpriteSheet__png, 128, 128, 1, 3);
+		displayFace.animation.play("0");
+		totalGrp.add(displayFace);
+		
 		var textSize = 16;
 		
 		var nameXOffset = 20;
@@ -72,6 +81,12 @@ class CustomerCard extends ActiveButton implements Observer
 		               "I'm willing to pay 1000000 dollars", textSize);
 		displayPrice.color = FlxColor.BLACK;
 		totalGrp.add(displayPrice);
+		
+		if (initialCustData == null)
+		{
+			initialCustData = new CustomerData("Customer Name Here", 0, [0, 0, 0, 0, 0, 0, 0, 0], 0);
+		}
+		changeCustomerData(initialCustData);
 	}
 	
 	private function initLockButton():Void
@@ -80,6 +95,15 @@ class CustomerCard extends ActiveButton implements Observer
 		lockButton.sub.addObserver(this);
 		lockButton.getTotalFlxGrp().forEach(AdvancedSprite.Hide, true);
 		totalGrp.add(lockButton.getTotalFlxGrp());
+	}
+	
+	public function changeCustomerData(newData:CustomerData):Void
+	{
+		displayFace.animation.play(Std.string(newData.graphicIndex));
+		displayName.text = newData.name;
+		displayRequest.text = newData.getRequestDescription();
+		displayPrice.text = "and I'm willing to pay " + Std.string(newData.pay) + " dollars.";
+		customerInfo = newData;
 	}
 	
 	public function getTotalFlxGrp():FlxGroup
