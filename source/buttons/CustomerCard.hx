@@ -8,6 +8,7 @@ import flixel.group.FlxGroup;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
+import graphicObjects.DisplaySprite;
 import states.MakeSaleSubstate;
 import utilities.ButtonEvent;
 import utilities.CustomerData;
@@ -25,7 +26,7 @@ using utilities.EventExtender;
 class CustomerCard extends ActiveButton implements Observer
 {
 	public var sub:Subject = new Subject(0, ButtonTypes.CUSTOMER);
-	private var lockButton:CustomerLock;
+	public var lockButton:CustomerLock;
 	private var totalGrp:FlxGroup = new FlxGroup();
 	public var customerInfo:CustomerData;
 	private var displayName:FlxText;

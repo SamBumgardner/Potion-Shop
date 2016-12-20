@@ -188,6 +188,7 @@ class CustContainer implements Observer
 	private function nextPhaseClicked(event:ButtonEvent):Void
 	{	// Passes the event notification up, since the state is 
 		//   responsible for moving on to the next part of the day.
+		moveOnCustomers();
 		sub.notify(EventData.UP);
 	}
 }
