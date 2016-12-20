@@ -24,8 +24,13 @@ class CustomerData
 		var colorConverter:ColorConverter = new ColorConverter();
 		
 		var wouldLikeA:String = "I would like a ";
-		var color:String = colorConverter.intToColorStr[desiredPotion.colorByIndex]
-		                   .toLowerCase() + " ";
+		var color:String = "";
+		if (desiredPotion.colorByIndex != -1)
+		{
+			color = colorConverter.intToColorStr[desiredPotion.colorByIndex]
+							   .toLowerCase() + " ";
+		}
+		
 		var potion:String = "potion with...\n";
 		
 		return wouldLikeA + color + potion + desiredPotion.description;
