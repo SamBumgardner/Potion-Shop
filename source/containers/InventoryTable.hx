@@ -147,6 +147,7 @@ class InventoryTable extends AdvancedSprite implements Observer
 		var nameTextOffsetY = offsetY + 40;
 		
 		var imgOffsetX = 325;
+		var imgOffsetY = 7;
 		
 		var descTextOffsetX = imgOffsetX + 200;
 		var descTextIntervalX = 260;
@@ -157,9 +158,9 @@ class InventoryTable extends AdvancedSprite implements Observer
 		totalGrp.add(displayName);
 		displayName.alignment = FlxTextAlign.CENTER;
 		
-		displayPotionImg = new DisplaySprite(infoRowX + imgOffsetX, infoRowY + offsetY,
-		                                     AssetPaths.PotionSpriteSheet__png, 145, 125,
-		                                     2, 5);
+		displayPotionImg = new DisplaySprite(infoRowX + imgOffsetX, infoRowY + imgOffsetY,
+		                                     AssetPaths.PotionSpriteSheet__png, 125, 145,
+		                                     3, 3);
 		displayPotionImg.animation.play("0");
 		totalGrp.add(displayPotionImg);
 		
