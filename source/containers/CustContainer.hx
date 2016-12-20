@@ -115,7 +115,7 @@ class CustContainer implements Observer
 	{
 		custArray[currCustID].lockCustomer(LockTypes.SOLD);
 		ActiveButton.deactivate(custArray[currCustID]);
-		var moneyEarned = 50; // should match what customer was willing to pay.
+		var moneyEarned = custArray[currCustID].customerInfo.pay; // should match what customer was willing to pay.
 		currCustID = -1;
 		
 		return moneyEarned;

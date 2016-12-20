@@ -4,8 +4,12 @@ import containers.CustContainer;
 import flash.system.System;
 import flixel.FlxG;
 import flixel.FlxSubState;
+import flixel.text.FlxText;
+import graphicObjects.DisplaySprite;
 import states.OptionsMenu;
 import states.ShopState;
+import sys.io.File;
+import utilities.CustomerData;
 import utilities.PotionData;
 
 /**
@@ -23,34 +27,37 @@ class GameManager
 	private static var alreadyPickedNames:Array<Array<Int>>;
 	public static var potionDataArray:Array<PotionData>;
 	public static var currentMoney:Int;
+	public static var currentMoneyDisplay:FlxText;
 	
 	public function new(){}
 	
 	public static function startNewGame():Void
 	{
-		potionDataArray = new Array<PotionData>();
-		
-		var numOfPotions = FlxG.random.int(0, 27);
-		
-		for (i in 0...numOfPotions)
-		{
-			addPotionToInventory(generateRandomPotion(4));
-		}
-		
-		currentMoney = 0;
-		
+		generalInit();
 		FlxG.switchState(new ShopState());
 	}
 	
 	public static function startLoadGame():Void
 	{
-		//Need to do extra steps to load data.
+		generalInit();
 		FlxG.switchState(new ShopState());
 	}
 	
 	public static function quitGame():Void
 	{
 		System.exit(0);
+	}
+	
+	private static function generalInit():Void
+	{
+		potionDataArray = new Array<PotionData>();
+		alreadyPickedNames = new Array<Array<Int>>();
+		alreadyPickedNames.push(new Array<Int>());
+		alreadyPickedNames.push(new Array<Int>());
+		loadCustomerNames();
+		
+		currentMoney = 0;
+		currentMoneyDisplay = new FlxText(0, 0, 215, Std.string(currentMoney), 32);
 	}
 	
 	public static function loadCustomerNames():Void
@@ -144,5 +151,6 @@ class GameManager
 	{
 		//Do whatever happens when sale succeeded.
 		currentMoney += objectOfOrigin.saleSucceeded();
+		currentMoneyDisplay.text = Std.string(currentMoney);
 	}
 }

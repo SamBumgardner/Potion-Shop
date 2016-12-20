@@ -13,6 +13,8 @@ import containers.InventoryTable;
 import flixel.FlxG;
 import flixel.group.FlxGroup;
 import flixel.group.FlxGroup.FlxTypedGroup;
+import flixel.text.FlxText.FlxTextAlign;
+import graphicObjects.DisplaySprite;
 import utilities.ButtonEvent;
 import utilities.EventExtender;
 import utilities.Observer;
@@ -40,6 +42,7 @@ class ShopState extends AdvancedState implements Observer
 		
 		setUpBackground(AssetPaths.ShopBg__png);
 		
+		initMoneyDisplay();
 		initSideTabs();
 		initCustContents();
 		initBrewContent();
@@ -52,6 +55,17 @@ class ShopState extends AdvancedState implements Observer
 			Brew => brewContents,
 			Inventory => inventoryContents
 		];
+	}
+	
+	private function initMoneyDisplay():Void
+	{
+		var moneyContainerStamp = new DisplaySprite(0, 0, AssetPaths.MoneyContainer__png, 302, 70, 1, 1);
+		backgroundImg.stamp(moneyContainerStamp, 190, 45);
+		GameManager.currentMoneyDisplay.x = 255;
+		GameManager.currentMoneyDisplay.y = 65;
+		GameManager.currentMoneyDisplay.alignment = FlxTextAlign.RIGHT;
+		GameManager.currentMoneyDisplay.color = 0x000000;
+		add(GameManager.currentMoneyDisplay);
 	}
 	
 	private function initSideTabs():Void
