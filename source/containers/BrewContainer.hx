@@ -1,6 +1,6 @@
 package containers;
 import buttonTemplates.ActiveButton;
-import buttons.ActivateBrew;
+import buttonTemplates.SimpleObservableButton;
 import buttons.Cauldron;
 import flixel.group.FlxGroup;
 import utilities.ButtonEvent;
@@ -32,13 +32,13 @@ class BrewContainer implements Observer
 		initActivateBrewButton();
 	}
 	
-	public function initIngTable():Void
+	private function initIngTable():Void
 	{
 		ingTable = new IngredientTable(60, 370);
 		totalGrp.add(ingTable.getTotalFlxGrp());
 	}
 	
-	public function initCauldronButtons():Void
+	private function initCauldronButtons():Void
 	{
 		cauldronArray = new Array<Cauldron>();
 		
@@ -65,13 +65,15 @@ class BrewContainer implements Observer
 		}
 	}
 	
-	public function initActivateBrewButton():Void
+	private function initActivateBrewButton():Void
 	{
 		var topLeftX = 1630;
 		var topLeftY = 430;
 		
-		var newActivateBrew = new ActivateBrew(topLeftX, topLeftY);
-		newActivateBrew.sub.setID(0);
+		var newActivateBrew = new SimpleObservableButton(topLeftX, topLeftY,
+		                                                 ButtonTypes.ACTIVATE_BREW, true,
+		                                                 AssetPaths.BrewButton__png, 120,
+		                                                 500);
 		newActivateBrew.sub.addObserver(this);
 		totalGrp.add(newActivateBrew);
 	}
@@ -81,6 +83,10 @@ class BrewContainer implements Observer
 		return totalGrp;
 	}
 	
+	public function advanceTime():Void
+	{
+		switchActiveCauldron(cauldronArray[0]);
+	}
 	
 	public function onNotify(event:ButtonEvent):Void
 	{

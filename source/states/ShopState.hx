@@ -5,22 +5,16 @@ import buttonTemplates.Button;
 import buttonTemplates.ActiveButton;
 import buttonTemplates.Tab;
 import buttons.BrewTab;
-import buttons.CustomerCard;
 import buttons.CustomerTab;
-import buttons.IngredientHex;
 import buttons.InventoryTab;
-import buttons.QuitGame;
 import containers.BrewContainer;
+import containers.CustContainer;
 import containers.InventoryTable;
 import flixel.FlxG;
-import flixel.FlxSprite;
-import flixel.FlxState;
 import flixel.group.FlxGroup;
 import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.input.mouse.FlxMouseEventManager;
-import flixel.text.FlxText;
-import flixel.ui.FlxButton;
-import flixel.math.FlxMath;
+import flixel.text.FlxText.FlxTextAlign;
+import graphicObjects.DisplaySprite;
 import utilities.ButtonEvent;
 import utilities.EventExtender;
 import utilities.Observer;
@@ -33,7 +27,8 @@ class ShopState extends AdvancedState implements Observer
 	private var sideTabs:FlxTypedGroup<ActiveButton>;
 	private var sideTabArray:Array<Tab>;
 	private var currentButtonSet:FlxGroup;
-	private var custCards:FlxGroup;
+	private var custContainer:CustContainer;
+	private var custContents:FlxGroup;
 	private var brewContainer:BrewContainer;
 	private var brewContents:FlxGroup;
 	private var inventoryContents:FlxGroup;
@@ -47,18 +42,30 @@ class ShopState extends AdvancedState implements Observer
 		
 		setUpBackground(AssetPaths.ShopBg__png);
 		
+		initMoneyDisplay();
 		initSideTabs();
-		initCustCards();
+		initCustContents();
 		initBrewContent();
 		initinventoryContents();
 		
-		currentButtonSet = custCards;
+		currentButtonSet = custContents;
 		
 		buttonGroups = [
-			Customer => custCards,
+			Customer => custContents,
 			Brew => brewContents,
 			Inventory => inventoryContents
 		];
+	}
+	
+	private function initMoneyDisplay():Void
+	{
+		var moneyContainerStamp = new DisplaySprite(0, 0, AssetPaths.MoneyContainer__png, 302, 70, 1, 1);
+		backgroundImg.stamp(moneyContainerStamp, 190, 45);
+		GameManager.currentMoneyDisplay.x = 255;
+		GameManager.currentMoneyDisplay.y = 65;
+		GameManager.currentMoneyDisplay.alignment = FlxTextAlign.RIGHT;
+		GameManager.currentMoneyDisplay.color = 0x000000;
+		add(GameManager.currentMoneyDisplay);
 	}
 	
 	private function initSideTabs():Void
@@ -88,32 +95,14 @@ class ShopState extends AdvancedState implements Observer
 		add(sideTabs);
 	}
 	
-	private function initCustCards():Void
+	private function initCustContents():Void
 	{
-		custCards = new FlxGroup();
+		custContainer = new CustContainer();
+		custContainer.sub.addObserver(this);
 		
-		//Look at using some preprocessor stuff to do this instead (if possible:
-		var customerCardWidth = 800;
-		var customerCardHeight = 400;
+		custContents = custContainer.getTotalFlxGrp();
 		
-		var numOfVisibleCards = 4;
-		
-		var XIntervalMod = 1.01;
-		var YIntervalMod = 1.01;
-		var topLeftX = FlxG.width - customerCardWidth * (2.2 * XIntervalMod);
-		var topLeftY = FlxG.height - customerCardHeight * (2.2 * YIntervalMod);
-		var XInterval = customerCardWidth * XIntervalMod;
-		var YInterval = customerCardHeight * YIntervalMod;
-		
-		for (row in 0...(cast numOfVisibleCards / 2))
-		{
-			for (col in 0...2)
-			{
-				custCards.add(new CustomerCard(topLeftX + col * XInterval, topLeftY + row * YInterval));
-			}
-		}
-		
-		add(custCards);
+		add(custContents);
 	}
 	
 	private function initBrewContent():Void
@@ -121,7 +110,7 @@ class ShopState extends AdvancedState implements Observer
 		brewContainer = new BrewContainer();
 		brewContents = brewContainer.getTotalFlxGrp();
 		
-		brewContents.forEach(Hideable.Hide, true);
+		brewContents.forEach(AdvancedSprite.Hide, true);
 		add(brewContents);
 	}
 	
@@ -131,7 +120,7 @@ class ShopState extends AdvancedState implements Observer
 		
 		inventoryContents = inventoryTable.getTotalGrp();
 		
-		inventoryContents.forEach(Hideable.Hide, true);
+		inventoryContents.forEach(AdvancedSprite.Hide, true);
 		add(inventoryContents);
 	}
 	
@@ -142,19 +131,32 @@ class ShopState extends AdvancedState implements Observer
 		ActiveButton.activate(tab);
 	}
 	
-	public function switchShopMode(tab:ActiveButton, group:ShopButtonGroup):Void
+	private function switchShopMode(tab:ActiveButton, group:ShopButtonGroup):Void
 	{
 		switchActiveTab(tab);
-		currentButtonSet.forEach(Hideable.Hide, true);
-		buttonGroups[group].forEach(Hideable.Reveal, true);
+		currentButtonSet.forEach(AdvancedSprite.Hide, true);
+		buttonGroups[group].forEach(AdvancedSprite.Reveal, true);
 		currentButtonSet = buttonGroups[group];
+	}
+	
+	private function advanceTime():Void
+	{
+		brewContainer.advanceTime();
+		forEach(AdvancedSprite.AdvanceTimeReset, true);
 	}
 	
 	public function onNotify(event:ButtonEvent):Void
 	{
 		if (event.getData() == EventData.UP)
 		{
-			switchShopMode(sideTabArray[event.getID()], cast event.getID());
+			switch event.getType()
+			{
+				case ButtonTypes.TAB: 
+					switchShopMode(sideTabArray[event.getID()], cast event.getID());
+				case ButtonTypes.NEXT_PHASE:
+					advanceTime();
+			}
+			
 		}
 	}
 }

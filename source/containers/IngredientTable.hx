@@ -19,7 +19,7 @@ import haxe.Json;
 import sys.io.File;
 import utilities.ButtonEvent;
 import utilities.ButtonEvent.EventData;
-import utilities.CauldronInfo;
+import utilities.CauldronData;
 import utilities.ColorArray;
 import utilities.ColorConverter;
 import utilities.ColorEnum;
@@ -34,7 +34,7 @@ using utilities.EventExtender;
  * The table that responds to events happenning to different IngredientHexes.
  * @author Samuel Bumgardner
  */
-class IngredientTable extends Hideable implements Observer
+class IngredientTable extends AdvancedSprite implements Observer
 {
 	
 	///////////////////////////////////////////
@@ -50,8 +50,8 @@ class IngredientTable extends Hideable implements Observer
 	private var ingInfo:Array<IngredientData>;
 	
 	private var currCaulID:Int = 0;
-	private var currCauldron:CauldronInfo;
-	private var cauldronArray:Array<CauldronInfo>;
+	private var currCauldron:CauldronData;
+	private var cauldronArray:Array<CauldronData>;
 	private var selectedHexArray:Array<SelectedHex>;
 	private var maxSelected:Int = 4;
 	private var lockButton:IngredientLock;
@@ -134,7 +134,7 @@ class IngredientTable extends Hideable implements Observer
 		eventCallbacks[EventData.UP][ButtonTypes.ING_HEX] = ingHexUp;
 		eventCallbacks[EventData.UP][ButtonTypes.SELECT_HEX] = selectHexUp;
 		
-		eventCallbacks[EventData.UP][ButtonTypes.ING_LOCK] = lockButtonUp;
+		eventCallbacks[EventData.UP][ButtonTypes.LOCK] = lockButtonUp;
 	}
 	
 	private function initIngInfo():Void
@@ -267,10 +267,10 @@ class IngredientTable extends Hideable implements Observer
 	private function initCauldronData():Void
 	{
 		var numCauldrons:Int = 4;
-		cauldronArray = new Array<CauldronInfo>();
+		cauldronArray = new Array<CauldronData>();
 		for (i in 0...numCauldrons)
 		{
-			cauldronArray.push(new CauldronInfo());
+			cauldronArray.push(new CauldronData());
 		}
 		currCauldron = cauldronArray[currCaulID];
 	}
@@ -360,6 +360,7 @@ class IngredientTable extends Hideable implements Observer
 	{
 		lockButton = new IngredientLock(x, y);
 		lockButton.sub.addObserver(this);
+		lockButton.getTotalFlxGrp().forEach(AdvancedSprite.Hide, true);
 		totalGrp.add(lockButton.getTotalFlxGrp());
 	}
 	
@@ -403,8 +404,11 @@ class IngredientTable extends Hideable implements Observer
 	
 	public function lockCurrCauldron():Void
 	{
-		currCauldron.isLocked = true;
-		ActiveButton.activate(lockButton);
+		if (currCauldron.numSelected > 0)
+		{
+			currCauldron.isLocked = true;
+			ActiveButton.activate(lockButton);
+		}
 	}
 	
 	
@@ -518,15 +522,15 @@ class IngredientTable extends Hideable implements Observer
 	
 	private function potionDisplayOn()
 	{
-		Hideable.Hide(ingImage);
-		Hideable.Reveal(potionImage);
+		AdvancedSprite.Hide(ingImage);
+		AdvancedSprite.Reveal(potionImage);
 		usePotionText = true;
 	}
 	
 	private function potionDisplayOff()
 	{
-		Hideable.Hide(potionImage);
-		Hideable.Reveal(ingImage);
+		AdvancedSprite.Hide(potionImage);
+		AdvancedSprite.Reveal(ingImage);
 		usePotionText = false;
 	}
 	
@@ -812,5 +816,27 @@ class IngredientTable extends Hideable implements Observer
 		}
 		
 		super.update(elapsed);
+	}
+	
+	
+	///////////////////////////////////////////
+	//          ADVANCE TIME RESET           //
+	///////////////////////////////////////////
+	
+	override public function advanceTimeReset():Void 
+	{
+		for (cauldronID in 0...cauldronArray.length)
+		{
+			switchCurrCauldron(cauldronID);
+			if (cauldronArray[cauldronID].isLocked)
+			{
+				updatePotionData();
+				GameManager.addPotionToInventory(new PotionData(displayBlendedHover.array));
+			}
+			cauldronArray[cauldronID].resetData();
+		}
+		switchCurrCauldron(0);
+		
+		ActiveButton.deactivate(lockButton);
 	}
 }

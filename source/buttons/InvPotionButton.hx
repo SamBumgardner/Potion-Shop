@@ -1,8 +1,14 @@
 package buttons;
 
 import buttonTemplates.Button;
+import buttonTemplates.GrayOutable;
 import buttonTemplates.StaySelectedButton;
+import flixel.FlxBasic;
+import flixel.FlxSprite;
+import flixel.group.FlxGroup;
+import flixel.input.mouse.FlxMouseEventManager;
 import flixel.system.FlxAssets.FlxGraphicAsset;
+import graphicObjects.DisplaySprite;
 import utilities.ButtonEvent;
 import utilities.EventExtender;
 import utilities.Subject;
@@ -14,8 +20,12 @@ using utilities.EventExtender;
  * @author Samuel Bumgardner
  */
 
-class InvPotionButton extends StaySelectedButton
+class InvPotionButton extends StaySelectedButton implements GrayOutable
 {		
+	public var isGrayedOut:Bool = false;
+	private var totalFlxGrp:FlxTypedGroup<FlxSprite> = new FlxTypedGroup<FlxSprite>();
+	private var potionImg:DisplaySprite;
+	
 	public function new(?X:Float = 0, ?Y:Float = 0)
 	{
 		image = AssetPaths.InventoryPotionButton__png;
@@ -23,6 +33,24 @@ class InvPotionButton extends StaySelectedButton
 		bHeight = 145;
 		
 		super(X, Y, ButtonTypes.POTION_INV);
+		
+		totalFlxGrp.add(this);
+		
+		potionImg = new DisplaySprite(X, Y,
+			                    AssetPaths.PotionSpriteSheet__png,
+		                        125, 145, 3, 3);
+		potionImg.animation.play("0");
+		totalFlxGrp.add(potionImg);
+	}
+	
+	public function getTotalFlxGrp():FlxTypedGroup<FlxSprite>
+	{
+		return totalFlxGrp;
+	}
+	
+	public function changePotionImg(newPotionAnim:String):Void
+	{
+		potionImg.animation.play(newPotionAnim);
 	}
 	
 	override public function mouseOver(button:Button):Void
@@ -56,5 +84,23 @@ class InvPotionButton extends StaySelectedButton
 	{
 		set_visible(true);
 		set_active(true);
+		if (isGrayedOut)
+		{
+			FlxMouseEventManager.setObjectMouseEnabled(this, false);
+		}
+	}
+	
+	public function grayOut():Void
+	{
+		FlxMouseEventManager.setObjectMouseEnabled(this, false);
+		totalFlxGrp.forEach(function(subObject:FlxSprite){ subObject.color = 0x999999; });
+		isGrayedOut = true;
+	}
+	
+	public function unGrayOut():Void
+	{
+		FlxMouseEventManager.setObjectMouseEnabled(this, true);
+		color = 0xFFFFFF;
+		isGrayedOut = false;
 	}
 }

@@ -156,12 +156,6 @@ class PotionData
 			while (intensity == null);
 			potionText = "potion";
 		}
-		else
-		{
-			intensity = "Empty";
-			dominantColor = "glass";
-			potionText = "bottle";
-		}
 		
 		colorByIndex = maxColorIndex;
 		name = intensity + " " + dominantColor + " " + potionText;
