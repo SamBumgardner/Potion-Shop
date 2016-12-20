@@ -2,6 +2,7 @@ package states;
 
 import buttonTemplates.Button;
 import buttonTemplates.SimpleObservableButton;
+import buttons.CustomerCard;
 import containers.CustContainer;
 import containers.InventoryTable;
 import flixel.FlxG;
@@ -10,6 +11,7 @@ import flixel.FlxSubState;
 import flixel.input.mouse.FlxMouseEventManager;
 import flixel.util.FlxColor;
 import utilities.ButtonEvent;
+import utilities.CustomerData;
 import utilities.Observer;
 
 using utilities.EventExtender;
@@ -21,11 +23,15 @@ using utilities.EventExtender;
 class MakeSaleSubstate extends FlxSubState implements Observer
 {
 	private var creator:CustContainer;
+	private var customerInfo:CustomerData;
+	private var inactiveCustCard:CustomerCard;
 	private var saleInvTable:InventoryTable;
 	
-	public function new(madeBy:CustContainer)
+	public function new(madeBy:CustContainer, dataToDisplay:CustomerData)
 	{
 		creator = madeBy;
+		customerInfo = dataToDisplay;
+		
 		super(0xCC808080);
 	}
 	
@@ -34,15 +40,19 @@ class MakeSaleSubstate extends FlxSubState implements Observer
 		super.create();
 		
 		resetMouseEventManager();
+		inactiveCustCard = new CustomerCard(660, 1, customerInfo);
+		FlxMouseEventManager.remove(inactiveCustCard);
+		add(inactiveCustCard.getTotalFlxGrp());
 		
-		saleInvTable = new InventoryTable(210, 150);
+		saleInvTable = new InventoryTable(210, 189);
+		saleInvTable.grayOutInvalidPotions(customerInfo);
 		add(saleInvTable.getTotalGrp());
 		
-		var confirmButton = new SimpleObservableButton(655, 900, LocalButtonTypes.CONFIRM, 
+		var confirmButton = new SimpleObservableButton(655, 929, LocalButtonTypes.CONFIRM, 
 		                        true, AssetPaths.SellButton__png, 300, 150);
 		confirmButton.sub.addObserver(this);
 		
-		var cancelButton = new SimpleObservableButton(965, 900, LocalButtonTypes.CANCEL,
+		var cancelButton = new SimpleObservableButton(965, 929, LocalButtonTypes.CANCEL,
 		                   true, AssetPaths.CancelButton__png, 300, 150);
 		cancelButton.sub.addObserver(this);
 		

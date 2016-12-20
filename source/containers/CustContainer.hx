@@ -160,7 +160,8 @@ class CustContainer implements Observer
 	{
 		if (currCustID != -1)
 		{
-			(cast FlxG.state).activateSubstate(sellButton, MakeSaleSubstate, [this]);
+			var argArray:Array<Dynamic> = [this, custArray[currCustID].customerInfo];
+			(cast FlxG.state).activateSubstate(sellButton, MakeSaleSubstate, argArray);
 		}
 	}
 	
