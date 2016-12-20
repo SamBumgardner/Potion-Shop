@@ -16,6 +16,6 @@ class CustomerTab extends Tab
 		
 		buttonGroup = Customer;
 		
-		super(X, Y, beginActive);
+		super(X, Y, true, beginActive);
 	}
 }

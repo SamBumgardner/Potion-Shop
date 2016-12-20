@@ -8,7 +8,7 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
  * ...
  * @author Samuel Bumgardner
  */
-class Hideable extends FlxSprite
+class AdvancedSprite extends FlxSprite
 {
 	/**
 	 * Function used to temporarily un-register and hide a hideable. Used in tandem
@@ -36,7 +36,7 @@ class Hideable extends FlxSprite
 	
 	public static function Hide(object:FlxBasic):Void
 	{
-		if (Std.is(object, Hideable))
+		if (Std.is(object, AdvancedSprite))
 		{
 			(cast object).hide();
 		}
@@ -49,7 +49,7 @@ class Hideable extends FlxSprite
 	
 	public static function Reveal(object:FlxBasic)
 	{
-		if (Std.is(object, Hideable))
+		if (Std.is(object, AdvancedSprite))
 		{
 			(cast object).reveal();
 		}
@@ -57,6 +57,24 @@ class Hideable extends FlxSprite
 		{
 			(cast object).set_visible(true);
 			(cast object).set_active(true);
+		}
+	}
+	
+	/**
+	 * Function used to reset any variables or call any functions necessary
+	 *   to reset the AdvancedSprite for the next part of the day.
+	 * Internal logic of the function is up to the child class, which should
+	 *   override the function.
+	 * Of course, objects that do not need to reset anything do not need to 
+	 *   override this.
+	 */
+	public function advanceTimeReset():Void{}
+	
+	public static function AdvanceTimeReset(object:FlxBasic)
+	{
+		if (Std.is(object, AdvancedSprite))
+		{
+			(cast object).advanceTimeReset();
 		}
 	}
 }

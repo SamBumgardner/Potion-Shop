@@ -29,10 +29,8 @@ class IntroMenuState extends AdvancedState
 		setUpBackground(AssetPaths.IntroMenuBg__png);
 		
 		MenuOptions = new FlxTypedGroup<Button>();
-		MenuOptions.add(new NewGame(720, 375)); 
-		MenuOptions.add(new LoadGame(720, 500));
-		MenuOptions.add(new OpenOptions(720, 625));
-		MenuOptions.add(new QuitGame(720, 750));
+		MenuOptions.add(new NewGame(720, 500)); 
+		MenuOptions.add(new QuitGame(720, 625));
 		
 		add(MenuOptions);
 	}

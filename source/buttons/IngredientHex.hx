@@ -16,7 +16,7 @@ using utilities.EventExtender;
 
 class IngredientHex extends Button
 {	
-	public var sub:Subject = new Subject(0, ButtonTypes.ING_HEX); //using tink_lang Syntactic Delegation.
+	public var sub:Subject = new Subject(0, ButtonTypes.ING_HEX); 
 	
 	public function new(?X:Float = 0, ?Y:Float = 0)
 	{
@@ -29,7 +29,7 @@ class IngredientHex extends Button
 	
 	override public function mouseOver(button:Button):Void
 	{
-		super.mouseOver(this);
+		super.mouseOver(button);
 		sub.notify(EventData.OVER);
 	}
 	

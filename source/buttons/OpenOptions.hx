@@ -25,6 +25,6 @@ class OpenOptions extends Button
 	override public function mouseUp(button:Button):Void
 	{
 		super.mouseUp(button);
-		(cast FlxG.state).activateSubstate(OptionsMenu);
+		(cast FlxG.state).activateSubstate(this, OptionsMenu);
 	}
 }
