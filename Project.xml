@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 	
-	<app title="PotionShop" file="PotionShop" main="Main" version="0.0.1" company="Samuel Bumgardner" />
+	<app title="PotionShop" file="PotionShop" main="Main" version="0.0.1" company="Sam & Alex" />
 	
 	<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
 		or you can set the actual size of your file manually at "FlxPreloaderBase-onUpdate-bytesTotal"-->
