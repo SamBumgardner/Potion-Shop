@@ -159,7 +159,9 @@ class IngredientTable extends AdvancedSprite implements Observer
 	private function initIngredientButtons():Void
 	{
 		var ingHexArray = new Array<IngredientHex>();
-		var displayIngImages = new Array<DisplaySprite>();
+		var hexStamp = new DisplaySprite(0, 0, AssetPaths.HexSpriteSheet__png, 145, 125, 7, 4);
+		var ingStamp = new DisplaySprite(0, 0, AssetPaths.IngredientSpriteSheet__png, 
+		                   145, 125, 8, 4);
 		
 		//Look at using some preprocessor stuff to do this instead (if possible:
 		var ingredientHexWidth = 145;
@@ -175,14 +177,15 @@ class IngredientTable extends AdvancedSprite implements Observer
 		var topLeftX = x + 12;
 		var topLeftY = y + 12;
 		
-		var evenXOffset = ingredientHexWidth * .78;
+		var evenXOffset = Std.int(ingredientHexWidth * .78);
 		
-		var XInterval = ingredientHexWidth * XIntervalMod;
-		var YInterval = ingredientHexHeight * YIntervalMod;
+		var XInterval = Std.int(ingredientHexWidth * XIntervalMod);
+		var YInterval = Std.int(ingredientHexHeight * YIntervalMod);
 		
 		var locX = 0;
 		var locY = 0;
 		
+		var i:Int = 0;
 		for (row in 0...numRows)
 		{
 			for (col in 0...oddCols)
@@ -202,21 +205,21 @@ class IngredientTable extends AdvancedSprite implements Observer
 					locX = cast (topLeftX + col * XInterval);
 					locY = cast (topLeftY + row * YInterval);
 				}
+				
+				hexStamp.animation.play(Std.string(i));
+				stamp(hexStamp, cast locX - x, cast locY - y);
+				
+				ingStamp.animation.play(Std.string(i));
+				stamp(ingStamp, cast locX - x, cast locY - y);
+				
 				ingHexArray.push(new IngredientHex(locX, locY));
-				displayIngImages.push(new DisplaySprite(locX, locY, 
-				                      AssetPaths.IngredientSpriteSheet__png,
-				                      145, 125, 1, 3));
+									  
+				ingHexArray[i].sub.setID(i);
+				ingHexArray[i].sub.addObserver(this);
+				totalGrp.add(ingHexArray[i]);
+				
+				i++;
 			}
-		}
-		
-		//This is a bit (prob. insignificantly) inefficient, but it's more readable.
-		for (i in 0...ingHexArray.length)
-		{
-			ingHexArray[i].sub.setID(i);
-			ingHexArray[i].sub.addObserver(this);
-			totalGrp.add(ingHexArray[i]);
-			displayIngImages[i].animation.play(Std.string(i % 2 + 1));
-			totalGrp.add(displayIngImages[i]);
 		}
 	}
 	
@@ -238,10 +241,10 @@ class IngredientTable extends AdvancedSprite implements Observer
 		var topLeftX = x + 845;
 		var topLeftY = y + 12;
 		
-		var rowXOffset = -selectedHexWidth * .55;
+		var rowXOffset = Std.int(-selectedHexWidth * .55);
 		
-		var XInterval = selectedHexWidth * XIntervalMod;
-		var YInterval = ingredientHexHeight * YIntervalMod;
+		var XInterval = Std.int(selectedHexWidth * XIntervalMod);
+		var YInterval = Std.int(ingredientHexHeight * YIntervalMod);
 		
 		for (row in 0...numRows)
 		{
@@ -255,11 +258,12 @@ class IngredientTable extends AdvancedSprite implements Observer
 				selectedHexArray.push(selHex);
 				totalGrp.add(selHex);
 				
-				displaySelectedImages.push(new DisplaySprite(selHex.x, selHex.y, 
+				displaySelectedImages.push(new DisplaySprite(selHex.x - 5, selHex.y + 12, 
 				                           AssetPaths.IngredientSpriteSheet__png,
-				                           145, 125, 1, 3));
+				                           145, 125, 8, 4));
+				displaySelectedImages[row * numCols + col].animation.play("28");
 				
-				totalGrp.add(displaySelectedImages[row * numCols + col]); //FIX this
+				totalGrp.add(displaySelectedImages[row * numCols + col]); 
 			}
 		}
 	}
@@ -298,6 +302,8 @@ class IngredientTable extends AdvancedSprite implements Observer
 		
 		var colorConvert = new ColorConverter();
 		
+		var colorBoxes = new DisplaySprite(0, 0, AssetPaths.ColorBoxSpriteSheet__png, 24, 24, 8, 1);
+		
 		for (i in 0...displayNormHover.array.length)
 		{
 			displaySelectedBars.push(new FlxBar(x + barInitialX + barOffsetX * i, 
@@ -310,6 +316,10 @@ class IngredientTable extends AdvancedSprite implements Observer
 											 colorConvert.intToColorStr[i], 0, barUnits));
 			displayBarTexts.push(new FlxText(x + barInitialX + barOffsetX * i, 
 			                                  y + barInitialY + barHeight + 40, 0, "0", 20));
+			
+			
+			colorBoxes.animation.play(Std.string(i));
+			stamp(colorBoxes, barInitialX + barOffsetX * i - 2, barInitialY + barHeight + 4);
 			
 			displaySelectedBars[i].createFilledBar(0, colorConvert.intToColorHex[i] - 0x88000000);
 			displaySelectedBars[i].numDivisions = barUnits;
@@ -341,15 +351,15 @@ class IngredientTable extends AdvancedSprite implements Observer
 		
 		initDisplayBars();
 		
-		ingImage = new DisplaySprite(x + 900, y + 340, 
+		ingImage = new DisplaySprite(x + 925, y + 370, 
 		               AssetPaths.IngredientSpriteSheet__png,
-		               145, 125, 1, 3);
+		               145, 125, 8, 4);
 					   
-		potionImage = new DisplaySprite(x + 900, y + 340, 
+		potionImage = new DisplaySprite(x + 935, y + 360, 
 		               AssetPaths.PotionSpriteSheet__png,
-		               145, 125, 2, 5);
+		               125, 145, 3, 3);
 		
-		//TEMPORARY LINE, REMOVE LATER
+		ingImage.animation.play("28");
 		potionImage.animation.play("0");
 		
 		totalGrp.add(ingImage);
@@ -419,7 +429,7 @@ class IngredientTable extends AdvancedSprite implements Observer
 	private function clearHoverInfo():Void
 	{
 		updateIngDisplayText(IngredientTable.emptyIng);
-		ingImage.animation.play("0");
+		ingImage.animation.play("28");
 		increaseHoverBars(IngredientTable.emptyIng);
 	}
 	
@@ -494,11 +504,11 @@ class IngredientTable extends AdvancedSprite implements Observer
 		{	
 			if (currCauldron.selectedIDs[i] != -1)
 			{
-				displaySelectedImages[i].animation.play(Std.string(currCauldron.selectedIDs[i] % 2 + 1)); //placeholder animation index
+				displaySelectedImages[i].animation.play(Std.string(currCauldron.selectedIDs[i])); //placeholder animation index
 			}
 			else
 			{
-				displaySelectedImages[i].animation.play("0");
+				displaySelectedImages[i].animation.play("28");
 			}
 		}
 	}
@@ -543,7 +553,7 @@ class IngredientTable extends AdvancedSprite implements Observer
 		var ingredient = ingInfo[ingIndex];
 		
 		updateIngDisplayText(ingredient);
-		ingImage.animation.play(Std.string(ingIndex % 2 + 1));
+		ingImage.animation.play(Std.string(ingIndex));
 		if (currCauldron.numSelected < maxSelected)
 		{
 			increaseHoverBars(ingredient);
@@ -606,7 +616,7 @@ class IngredientTable extends AdvancedSprite implements Observer
 		updateIngDisplayText(ingredient);
 		
 		decreaseHoverBars(ingredient);
-		ingImage.animation.play(Std.string(currCauldron.selectedIDs[selectIndex] % 2 + 1));
+		ingImage.animation.play(Std.string(currCauldron.selectedIDs[selectIndex]));
 	}
 	
 	///////////////////////////////////////////
