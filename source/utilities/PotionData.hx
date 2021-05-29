@@ -1,7 +1,7 @@
 package utilities;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import haxe.Json;
-import sys.io.File;
+import openfl.Assets;
 
 /**
  * Class for translating an array of color values into
@@ -60,16 +60,13 @@ class PotionData
 	{
 		effectTextArray = new Array<Array<String>>();
 		
-		var fileHandle = File.read(AssetPaths.PotionEffects__txt);
-		var numColors = 8;
+		var potionEffectContents = Assets.getText(AssetPaths.PotionEffects__txt).split("\n");
 		var dynamicArr:Array<Dynamic> = new Array<Dynamic>();
-		for (i in 0...numColors)
+		for (line in potionEffectContents)
 		{
-			dynamicArr = Json.parse(fileHandle.readLine());
+			dynamicArr = Json.parse(line);
 			PotionData.effectTextArray.push(cast dynamicArr);
 		}
-		
-		fileHandle.close();
 	}
 	
 	public function updatePotion(colorValues:Array<Int>)

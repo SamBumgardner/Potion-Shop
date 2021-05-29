@@ -16,7 +16,7 @@ import flixel.ui.FlxBar;
 import flixel.util.FlxColor;
 import graphicObjects.DisplaySprite;
 import haxe.Json;
-import sys.io.File;
+import openfl.Assets;
 import utilities.ButtonEvent;
 import utilities.ButtonEvent.EventData;
 import utilities.CauldronData;
@@ -143,17 +143,14 @@ class IngredientTable extends AdvancedSprite implements Observer
 		
 		ingInfo = new Array<IngredientData>();
 		
-		var fileHandle = File.read(AssetPaths.IngredientData__txt);
-		
-		for (i in 0...28)
+		var rawIngredientData = Assets.getText(AssetPaths.IngredientData__txt).split("\n");
+		for (line in rawIngredientData)
 		{
-			var anonIng = Json.parse(fileHandle.readLine());
+			var anonIng = Json.parse(line);
 			var ingredient = new IngredientData(anonIng.name, anonIng.colorValues, 
 			                                    anonIng.price, anonIng.description);
 			ingInfo.push(ingredient);
 		}
-		
-		fileHandle.close();
 	}
 	
 	private function initIngredientButtons():Void

@@ -6,9 +6,9 @@ import flixel.FlxG;
 import flixel.FlxSubState;
 import flixel.text.FlxText;
 import graphicObjects.DisplaySprite;
+import openfl.Assets;
 import states.OptionsMenu;
 import states.ShopState;
-import sys.io.File;
 import utilities.CustomerData;
 import utilities.PotionData;
 
@@ -67,19 +67,17 @@ class GameManager
 		maleCustomerNames = new Array<String>();
 		femaleCustomerNames = new Array<String>();
 		
-		var fileHandle = File.read(AssetPaths.MaleCustomerNames__txt);
-		for (i in 0...linesPerFile)
+		var custNames = Assets.getText(AssetPaths.MaleCustomerNames__txt).split("\n");
+		for (name in custNames)
 		{
-			maleCustomerNames.push(fileHandle.readLine());
+			maleCustomerNames.push(name);
 		}
-		fileHandle.close();
 		
-		fileHandle = File.read(AssetPaths.FemaleCustomerNames__txt);
-		for (i in 0...linesPerFile)
+		var custNames = Assets.getText(AssetPaths.FemaleCustomerNames__txt).split("\n");
+		for (name in custNames)
 		{
-			femaleCustomerNames.push(fileHandle.readLine());
+			femaleCustomerNames.push(name);
 		}
-		fileHandle.close();
 	}
 	
 	public static function addPotionToInventory(newPotion:PotionData):Void
