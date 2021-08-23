@@ -1,0 +1,8 @@
+["Fire Breath", "Fireproof", "Warmth", "Healing"]
+["Fury", "Fortitude", "Courage", "Strength"]
+["Haste", "Balance", "Precision", "Energy"]
+["Eloquence", "Charm", "Antivenom", "Luck"]
+["Brilliance", "Antivenom", "Wisdom", "Focus"]
+["Invisibility", "Danger Sense", "Stealth", "Nightvision"]
+["False Death", "Poison", "Blindness", "Drowsiness"]
+["Love", "Obedience", "Foolishness", "Glamour"]
